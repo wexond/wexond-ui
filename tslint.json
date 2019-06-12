@@ -15,6 +15,7 @@
     "object-shorthand-properties-first": false,
     "semicolon": false,
     "align": false,
-    "no-unused-variable": false
+    "no-unused-variable": false,
+    "quotemark": [true, "single"]
   }
 }

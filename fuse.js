@@ -11,7 +11,7 @@ const {
 } = require('fuse-box');
 
 const production = process.env.NODE_ENV === 'prod';
-const outputDir = 'dist';
+const outputDir = 'build';
 
 class Builder {
   constructor(
@@ -93,7 +93,7 @@ class Builder {
 
 Sparky.task('default', async () => {
   await new Builder({
-    name: 'index',
+    name: 'app',
     instructions: '> site/index.tsx +src/**',
     watchFilter: path => !path.match('.*.site') || !path.match('.*.src'),
     devServerOptions: {
@@ -103,13 +103,27 @@ Sparky.task('default', async () => {
       !production && StyledComponentsPlugin(),
       CopyPlugin({
         files: ['*.woff2', '*.svg'],
-        dest: 'assets',
-        resolve: production ? './assets' : '/assets',
+        dest: 'site-assets',
+        resolve: production ? './site-assets' : '/site-assets',
       }),
       WebIndexPlugin({
         target: `index.html`,
         template: `site/resources/pages/index.html`,
         path: production ? '.' : '/',
+      }),
+    ],
+  }).init();
+});
+
+Sparky.task('lib', async () => {
+  await new Builder({
+    name: 'index',
+    instructions: '> src/index.ts',
+    plugins: [
+      CopyPlugin({
+        files: ['*.woff2', '*.svg'],
+        dest: 'assets',
+        resolve: production ? './assets' : '/assets',
       }),
     ],
   }).init();
