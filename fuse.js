@@ -60,7 +60,7 @@ class Builder {
         clearTerminalOnBundle: true,
       },
       alias: {
-        '@wexond-ui': '~/src/',
+        '@ui': '~/src/',
         '@site': '~/site/',
       },
     };

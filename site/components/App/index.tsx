@@ -1,12 +1,15 @@
 import * as React from 'react';
 
-import { GlobalStyle } from '@wexond-ui';
+import { GlobalStyle, Ripple } from '../../../src';
+import { AppContainer, RippleContainer } from './styles';
 
 export default () => {
   return (
-    <div>
+    <AppContainer>
       <GlobalStyle />
-      Hello world!
-    </div>
+      <RippleContainer>
+        <Ripple />
+      </RippleContainer>
+    </AppContainer>
   );
 };
