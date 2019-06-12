@@ -38,6 +38,7 @@
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
     "@types/styled-components": "4.1.16",
+    "cross-env": "5.2.0",
     "fuse-box": "3.7.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
