@@ -122,7 +122,7 @@ Sparky.task('default', async () => {
 Sparky.task('lib', async () => {
   await new Builder({
     name: 'index',
-    instructions: '> src/index.ts',
+    instructions: '> [src/index.ts]',
     plugins: [
       CopyPlugin({
         files: ['*.woff2', '*.svg'],
