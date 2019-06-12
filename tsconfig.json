@@ -17,7 +17,12 @@
     "jsx": "react",
     "lib": ["dom", "esnext"],
 
-    "baseUrl": "./"
+    "baseUrl": "./",
+
+    "paths": {
+      "@wexond-ui/*": ["./src/*"],
+      "@site/*": ["./site*"]
+    }
   },
   "exclude": ["node_modules", "build"],
   "include": ["src/**/*"]

@@ -1,5 +1,12 @@
 import * as React from 'react';
 
+import { GlobalStyle } from '@wexond-ui';
+
 export default () => {
-  return <div>Hello world!</div>;
+  return (
+    <div>
+      <GlobalStyle />
+      Hello world!
+    </div>
+  );
 };

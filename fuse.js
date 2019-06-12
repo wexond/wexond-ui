@@ -39,7 +39,6 @@ class Builder {
       output: join(outputDir, output),
       tsConfig: './tsconfig.json',
       useTypescriptCompiler: true,
-      declaration: true,
       cache: !production,
       plugins: [
         EnvPlugin({
@@ -59,6 +58,10 @@ class Builder {
       log: {
         showBundledFiles: false,
         clearTerminalOnBundle: true,
+      },
+      alias: {
+        '@wexond-ui': '~/src/',
+        '@site': '~/site/',
       },
     };
   }
@@ -94,7 +97,7 @@ class Builder {
 Sparky.task('default', async () => {
   await new Builder({
     name: 'app',
-    instructions: '> site/index.tsx +src/**',
+    instructions: '> site/index.tsx +src/index.ts',
     watchFilter: path => !path.match('.*.site') || !path.match('.*.src'),
     devServerOptions: {
       httpServer: true,
