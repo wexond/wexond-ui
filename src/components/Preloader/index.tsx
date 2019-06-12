@@ -9,7 +9,7 @@ export interface Props {
   size?: number;
 }
 
-const Preloader = ({ style, color, size, thickness }: Props) => {
+export const Preloader = ({ style, color, size, thickness }: Props) => {
   return (
     <div style={style}>
       <StyledPreloader size={size}>
@@ -34,5 +34,3 @@ Preloader.defaultProps = {
   size: 48,
   color: '#3F51B5',
 };
-
-export default Preloader;

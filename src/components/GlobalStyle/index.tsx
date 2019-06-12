@@ -21,4 +21,4 @@ export const Style = css`
   }
 `;
 
-export default createGlobalStyle`${Style}`;
+export const GlobalStyle = createGlobalStyle`${Style}`;

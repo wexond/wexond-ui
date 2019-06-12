@@ -122,6 +122,7 @@ Sparky.task('default', async () => {
 Sparky.task('lib', async () => {
   await new Builder({
     name: 'index',
+    target: 'browser@es6',
     instructions: '> [src/index.ts]',
     plugins: [
       CopyPlugin({
