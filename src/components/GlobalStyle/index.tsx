@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { createGlobalStyle, css } from "styled-components";
 
 import { body2 } from "../../mixins";
