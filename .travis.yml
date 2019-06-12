@@ -11,5 +11,5 @@ os:
   - linux
   - osx
 script:
-  - npm run compile
+  - npm run build-site
   - npm run build
