@@ -15,5 +15,5 @@ version: '{build}'
 shallow_clone: true
 clone_depth: 1
 test_script:
-  - npm run compile
+  - npm run build-site
   - npm run build
