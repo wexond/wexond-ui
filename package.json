@@ -42,15 +42,17 @@
     "@types/styled-components": "4.1.16",
     "cross-env": "5.2.0",
     "fuse-box": "3.7.1",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
     "rimraf": "2.6.3",
-    "styled-components": "4.3.1",
     "terser": "4.0.0",
     "tslint": "5.17.0",
     "tslint-config-airbnb": "5.11.1",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.1",
     "typescript-plugin-styled-components": "1.4.3"
+  },
+  "dependencies": {
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "styled-components": "4.3.1"
   }
 }
