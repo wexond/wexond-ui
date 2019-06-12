@@ -47,7 +47,7 @@ const getSize = (x: number, y: number, width: number, height: number) => {
   return Math.max(width, height) + result + 10;
 };
 
-export class Ripple extends React.Component<IProps, IState> {
+export default class Ripple extends React.Component<IProps, IState> {
   public static defaultProps: IProps = {
     fadeOutTime: 0.6,
     opacity: 0.2,

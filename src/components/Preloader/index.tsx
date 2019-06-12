@@ -9,17 +9,17 @@ export interface Props {
   size?: number;
 }
 
-export const Preloader = ({ style, color, size, thickness }: Props) => {
+const Preloader = ({ style, color, size, thickness }: Props) => {
   return (
     <div style={style}>
       <StyledPreloader size={size}>
-        <svg viewBox="25 25 50 50">
+        <svg viewBox='25 25 50 50'>
           <Path
-            cx="50"
-            cy="50"
-            r="20"
-            fill="none"
-            strokeMiterlimit="10"
+            cx='50'
+            cy='50'
+            r='20'
+            fill='none'
+            strokeMiterlimit='10'
             color={color}
             thickness={thickness}
           />
@@ -34,3 +34,5 @@ Preloader.defaultProps = {
   size: 48,
   color: '#3F51B5',
 };
+
+export default Preloader;

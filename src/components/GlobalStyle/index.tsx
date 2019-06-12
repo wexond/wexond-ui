@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
 
-import { body2 } from "../../mixins";
+import { body2 } from '../../mixins';
 
 export const Style = css`
   body {
@@ -15,9 +15,10 @@ export const Style = css`
     user-select: none;
     ${body2()};
   }
+
   * {
     box-sizing: border-box;
   }
 `;
 
-export const GlobalStyle = createGlobalStyle`${Style}`;
+export default createGlobalStyle`${Style}`;
