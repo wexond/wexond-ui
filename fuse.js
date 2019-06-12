@@ -98,6 +98,7 @@ Sparky.task('default', async () => {
     watchFilter: path => !path.match('.*.site') || !path.match('.*.src'),
     devServerOptions: {
       httpServer: true,
+      port: 8000,
     },
     plugins: [
       !production && StyledComponentsPlugin(),
