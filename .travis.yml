@@ -1,0 +1,15 @@
+language: node_js
+node_js: '11'
+sudo: enabled
+dist: trusty
+install:
+  - npm ci
+cache:
+  directories:
+    - '$HOME/.npm'
+os:
+  - linux
+  - osx
+script:
+  - npm run compile
+  - npm run build
