@@ -1,7 +1,7 @@
 {
   "name": "wexond-ui",
   "version": "1.0.6",
-  "description": "Beatiful UI framework based on Material Design",
+  "description": "List of React reusable components following Wexond design patterns",
   "keywords": [
     "wexond",
     "wexond-ui",
