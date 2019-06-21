@@ -8,16 +8,20 @@
     "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "sourceMap": true,
+
+    "esModuleInterop": true,
+    "declaration": true,
 
     "module": "commonjs",
     "target": "es6",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "declaration": true,
     "jsx": "react",
     "lib": ["dom", "esnext"],
 
     "baseUrl": "./",
+
+    "sourceRoot": "./src",
 
     "paths": {
       "@ui/*": ["src/*"],
@@ -25,5 +29,5 @@
     }
   },
   "exclude": ["node_modules", "build"],
-  "include": ["src/**/*"]
+  "include": ["src"]
 }
