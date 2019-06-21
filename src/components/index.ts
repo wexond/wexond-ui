@@ -3,3 +3,4 @@ export * from './Preloader';
 export * from './Ripple';
 export * from './Textfield';
 export * from './Dropdown';
+export * from './MenuItem';

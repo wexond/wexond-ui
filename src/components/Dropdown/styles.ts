@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { robotoRegular, centerIcon, shadows } from '../../mixins';
-import { transparency, EASING_FUNCTION, icons } from '../../constants';
+import { transparency, icons } from '../../constants';
 
 export const StyledDropdown = styled.div`
   width: 112px;
@@ -15,9 +15,10 @@ export const StyledDropdown = styled.div`
   display: flex;
   align-items: center;
   box-sizing: content-box;
+  transition: 0.15s border-bottom;
 
   ${({ activated }: { activated: boolean }) => css`
-    border-bottom: ${activated ? 'none' : '1px solid rgba(0, 0, 0, 0.42)'};
+    border-bottom: ${activated ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.42)'};
   `}
 `;
 
@@ -53,23 +54,4 @@ export const Menu = styled.div`
     pointer-events: ${visible ? 'auto' : 'none'};
     opacity: ${visible ? 1 : 0};
   `}
-`;
-
-export const MenuItem = styled.div`
-  width: 100%;
-  height: 32px;
-  padding-left: 16px;
-  padding-right: 8px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #000;
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-  }
 `;

@@ -1,13 +1,15 @@
 import * as React from 'react';
 
-import { StyledDropdown, Label, DropIcon, Menu, MenuItem } from './styles';
+import { StyledDropdown, Label, DropIcon, Menu } from './styles';
 
 interface Props {
+  defaultValue?: string;
   children?: any;
 }
 
 interface State {
   activated: boolean;
+  selected?: string;
 }
 
 export class Dropdown extends React.PureComponent<Props, State> {
@@ -33,18 +35,34 @@ export class Dropdown extends React.PureComponent<Props, State> {
     });
   };
 
+  public onItemClick = (label: string) => () => {
+    if (label == null) return;
+
+    this.setState({ selected: label });
+  };
+
+  public get value() {
+    const { defaultValue } = this.props;
+    const { selected } = this.state;
+    return selected || defaultValue;
+  }
+
   render() {
+    const { children } = this.props;
     const { activated } = this.state;
 
     return (
       <StyledDropdown activated={activated} onClick={this.onClick}>
-        <Label>Label</Label>
+        <Label>{this.value}</Label>
         <DropIcon />
         <Menu visible={activated}>
-          <MenuItem>Item 1</MenuItem>
-          <MenuItem>Item 2</MenuItem>
-          <MenuItem>Item 3</MenuItem>
-          <MenuItem>Item 4</MenuItem>
+          {React.Children.map(children, child => {
+            const { label } = child.props;
+            return React.cloneElement(child, {
+              selected: this.value === label,
+              onClick: this.onItemClick(label),
+            });
+          })}
         </Menu>
       </StyledDropdown>
     );
