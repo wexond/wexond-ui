@@ -80,6 +80,7 @@ export class Textfield extends React.PureComponent<Props, State> {
           hasLabel={hasLabel}
           hasIcon={hasIcon}
           placeholder={label == null || focused ? placeholder : null}
+          spellCheck={false}
         />
         {hasLabel && (
           <Label activated={activated} focused={focused} color={color}>
