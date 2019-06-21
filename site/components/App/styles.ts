@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
   padding: 24px;
   overflow-x: hidden;
   overflow-y: auto;
