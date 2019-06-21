@@ -47,6 +47,7 @@ export const Menu = styled.div`
   top: 100%;
   z-index: 1000;
   padding: 8px 0px;
+  background-color: #fff;
   transition: 0.15s opacity;
   box-shadow: ${shadows(3)};
 
