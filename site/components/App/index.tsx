@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { GlobalStyle, Ripple } from '../../../src';
+import { GlobalStyle, Ripple, Textfield } from '../../../src';
 import { AppContainer, RippleContainer } from './styles';
 
 export default () => {
@@ -10,6 +10,8 @@ export default () => {
       <RippleContainer>
         <Ripple />
       </RippleContainer>
+      <br />
+      <Textfield label='Label' />
     </AppContainer>
   );
 };
