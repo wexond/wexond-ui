@@ -12,10 +12,6 @@ Wexond UI provides list of reusable React components following our Wexond design
 $ npm install wexond-ui
 ```
 
-## [Documentation]()
-
-## Screenshots
-
 ## Running
 
 First of all, you need to install dependencies.
