@@ -17,6 +17,10 @@ export class Dropdown extends React.PureComponent<Props, State> {
     activated: false,
   };
 
+  public componentWillUnmount() {
+    window.removeEventListener('click', this.onWindowClick);
+  }
+
   public onClick = () => {
     this.setState({ activated: true });
 
