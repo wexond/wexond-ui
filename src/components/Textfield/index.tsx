@@ -9,6 +9,7 @@ interface Props {
   icon?: any;
   onIconClick?: (target: Textfield) => void;
   inputType?: 'text' | 'email' | 'password' | 'number';
+  style?: any;
 }
 
 interface State {
@@ -63,14 +64,14 @@ export class Textfield extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { color, label, placeholder, icon, inputType } = this.props;
+    const { color, label, placeholder, icon, inputType, style } = this.props;
     const { activated, focused } = this.state;
 
     const hasLabel = label != null && label !== '';
     const hasIcon = icon != null && icon !== '';
 
     return (
-      <StyledTextfield onClick={this.onClick}>
+      <StyledTextfield onClick={this.onClick} style={style}>
         <Input
           ref={this.inputRef}
           type={inputType}
