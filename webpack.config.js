@@ -10,6 +10,7 @@ module.exports = {
   devtool: 'source-map',
 
   resolve: {
+    modules: ['node_modules'],
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
 
