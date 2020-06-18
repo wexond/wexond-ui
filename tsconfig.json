@@ -1,33 +1,32 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
-
     "noImplicitAny": false,
+
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "sourceMap": true,
-
-    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "declaration": true,
 
-    "module": "commonjs",
-    "target": "es6",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es2017",
+
     "jsx": "react",
+    "allowJs": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
     "lib": ["dom", "esnext"],
 
     "baseUrl": "./",
-
-    "sourceRoot": "./src",
+    "rootDirs": ["src", "stories"],
 
     "paths": {
-      "@ui/*": ["src/*"],
-      "@site/*": ["site/*"]
+      "~/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules", "build"],
-  "include": ["src"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["./node_modules", "./.storybook"]
 }
