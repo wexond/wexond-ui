@@ -1,15 +1,33 @@
-export const noButtons = (
-  size: string = '6px',
-  color: string = 'rgba(0, 0, 0, 0.38)',
-  hoverColor: string = 'rgba(0, 0, 0, 0.54)',
-) => `
+import { css } from 'styled-components';
+
+interface IOptions {
+  size?: number;
+  color?: string;
+  hoverColor?: string;
+  alwaysVisible?: boolean;
+}
+
+const defaultOptions: IOptions = {
+  size: 6,
+  alwaysVisible: true,
+  color: 'rgba(0, 0, 0, 0.16)',
+  hoverColor: 'rgba(0, 0, 0, 0.38)',
+};
+
+export const noButtons = (options?: IOptions) => {
+  const { color, hoverColor, size, alwaysVisible } = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  return css`
     &:hover::-webkit-scrollbar-thumb {
       background-color: ${color};
     }
 
     &::-webkit-scrollbar {
-      width: ${size};
-      height: ${size};
+      width: ${size}px;
+      height: ${size}px;
     }
 
     &::-webkit-scrollbar-button {
@@ -18,7 +36,7 @@ export const noButtons = (
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: inherit;
+      background-color: ${alwaysVisible ? color : 'inherit'};
       border: none;
       border-radius: 0px;
       opacity: 0 !important;
@@ -33,3 +51,4 @@ export const noButtons = (
       background-color: transparent;
     }
   `;
+};
