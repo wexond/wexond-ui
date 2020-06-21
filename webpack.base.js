@@ -7,8 +7,8 @@ const dev = process.env.NODE_ENV === 'development';
 const INCLUDE = resolve(__dirname, 'src');
 
 const styledComponentsTransformer = createStyledComponentsTransformer({
-  minify: true,
-  displayName: false,
+  minify: !dev,
+  displayName: true,
 });
 
 const config = {
