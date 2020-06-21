@@ -3,6 +3,8 @@ export interface ITheme {
   'control.foreground'?: string;
   'control.hover.background'?: string;
 
+  'switch.backgroundColor'?: string;
+
   accentColor: string;
 
   animations?: boolean;
