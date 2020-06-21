@@ -29,6 +29,6 @@ export const Outlined = () => {
 };
 
 export default {
-  title: 'Buttons',
+  title: 'Button',
   decorators: DEFAULT_DECORATORS,
 };

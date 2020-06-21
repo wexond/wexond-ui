@@ -15,6 +15,6 @@ export const Enabled = () => {
 };
 
 export default {
-  title: 'Switches',
+  title: 'Switch',
   decorators: DEFAULT_DECORATORS,
 };
