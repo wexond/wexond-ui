@@ -33,6 +33,7 @@ const config = {
           {
             loader: 'ts-loader',
             options: {
+              transpileOnly: true,
               getCustomTransformers: () => ({
                 before: [styledComponentsTransformer],
               }),
