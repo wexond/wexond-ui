@@ -1,5 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
+import { ITheme } from '~/interfaces';
+
 const turnAnimation = keyframes`
   0% {
     stroke-dashoffset: 180;
@@ -35,24 +37,23 @@ export const StyledPreloader = styled.div`
   `};
 `;
 
+interface SpinnerProps {
+  color: string;
+  theme: ITheme;
+}
+
 export const Spinner = styled.svg`
+  animation: ${rotationAnimation} 1.35s linear infinite;
   transform-origin: center;
 
-  ${({ indeterminate }: { indeterminate: boolean }) =>
-    indeterminate &&
-    css`
-      animation: ${rotationAnimation} 1.35s linear infinite;
-    `};
+  ${({ color, theme }: SpinnerProps) => css`
+    stroke: ${color || theme['accentColor']};
+  `};
 `;
 
 export const Path = styled.circle`
   stroke-linecap: square;
   transform-origin: center;
-
-  ${({ indeterminate }: { indeterminate: boolean }) => css`
-    stroke-dasharray: ${indeterminate ? 180 : 0};
-    animation: ${indeterminate
-      ? `${turnAnimation} 1.35s ease-in-out infinite`
-      : 'unset'};
-  `};
+  stroke-dasharray: 180;
+  animation: ${turnAnimation} 1.35s ease-in-out infinite;
 `;

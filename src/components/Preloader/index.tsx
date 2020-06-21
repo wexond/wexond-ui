@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { ITheme } from '~/interfaces';
 import { Path, StyledPreloader, Spinner } from './style';
 
 export interface PreloaderProps {
@@ -8,7 +7,6 @@ export interface PreloaderProps {
   color?: string;
   thickness?: number;
   size?: number;
-  indeterminate?: boolean;
 }
 
 export const Preloader = ({
@@ -16,19 +14,12 @@ export const Preloader = ({
   color,
   size,
   thickness,
-  indeterminate,
-  theme,
-}: PreloaderProps & { theme: ITheme }) => {
+}: PreloaderProps) => {
   return (
     <div style={style}>
       <StyledPreloader size={size}>
-        <Spinner
-          stroke={color || theme['accentColor']}
-          viewBox="0 0 66 66"
-          indeterminate={indeterminate}
-        >
+        <Spinner color={color} viewBox="0 0 66 66">
           <Path
-            indeterminate={indeterminate}
             fill="none"
             strokeWidth={thickness}
             strokeLinecap="square"
@@ -43,6 +34,6 @@ export const Preloader = ({
 };
 
 Preloader.defaultProps = {
-  thickness: 4,
   size: 48,
+  thickness: 4,
 } as PreloaderProps;
