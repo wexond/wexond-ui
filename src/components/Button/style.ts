@@ -40,29 +40,31 @@ export const StyledButton = styled.div`
     opacity: 0.12;
   }
 
-  ${({ background, foreground, outlined, theme }: Props) => css`
-    color: ${foreground || theme['control.foreground']};
+  ${({ background, foreground, outlined, theme }: Props) => {
+    const _background = background || theme['control.background'];
+    const _foreground = foreground || theme['control.foreground'];
 
-    ${!outlined
-      ? css`
-          background-color: ${background || theme['control.background']};
-        `
-      : css`
-          border: 1px solid ${background || theme['control.background']};
-          background: transparent;
-        `}
+    return css`
+      color: ${_foreground};
+      background: ${outlined ? 'transparent' : _background};
 
-    &::before {
-      background-color: ${foreground || theme['control.foreground']};
-    }
+      ${outlined &&
+      css`
+        border: 1px solid ${_background};
+      `}
 
-    ${theme.animations &&
-    css`
-      &:active {
-        transform: scale(0.95);
+      ${theme.animations &&
+      css`
+        &:active {
+          transform: scale(0.95);
+        }
+      `}
+
+      &::before {
+        background-color: ${_foreground};
       }
-    `}
-  `};
+    `;
+  }};
 `;
 
 export const Container = styled.div`
