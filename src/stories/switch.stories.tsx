@@ -5,7 +5,7 @@ import { DEFAULT_DECORATORS } from './decorators';
 import { lightTheme } from '~/constants/themes';
 import { Switch } from '~/components/Switch';
 
-export const SwitchStory = () => {
+export const Enabled = () => {
   return (
     <Switch
       value={boolean('Value', true)}
