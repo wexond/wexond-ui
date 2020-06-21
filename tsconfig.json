@@ -21,12 +21,11 @@
     "lib": ["dom", "esnext"],
 
     "baseUrl": "./",
-    "rootDirs": ["src", "stories"],
 
     "paths": {
       "~/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./stories/**/*.tsx"],
-  "exclude": ["./node_modules", "./.storybook"]
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./src/stories"]
 }
