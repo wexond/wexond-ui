@@ -27,6 +27,6 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "./stories/**/*.tsx"],
   "exclude": ["./node_modules", "./.storybook"]
 }

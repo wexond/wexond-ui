@@ -1,16 +1,22 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { text } from '@storybook/addon-knobs';
-import { withInfo } from '@storybook/addon-info';
+import { text, color } from '@storybook/addon-knobs';
 
 import { Button } from '../src/components/Button';
-import { decorate } from './utils/storybook';
+import { decorators } from './decorators';
+import { DEFAULT_THEME } from './constants/theme';
 
-const stories = storiesOf('Components', module);
+export const RaisedButton = () => {
+  return (
+    <Button
+      background={color('Background', DEFAULT_THEME['control.background'])}
+      foreground={color('Foreground', DEFAULT_THEME['control.foreground'])}
+    >
+      {text('Text', 'Button')}
+    </Button>
+  );
+};
 
-decorate(stories);
-
-stories.add(
-  'Button',
-  withInfo()(() => <Button text={text('text', 'foobar')} />),
-);
+export default {
+  title: 'Buttons',
+  decorators,
+};

@@ -1,13 +1,7 @@
 export interface ITheme {
-  'control.backgroundColor': string;
-  'control.hover.backgroundColor': string;
-  'control.valueColor': string;
-  'control.lightIcon': boolean;
-  'switch.backgroundColor': string;
-
-  'dropdown.backgroundColor': string;
-  'dropdown.backgroundColor.translucent': string;
-  'dropdown.separator.color': string;
+  'control.background'?: string;
+  'control.foreground'?: string;
+  'control.hover.background'?: string;
 
   accentColor: string;
 
