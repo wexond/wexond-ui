@@ -68,7 +68,7 @@ export const Circle = styled.div`
     background-image: url(${ICON_CHECKED});
     filter: invert(100%);
     transition-delay: 0.1s;
-    ${centerIcon(20)};
+    ${centerIcon(18)};
   }
 `;
 
