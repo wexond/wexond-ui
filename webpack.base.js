@@ -33,7 +33,8 @@ const config = {
           {
             loader: 'ts-loader',
             options: {
-              transpileOnly: true,
+              transpileOnly: dev,
+              configFile: resolve(dev ? 'tsconfig.json' : 'tsconfig.prod.json'),
               getCustomTransformers: () => ({
                 before: [styledComponentsTransformer],
               }),

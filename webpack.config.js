@@ -8,7 +8,8 @@ module.exports = getConfig({
   output: {
     filename: 'index.js',
     path: __dirname + '/build',
-    libraryTarget: 'commonjs',
+    libraryTarget: 'umd',
+    library: 'wexond-ui',
   },
 
   devtool: 'source-map',
