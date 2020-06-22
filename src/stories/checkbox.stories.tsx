@@ -3,18 +3,18 @@ import { color, boolean } from '@storybook/addon-knobs';
 
 import { DEFAULT_DECORATORS } from './decorators';
 import { lightTheme } from '~/constants/themes';
-import { Switch } from '~/components/Switch';
+import { Checkbox } from '~/components/Checkbox';
 
 export const Default = () => {
   return (
-    <Switch
-      value={boolean('Value', true)}
+    <Checkbox
+      value={boolean('Value', false)}
       color={color('Color', lightTheme['accentColor'])}
     />
   );
 };
 
 export default {
-  title: 'Switch',
+  title: 'Checkbox',
   decorators: DEFAULT_DECORATORS,
 };
