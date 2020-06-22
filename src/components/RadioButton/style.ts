@@ -48,22 +48,22 @@ export const Circle = styled.div`
     }
   `}
 
-  &::before {
+  &::before, &::after {
     content: '';
+    position: absolute;
+  }
+
+  &::before {
     width: calc(100% - 4px);
     height: calc(100% - 4px);
-    position: absolute;
     border-radius: 100%;
     background-color: #fff;
     transition: 0.2s transform;
   }
 
   &::after {
-    content: '';
     width: 100%;
     height: 100%;
-    position: absolute;
-    z-index: 10;
     -webkit-font-smoothing: antialiased;
     background-image: url(${ICON_CHECKED});
     filter: invert(100%);
