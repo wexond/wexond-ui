@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StyledRadioButton, Circle, Container, Label } from './style';
+import { StyledRadioButton, Circle, Label } from './style';
 
 export interface RadioButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: any;
@@ -14,9 +14,7 @@ export const RadioButton = ({
 }: RadioButtonProps) => {
   return (
     <StyledRadioButton {...props}>
-      <Container>
-        <Circle selected={selected} />
-      </Container>
+      <Circle selected={selected} />
       {children && <Label>{children}</Label>}
     </StyledRadioButton>
   );

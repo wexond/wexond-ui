@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { ITheme } from '~/interfaces';
+import { centerBothFlex } from '~/mixins/positioning';
 
 interface Props {
   background: string;
@@ -14,15 +15,13 @@ export const StyledButton = styled.div`
   width: fit-content;
   height: 32px;
   padding: 0px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   border-radius: 4px;
   position: relative;
   cursor: pointer;
   will-change: transform;
   transition: 0.1s transform;
+  ${centerBothFlex()}
 
   &::before {
     content: '';

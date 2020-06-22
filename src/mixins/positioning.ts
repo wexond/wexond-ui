@@ -15,3 +15,9 @@ export const centerVertical = () => css`
   top: 50%;
   transform: translateY(-50%);
 `;
+
+export const centerBothFlex = () => css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

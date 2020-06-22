@@ -1,10 +1,11 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { ITheme } from '~/interfaces';
 import { transparency } from '~/constants/transparency';
 import { robotoRegular } from '~/mixins/typography';
 import { ICON_CHECKED } from '~/constants/icons';
 import { centerIcon } from '~/mixins/images';
+import { centerBothFlex } from '~/mixins/positioning';
 
 export const StyledRadioButton = styled.div`
   height: 40px;
@@ -13,23 +14,12 @@ export const StyledRadioButton = styled.div`
   cursor: pointer;
 `;
 
-export const Container = styled.div`
+export const Circle = styled.div`
   width: 18px;
   height: 18px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Circle = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
   border-radius: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${centerBothFlex()};
 
   ${({ selected, theme }: { selected: boolean; theme?: ITheme }) => css`
     background: ${selected
@@ -74,7 +64,7 @@ export const Circle = styled.div`
 
 export const Label = styled.div`
   font-size: 14px;
-  margin-left: 16px;
+  margin-left: 12px;
   color: rgba(0, 0, 0, ${transparency.text.high});
   ${robotoRegular()};
 `;
