@@ -21,7 +21,7 @@ export const StyledButton = styled.div`
   cursor: pointer;
   will-change: transform;
   transition: 0.1s transform;
-  ${centerBothFlex()}
+  ${centerBothFlex()};
 
   &::before {
     content: '';
