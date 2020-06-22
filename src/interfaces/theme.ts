@@ -4,6 +4,7 @@ export interface ITheme {
   'control.hover.background'?: string;
 
   'switch.backgroundColor'?: string;
+  'radiobutton.backgroundColor'?: string;
 
   accentColor: string;
 

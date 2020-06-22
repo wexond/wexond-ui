@@ -7,6 +7,7 @@ export const lightTheme: ITheme = {
   'control.hover.background': 'rgba(0, 0, 0, 0.1)',
 
   'switch.backgroundColor': 'rgba(0, 0, 0, 0.16)',
+  'radiobutton.backgroundColor': 'rgba(0, 0, 0, 0.32)',
 
   accentColor: BLUE_500,
 
@@ -19,6 +20,7 @@ export const darkTheme: ITheme = {
   'control.hover.background': 'rgba(255, 255, 255, 0.12)',
 
   'switch.backgroundColor': 'rgba(255, 255, 255, 0.24)',
+  'radiobutton.backgroundColor': 'rgba(255, 255, 255, 0.54)',
 
   accentColor: BLUE_500,
 
