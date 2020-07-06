@@ -7,10 +7,10 @@ export interface CheckboxProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
-export const Checkbox = ({ value }: CheckboxProps) => {
+export const Checkbox = ({ value, ...props }: CheckboxProps) => {
   return (
-    <StyledCheckbox>
-      <Box selected={value} />
+    <StyledCheckbox {...props}>
+      <Box className="checkbox-box" selected={value} />
     </StyledCheckbox>
   );
 };

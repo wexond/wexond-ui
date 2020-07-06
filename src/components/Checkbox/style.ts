@@ -10,6 +10,10 @@ export const StyledCheckbox = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  &:active > .checkbox-box {
+    transform: scale(0.9);
+  }
 `;
 
 export const Box = styled.div`
@@ -18,6 +22,8 @@ export const Box = styled.div`
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  will-change: transform;
+  transition: 0.1s transform;
   ${centerBothFlex()};
 
   ${({ selected, theme }: { selected: boolean; theme?: ITheme }) => css`
@@ -47,6 +53,7 @@ export const Box = styled.div`
     height: calc(100% - 4px);
     border-radius: 2px;
     background-color: #fff;
+    will-change: transform;
     transition: 0.2s transform;
   }
 
@@ -56,6 +63,7 @@ export const Box = styled.div`
     -webkit-font-smoothing: antialiased;
     background-image: url(${ICON_CHECKED});
     filter: invert(100%);
+    will-change: clip-path;
     transition-delay: 0.1s;
     ${centerIcon(18)};
   }
