@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
   .default;
 
@@ -44,6 +45,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
+              configFile: resolve(dev ? 'tsconfig.json' : 'tsconfig.prod.json'),
               transpileOnly: dev,
               getCustomTransformers: () => ({
                 before: [styledComponentsTransformer],
@@ -54,6 +56,8 @@ module.exports = {
       },
     ],
   },
+
+  plugins: [new ForkTsCheckerWebpackPlugin()],
 
   resolve: {
     modules: ['node_modules'],
