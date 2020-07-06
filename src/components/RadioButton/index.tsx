@@ -14,7 +14,7 @@ export const RadioButton = ({
 }: RadioButtonProps) => {
   return (
     <StyledRadioButton {...props}>
-      <Circle selected={selected} />
+      <Circle className="radiobutton-circle" selected={selected} />
       {children && <Label>{children}</Label>}
     </StyledRadioButton>
   );

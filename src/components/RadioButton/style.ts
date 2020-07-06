@@ -12,6 +12,10 @@ export const StyledRadioButton = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  &:active > .radiobutton-circle {
+    transform: scale(0.9);
+  }
 `;
 
 export const Circle = styled.div`
@@ -19,6 +23,8 @@ export const Circle = styled.div`
   height: 18px;
   position: relative;
   border-radius: 100%;
+  will-change: transform;
+  transition: 0.1s transform;
   ${centerBothFlex()};
 
   ${({ selected, theme }: { selected: boolean; theme?: ITheme }) => css`
