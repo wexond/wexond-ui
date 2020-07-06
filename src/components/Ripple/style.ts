@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Root = styled.div`
+export const StyledRipple = styled.div`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -9,7 +9,7 @@ export const Root = styled.div`
   overflow: hidden;
 `;
 
-export const StyledRipple = styled.div`
+export const Container = styled.div`
   position: absolute;
   border-radius: 50%;
   overflow: hidden;

@@ -1,5 +1,1 @@
-import drop from '../resources/icons/drop.svg';
-
-export const icons = {
-  drop,
-}
+export const ICON_CHECKED = require('~/resources/icons/checked.svg');
