@@ -22,6 +22,7 @@ module.exports = {
     path: __dirname + '/build',
     libraryTarget: 'umd',
     library: 'wexond-ui',
+    globalObject: 'this',
   },
 
   module: {
