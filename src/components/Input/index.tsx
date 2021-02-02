@@ -1,10 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-export const StyledButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+export const Input = styled.input.attrs(() => ({
+  spellCheck: false,
+}))`
   height: 32px;
   min-width: 64px;
   padding: 0 12px;
@@ -14,7 +12,7 @@ export const StyledButton = styled.button`
   background-color: rgb(50, 50, 50);
   border: none;
   outline: none;
-  cursor: pointer;
+  cursor: text;
   transition: 0.1s background-color, 0.1s box-shadow;
 
   &:focus {
@@ -24,10 +22,4 @@ export const StyledButton = styled.button`
   &:hover {
     background-color: rgb(70, 70, 70);
   }
-`;
-
-export const ButtonIcon = styled.span`
-  ${({ spacing }: { spacing?: string }) => css`
-    margin-left: ${spacing};
-  `}
 `;

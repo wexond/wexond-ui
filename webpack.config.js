@@ -1,15 +1,7 @@
 const { resolve } = require('path');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
-  .default;
 
-const dev = process.env.NODE_ENV === 'development';
+const dev = process.env.DEV === '1';
 const INCLUDE = resolve(__dirname, 'src');
-
-const styledComponentsTransformer = createStyledComponentsTransformer({
-  minify: !dev,
-  displayName: true,
-});
 
 module.exports = {
   mode: dev ? 'development' : 'production',
@@ -21,7 +13,7 @@ module.exports = {
     filename: 'index.js',
     path: __dirname + '/build',
     libraryTarget: 'umd',
-    library: 'wexond-ui',
+    library: '@wexond/react',
     globalObject: 'this',
   },
 
@@ -41,24 +33,15 @@ module.exports = {
       },
       {
         test: /\.tsx|ts$/,
+        loader: 'babel-loader',
         include: INCLUDE,
-        use: [
-          {
-            loader: 'ts-loader',
-            options: {
-              configFile: resolve(dev ? 'tsconfig.json' : 'tsconfig.prod.json'),
-              transpileOnly: dev,
-              getCustomTransformers: () => ({
-                before: [styledComponentsTransformer],
-              }),
-            },
-          },
-        ],
       },
     ],
   },
 
-  plugins: [new ForkTsCheckerWebpackPlugin()],
+  optimization: {
+    usedExports: true,
+  },
 
   resolve: {
     modules: ['node_modules'],
@@ -69,8 +52,18 @@ module.exports = {
   },
 
   externals: {
-    react: 'react',
-    'react-dom': 'react-dom',
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react',
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom',
+    },
     'styled-components': 'styled-components',
   },
 };

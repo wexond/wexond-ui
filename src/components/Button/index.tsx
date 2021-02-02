@@ -1,29 +1,21 @@
 import React from 'react';
 
-import { StyledButton, Container } from './style';
+import { ButtonIcon, StyledButton } from './style';
 
-export interface ButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  background?: string;
-  foreground?: string;
-  outlined?: boolean;
-  children?: React.ReactNode;
+export interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  rightIcon?: React.ReactNode;
+  iconSpacing?: string;
 }
 
-export const Button = ({
-  background,
-  foreground,
-  outlined,
-  children,
-  ...props
-}: ButtonProps) => {
-  return (
-    <StyledButton
-      background={background}
-      foreground={foreground}
-      outlined={outlined}
-      {...props}
-    >
-      <Container>{children}</Container>
-    </StyledButton>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ rightIcon, iconSpacing, children, ...props }, ref) => {
+    return (
+      <StyledButton ref={ref} {...props}>
+        {children}
+        {rightIcon && (
+          <ButtonIcon spacing={iconSpacing}>{rightIcon}</ButtonIcon>
+        )}
+      </StyledButton>
+    );
+  },
+);
