@@ -56,7 +56,6 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           isSelected={item.isSelected}
           onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
           onClick={mergeEvents(onClick, item.props.onClick)}
-          tabIndex={-1}
           {...props}
         >
           {icon && <IconContainer>{icon}</IconContainer>}

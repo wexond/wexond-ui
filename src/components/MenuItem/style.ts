@@ -11,12 +11,6 @@ export const StyledMenuItem = styled.li`
   align-items: center;
   position: relative;
 
-  &:focus {
-    outline: none;
-    outline: 1px solid blue;
-    /* background-color: rgba(255, 255, 255, 0.12); */
-  }
-
   ${({ isSelected }: { isSelected?: boolean }) =>
     isSelected &&
     css`
