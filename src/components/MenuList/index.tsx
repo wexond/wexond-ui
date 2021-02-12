@@ -27,13 +27,13 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
       const lists = menu?.visibleLists.current;
 
-      if (lists != null && list.listRef.current != null) {
+      if (lists != null && list.ref.current != null) {
         const parent = lists[lists.length - 1];
 
-        const rect = list.listRef.current.getBoundingClientRect();
-        const parentRect = list.listRef.current.parentElement?.getBoundingClientRect();
+        const rect = list.ref.current.getBoundingClientRect();
+        const parentRect = list.ref.current.parentElement?.getBoundingClientRect();
 
-        const preferedXPos = parent?.xPosRef?.current || 'right';
+        const preferedXPos = parent?.xPosition?.current || 'right';
 
         let _x = x;
         let _y = y;
@@ -60,9 +60,9 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
             initialY: parentRect?.y,
           });
 
-          list.xPosRef.current = popup.xPos;
+          list.xPosition.current = popup.xPos;
 
-          setPosition(list.listRef.current, popup.x, popup.y);
+          setPosition(list.ref.current, popup.x, popup.y);
           setUp.current = true;
         }
       }
@@ -70,11 +70,10 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
     return (
       <StyledMenuList
-        ref={mergeRefs(list.listRef, ref, list.listRef)}
+        ref={mergeRefs(list.ref, ref, list.ref)}
         tabIndex={-1}
         visible={true}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        onMouseEnter={list.props.onMouseEnter}
         // visible={menu.isOpened}
         {...props}
       >

@@ -46,7 +46,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     // const selected = list?.selectedItem?.ref.current === item.ref.current;
 
     const _submenu = React.useMemo(() => {
-      if (!item.isSubmenuVisible || !submenu) return null;
+      if (!item.isSubmenuOpened || !submenu) return null;
       return React.cloneElement(
         submenu as any,
         {
@@ -54,7 +54,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           y: item.itemRef.current!.offsetTop - MENU_PADDING_Y,
         } as MenuListProps,
       );
-    }, [item.isSubmenuVisible, item.itemRef, submenu]);
+    }, [item.isSubmenuOpened, item.itemRef, submenu]);
 
     return (
       <>
@@ -62,7 +62,6 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           ref={mergeRefs(item.itemRef, ref)}
           isSelected={item.isSelected}
           onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
-          onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
           onClick={mergeEvents(onClick, item.props.onClick)}
           tabIndex={-1}
           {...props}

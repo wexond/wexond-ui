@@ -3,127 +3,161 @@ import React from 'react';
 import { useId } from '~/hooks/use-id';
 import { PopupXPosition } from '~/popup/popup-utils';
 import { MenuContext } from './menu-context';
-import { MenuItemData } from './use-menu';
+import { MenuItemData, MenuListData } from './use-menu';
 
 export const useMenuList = () => {
   const menu = React.useContext(MenuContext);
 
   const id = useId();
-  const listRef = React.useRef<HTMLUListElement | null>(null);
-  const xPosRef = React.useRef<PopupXPosition | null>(null);
+  const ref = React.useRef<HTMLUListElement | null>(null);
+  const xPosition = React.useRef<PopupXPosition | null>(null);
+
+  const items = React.useRef<(MenuItemData | null)[]>([]);
+
   const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
-  const hasSubmenu = React.useRef(false);
+  const selectedItem = items.current[selectedIndex];
 
-  const menus = React.useRef<MenuItemData[]>([]);
+  const [activeItem, setActiveItem] = React.useState<MenuItemData | null>(null);
 
-  const getData = React.useCallback(() => {
-    return menu?.visibleLists.current.find((r) => r.id === id);
-  }, [id, menu?.visibleLists]);
+  const globalIndex = React.useRef<number | null>(null);
 
-  const onChildListMouseEnter = React.useCallback(() => {
-    const data = getData();
+  const getParentList = React.useCallback(() => {
+    const lists = menu?.visibleLists.current;
 
-    if (data?.activeItem) {
-      const index = menus.current.indexOf(data.activeItem);
+    return lists && globalIndex.current != null
+      ? lists[globalIndex.current - 1]
+      : null;
+  }, [menu?.visibleLists]);
 
-      setSelectedIndex(index);
+  const getChildList = React.useCallback(() => {
+    const lists = menu?.visibleLists.current;
+
+    return lists && globalIndex.current != null
+      ? lists[globalIndex.current + 1]
+      : null;
+  }, [menu?.visibleLists]);
+
+  const unselect = React.useCallback(() => {
+    if (selectedIndex !== -1) {
+      setSelectedIndex(-1);
+      getChildList()?.unselect();
     }
-  }, [getData]);
+  }, [selectedIndex, getChildList]);
 
-  React.useEffect(() => {
-    menu?.visibleLists.current.push({
+  const reselect = React.useCallback(() => {
+    if (activeItem !== selectedItem) {
+      setSelectedIndex(items.current.indexOf(activeItem));
+      getParentList()?.reselect();
+    }
+  }, [activeItem, selectedItem, getParentList]);
+
+  const listData = React.useMemo<MenuListData>(
+    () => ({
       id,
-      ref: listRef,
-      xPosRef,
-      onChildListMouseEnter,
-    });
-
-    return () => {
-      if (menu?.visibleLists) {
-        menu.visibleLists.current = menu.visibleLists.current.filter(
-          (r) => r.id !== id,
-        );
-      }
-    };
-  }, [id, menu?.visibleLists, onChildListMouseEnter]);
-
-  const getChildren = React.useCallback(() => {
-    return Array.from(listRef.current?.children || []);
-  }, []);
+      ref,
+      xPosition,
+      activeItem,
+      unselect,
+      reselect,
+      setActiveItem,
+    }),
+    [id, activeItem, unselect, reselect],
+  );
 
   React.useEffect(() => {
-    listRef.current?.focus();
-  }, []);
+    if (menu) {
+      globalIndex.current = menu.addVisibleList(listData);
+    }
+  }, [menu, listData]);
 
-  const getIndex = React.useCallback(() => {
-    return menu?.visibleLists.current.findIndex((r) => r.id === id);
-  }, [id, menu?.visibleLists]);
+  React.useEffect(() => {
+    return () => menu?.removeVisibleList(id);
+  }, [menu, id]);
+
+  React.useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLUListElement>) => {
-      const list = listRef.current;
+      const list = ref.current;
       if (!list || !menu?.visibleLists.current) return;
 
       e.stopPropagation();
 
-      const children = getChildren();
-
+      const itemsLength = items.current.length;
       let focusedIndex = selectedIndex;
 
-      if (e.key === 'ArrowDown' && ++focusedIndex >= children.length) {
+      if (e.key === 'ArrowDown' && ++focusedIndex >= itemsLength) {
         focusedIndex = 0;
       } else if (e.key === 'ArrowUp' && --focusedIndex < 0) {
-        focusedIndex = children.length - 1;
+        focusedIndex = itemsLength - 1;
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
-        menus.current[focusedIndex]?.toggleSubmenu?.(true);
+        items.current[focusedIndex]?.toggleSubmenu?.(true);
+        setActiveItem(items.current[focusedIndex]);
+
+        return;
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
         const lists = menu?.visibleLists.current;
         const list = lists[lists.length - 2];
 
         list?.activeItem?.toggleSubmenu?.(false);
         list?.ref?.current?.focus();
+        setActiveItem(null);
 
         return;
       } else {
-        const items = children
+        const rest = items.current
           .slice(focusedIndex + 1)
-          .concat(children.slice(0, focusedIndex));
+          .concat(items.current.slice(0, focusedIndex));
 
-        const match = items.find((r) =>
-          r.textContent?.toLowerCase()?.startsWith(e.key),
+        const match = rest.find((r) =>
+          r?.ref?.current?.textContent?.toLowerCase()?.startsWith(e.key),
         );
 
         if (match) {
-          focusedIndex = children.indexOf(match);
+          focusedIndex = items.current.indexOf(match);
         }
       }
 
-      setSelectedIndex(focusedIndex);
+      if (focusedIndex !== selectedIndex) {
+        setSelectedIndex(focusedIndex);
+        setActiveItem(items.current[focusedIndex]);
+      }
     },
-    [getChildren, selectedIndex, menu?.visibleLists],
+    [menu?.visibleLists, selectedIndex],
   );
 
-  const onMouseEnter = React.useCallback(
-    (e: React.MouseEvent) => {
-      const lists = menu?.visibleLists.current;
+  const addItem = React.useCallback((item: MenuItemData) => {
+    const { id } = item;
 
-      const index = getIndex();
+    const index = items.current.findIndex((r) => r?.id === id);
 
-      // console.log(lists?.slice(0, index));
-    },
-    [getIndex, menu?.visibleLists],
-  );
+    if (index !== -1) {
+      items.current[index] = { ...item, deleted: false };
+
+      return index;
+    } else {
+      return items.current.push(item) - 1;
+    }
+  }, []);
+
+  const removeItem = React.useCallback((id: number) => {
+    items.current = items.current.filter((r) => r?.id !== id);
+  }, []);
 
   return {
-    listRef,
-    getChildren,
+    ref,
     selectedIndex,
     setSelectedIndex,
-    hasSubmenu,
-    props: { onKeyDown, onMouseEnter },
-    menus,
-    getData,
-    getIndex,
-    xPosRef,
+    setActiveItem,
+    props: { onKeyDown },
+    items,
+    xPosition,
+    activeItem,
+    addItem,
+    removeItem,
+    getParentList,
+    getChildList,
   };
 };
