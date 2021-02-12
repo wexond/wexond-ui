@@ -13,8 +13,7 @@ export const Menu: React.FC<MenuProps> = ({
   beforeClose,
   children,
 }) => {
-  // const ctx = useMenu({ onOpen, beforeClose });
-  const ctx = useMenu();
+  const ctx = useMenu({ onOpen, beforeClose });
 
   return <MenuContext.Provider value={ctx}>{children}</MenuContext.Provider>;
 };

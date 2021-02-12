@@ -76,8 +76,12 @@ export const useMenuList = () => {
   }, [menu, id]);
 
   React.useEffect(() => {
-    ref.current?.focus();
-  }, []);
+    if (ref.current) {
+      ref.current.focus();
+
+      menu?.onOpen?.(ref.current);
+    }
+  }, [menu]);
 
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLUListElement>) => {
@@ -95,12 +99,17 @@ export const useMenuList = () => {
         focusedIndex = itemsLength - 1;
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
         items.current[focusedIndex]?.toggleSubmenu?.(true);
+
+        getChildList()?.ref?.current?.focus();
+
         setActiveItem(items.current[focusedIndex]);
 
         return;
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
         const lists = menu?.visibleLists.current;
         const list = lists[lists.length - 2];
+
+        menu?.emitBeforeClose(lists?.indexOf(list));
 
         list?.activeItem?.toggleSubmenu?.(false);
         list?.ref?.current?.focus();
@@ -126,7 +135,7 @@ export const useMenuList = () => {
         setActiveItem(items.current[focusedIndex]);
       }
     },
-    [menu?.visibleLists, selectedIndex, items],
+    [menu, selectedIndex, items, getChildList],
   );
 
   return {
@@ -142,5 +151,6 @@ export const useMenuList = () => {
     removeItem,
     getParentList,
     getChildList,
+    globalIndex,
   };
 };

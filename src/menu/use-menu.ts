@@ -1,6 +1,7 @@
 import React from 'react';
-import { useItems } from '~/hooks/use-items';
 
+import { MenuProps } from '~/components/Menu';
+import { useItems } from '~/hooks/use-items';
 import { PopupXPosition } from '~/popup/popup-utils';
 
 export interface MenuListData {
@@ -20,7 +21,7 @@ export interface MenuItemData {
   hasSubmenu?: boolean;
 }
 
-export const useMenu = () => {
+export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
   const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
 
   const {
@@ -35,11 +36,26 @@ export const useMenu = () => {
     }
   }, []);
 
+  const emitBeforeClose = React.useCallback(
+    (index: number | null | undefined) => {
+      if (index === -1 || index == null) return;
+
+      const refs = visibleLists.current
+        .slice(index + 1)
+        .map((r) => r?.ref?.current) as HTMLUListElement[];
+
+      beforeClose?.(...refs);
+    },
+    [visibleLists, beforeClose],
+  );
+
   return {
     visibleLists,
     addVisibleList,
     removeVisibleList,
     itemMouseTimer,
     clearItemMouseTimer,
+    onOpen,
+    emitBeforeClose,
   };
 };

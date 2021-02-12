@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useId } from '~/hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
-import { MenuItemData } from './use-menu';
+import { MenuItemData, MenuListData } from './use-menu';
 
 export const useMenuItem = (hasSubmenu: boolean) => {
   const id = useId();
@@ -40,19 +40,26 @@ export const useMenuItem = (hasSubmenu: boolean) => {
       return;
     }
 
+    const lists = menu?.visibleLists.current;
     const childList = list?.getChildList();
 
     if (list?.activeItem?.hasSubmenu && list.activeItem !== itemData) {
+      menu?.emitBeforeClose(list.globalIndex.current);
+
       list.activeItem?.toggleSubmenu?.(false);
       list.setActiveItem(null);
     } else if (childList?.activeItem?.hasSubmenu) {
+      menu?.emitBeforeClose(lists?.indexOf(childList));
+
       childList.activeItem.toggleSubmenu?.(false);
       childList.setActiveItem?.(null);
     }
-  }, [itemData, list, hasSubmenu]);
+  }, [itemData, list, hasSubmenu, menu]);
 
   const onMouseEnter = React.useCallback(() => {
     if (menu && list) {
+      list.ref.current?.focus();
+
       const itemIndex = list.items.current.indexOf(itemData);
 
       list.setSelectedIndex(itemIndex);
