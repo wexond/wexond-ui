@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useDelayedHover } from '~/hooks/use-delayed-hover';
 import { useId } from '~/hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemData } from './use-menu';

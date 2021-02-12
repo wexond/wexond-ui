@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useId } from '~/hooks/use-id';
+import { useItems } from '~/hooks/use-items';
 import { PopupXPosition } from '~/popup/popup-utils';
 import { MenuContext } from './menu-context';
 import { MenuItemData, MenuListData } from './use-menu';
@@ -12,7 +13,7 @@ export const useMenuList = () => {
   const ref = React.useRef<HTMLUListElement | null>(null);
   const xPosition = React.useRef<PopupXPosition | null>(null);
 
-  const items = React.useRef<(MenuItemData | null)[]>([]);
+  const { items, addItem, removeItem } = useItems<MenuItemData>();
 
   const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
   const selectedItem = items.current[selectedIndex];
@@ -49,7 +50,7 @@ export const useMenuList = () => {
       setSelectedIndex(items.current.indexOf(activeItem));
       getParentList()?.reselect();
     }
-  }, [activeItem, selectedItem, getParentList]);
+  }, [activeItem, selectedItem, getParentList, items]);
 
   const listData = React.useMemo<MenuListData>(
     () => ({
@@ -125,26 +126,8 @@ export const useMenuList = () => {
         setActiveItem(items.current[focusedIndex]);
       }
     },
-    [menu?.visibleLists, selectedIndex],
+    [menu?.visibleLists, selectedIndex, items],
   );
-
-  const addItem = React.useCallback((item: MenuItemData) => {
-    const { id } = item;
-
-    const index = items.current.findIndex((r) => r?.id === id);
-
-    if (index !== -1) {
-      items.current[index] = { ...item, deleted: false };
-
-      return index;
-    } else {
-      return items.current.push(item) - 1;
-    }
-  }, []);
-
-  const removeItem = React.useCallback((id: number) => {
-    items.current = items.current.filter((r) => r?.id !== id);
-  }, []);
 
   return {
     ref,
