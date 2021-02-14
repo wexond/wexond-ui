@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MenuContext, MenuListContext } from '~/menu/menu-context';
 import { useMenuList } from '~/menu/use-menu-list';
-import { getPopupPosition } from '~/popup/popup-utils';
+import { getPopupPosition } from '~/popup/popup';
 import { setPosition } from '~/utils/dom';
 import { mergeEvents, mergeRefs } from '~/utils/react';
 import { StyledMenuList } from './style';
@@ -26,50 +26,34 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       if (setUp.current) return;
 
       const lists = menu?.visibleLists.current;
+      const el = list.ref.current;
 
-      if (menu && lists != null && list.ref.current != null) {
-        const parent = list?.globalIndex?.current == null ? lists[0] : null;
+      if (menu && lists != null && el != null) {
+        const parent =
+          list?.globalIndex?.current == null ? lists[lists.length - 1] : null;
 
-        const rect = list.ref.current.getBoundingClientRect();
         const parentRect = parent?.ref?.current?.getBoundingClientRect();
-        const button = menu.buttonRef.current;
+        const buttonRect = menu.buttonRef.current?.getBoundingClientRect();
 
-        const preferedXPos = parent?.xPosition?.current || 'right';
+        const preferedXPos = parent?.xPosition?.current || 'left';
 
-        let _x = x;
-        let _y = y;
+        const popup = getPopupPosition({
+          width: el.offsetWidth,
+          height: el.offsetHeight,
 
-        if (parentRect != null) {
-          _x =
-            _x ??
-            (preferedXPos === 'left' ? parentRect.left : parentRect.right);
-          _y = _y ?? parentRect.top - MENU_PADDING_Y - 1;
-        } else if (button) {
-          _x = button.offsetLeft;
-          _y = button.offsetTop + button.clientHeight;
-        }
+          parentX: parentRect?.x ?? buttonRect?.left,
+          parentY: parentRect?.y ?? buttonRect?.top,
+          parentWidth: parentRect?.width ?? buttonRect?.width,
+          parentHeight: parentRect?.height ?? buttonRect?.height,
 
-        if (_x != null && _y != null) {
-          const popup = getPopupPosition({
-            x: _x,
-            y: _y,
-            width: rect.width,
-            height: rect.height,
-            preferXPos: preferedXPos,
-            preferYPos: 'top',
-            parentX: parentRect?.x,
-            parentWidth: parentRect?.width,
-            xMargin: parentRect != null ? MENU_MARGIN : 0,
-            yMargin: parent == null ? -MENU_MARGIN : undefined,
-            initialX: parentRect?.x,
-            initialY: parentRect?.y,
-          });
+          horizontalPlacement: preferedXPos,
+          relative: !!parentRect,
+        });
 
-          list.xPosition.current = popup.xPos;
+        setPosition(list.ref.current, popup.x, popup.y);
 
-          setPosition(list.ref.current, popup.x, popup.y);
-          setUp.current = true;
-        }
+        list.xPosition.current = popup.horizontalPlacement;
+        setUp.current = true;
       }
     }, [menu, list, x, y]);
 

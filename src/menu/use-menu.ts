@@ -22,7 +22,7 @@ export interface MenuItemData {
 }
 
 export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
-  const [isOpened, toggle] = React.useState(false);
+  const [isOpened, toggle] = React.useState(true);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
