@@ -1,6 +1,6 @@
 export type PopupHorizontalPlacement = 'left' | 'center' | 'right';
 
-export type PopupVerticalPlacement = 'top' | 'center' | 'bottom';
+export type PopupVerticalPlacement = 'top' | 'top-start' | 'center' | 'bottom';
 
 export type PopupOverflow = 'none' | 'parent' | 'viewport';
 
@@ -104,7 +104,7 @@ export const getPopupPosition = ({
   }
 
   // From top to bottom
-  if (verticalPlacement === 'top') {
+  if (verticalPlacement === 'top' || verticalPlacement === 'top-start') {
     if (!relative) {
       _y = parentBottom + marginY;
 
@@ -116,7 +116,9 @@ export const getPopupPosition = ({
         correctedYPlacement = 'bottom';
       }
     } else {
-      _y = parentHeight + marginY;
+      _y = marginY;
+
+      if (verticalPlacement === 'top') _y += parentHeight;
 
       if (parentTop + _y + height > viewportHeight) {
         _y = -height - marginY;
