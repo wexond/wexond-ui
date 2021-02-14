@@ -22,6 +22,10 @@ export interface MenuItemData {
 }
 
 export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
+  const [isOpened, toggle] = React.useState(false);
+
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+
   const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
 
   const {
@@ -57,5 +61,8 @@ export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
     clearItemMouseTimer,
     onOpen,
     emitBeforeClose,
+    isOpened,
+    toggle,
+    buttonRef,
   };
 };

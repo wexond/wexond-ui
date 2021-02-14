@@ -1,7 +1,7 @@
 export * from './components/Menu';
 export * from './components/MenuList';
 export * from './components/MenuItem';
-// export * from './components/MenuButton';
+export * from './components/MenuButton';
 export * from './components/Icon';
 export * from './components/Button';
 export * from './components/Input';
