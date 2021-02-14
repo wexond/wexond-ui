@@ -27,11 +27,12 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
       const lists = menu?.visibleLists.current;
 
-      if (lists != null && list.ref.current != null) {
-        const parent = lists[lists.length - 1];
+      if (menu && lists != null && list.ref.current != null) {
+        const parent = list?.globalIndex?.current == null ? lists[0] : null;
 
         const rect = list.ref.current.getBoundingClientRect();
-        const parentRect = list.ref.current.parentElement?.getBoundingClientRect();
+        const parentRect = parent?.ref?.current?.getBoundingClientRect();
+        const button = menu.buttonRef.current;
 
         const preferedXPos = parent?.xPosition?.current || 'right';
 
@@ -43,6 +44,9 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
             _x ??
             (preferedXPos === 'left' ? parentRect.left : parentRect.right);
           _y = _y ?? parentRect.top - MENU_PADDING_Y - 1;
+        } else if (button) {
+          _x = button.offsetLeft;
+          _y = button.offsetTop + button.clientHeight;
         }
 
         if (_x != null && _y != null) {
@@ -56,6 +60,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
             parentX: parentRect?.x,
             parentWidth: parentRect?.width,
             xMargin: parentRect != null ? MENU_MARGIN : 0,
+            yMargin: parent == null ? -MENU_MARGIN : undefined,
             initialX: parentRect?.x,
             initialY: parentRect?.y,
           });
@@ -66,15 +71,16 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
           setUp.current = true;
         }
       }
-    }, [menu?.visibleLists, list, x, y]);
+    }, [menu, list, x, y]);
+
+    if (!menu?.isOpened) return null;
 
     return (
       <StyledMenuList
         ref={mergeRefs(list.ref, ref, list.ref)}
         tabIndex={-1}
-        visible={true}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        // visible={menu.isOpened}
+        // onBlur={list.props.onBlur}
         {...props}
       >
         <MenuListContext.Provider value={list}>

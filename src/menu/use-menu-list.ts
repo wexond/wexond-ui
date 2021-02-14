@@ -138,12 +138,24 @@ export const useMenuList = () => {
     [menu, selectedIndex, items, getChildList],
   );
 
+  const onBlur = React.useCallback(
+    (e: React.FocusEvent<HTMLElement>) => {
+      const target = e.relatedTarget as Node;
+
+      if (menu && getParentList() == null && !ref.current?.contains(target)) {
+        menu.clearItemMouseTimer();
+        menu.toggle(false);
+      }
+    },
+    [getParentList, menu],
+  );
+
   return {
     ref,
     selectedIndex,
     setSelectedIndex,
     setActiveItem,
-    props: { onKeyDown },
+    props: { onKeyDown, onBlur },
     items,
     xPosition,
     activeItem,

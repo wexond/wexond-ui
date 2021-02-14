@@ -33,9 +33,4 @@ export const StyledMenuList = styled.ul`
     outline: none;
     outline: 1px solid red;
   }
-
-  ${({ visible }: { visible: boolean }) => css`
-    pointer-events: ${visible ? 'auto' : 'none'};
-    opacity: ${visible ? 1 : 0};
-  `}
 `;
