@@ -44,8 +44,8 @@ export const getPopupPosition = ({
   height = 0,
   marginX = 0,
   marginY = 0,
-  parentX = 0,
-  parentY = 0,
+  parentX: parentLeft = 0,
+  parentY: parentTop = 0,
   parentWidth = 0,
   parentHeight = 0,
   viewportWidth = window.innerWidth,
@@ -58,10 +58,11 @@ export const getPopupPosition = ({
   let _x = 0;
   let _y = 0;
 
-  const parentLeft = parentX;
   const parentRight = parentLeft + parentWidth;
+  const parentBottom = parentTop + parentHeight;
 
   let correctedXPlacement = horizontalPlacement;
+  let correctedYPlacement = verticalPlacement;
 
   // From left to right
   if (horizontalPlacement === 'left') {
@@ -72,7 +73,7 @@ export const getPopupPosition = ({
         _x =
           overflowFallback === 'viewport'
             ? viewportWidth - width
-            : parentX - width - marginX;
+            : parentLeft - width - marginX;
         correctedXPlacement = 'right';
       }
     } else {
@@ -86,7 +87,7 @@ export const getPopupPosition = ({
   } // From Right to left
   else if (horizontalPlacement === 'right') {
     if (!relative) {
-      _x = parentX - width - marginX;
+      _x = parentLeft - width - marginX;
 
       if (_x < 0) {
         _x = overflowFallback === 'viewport' ? 0 : parentRight + marginX;
@@ -102,5 +103,49 @@ export const getPopupPosition = ({
     }
   }
 
-  return { x: _x, y: _y, horizontalPlacement: correctedXPlacement } as any;
+  // From top to bottom
+  if (verticalPlacement === 'top') {
+    if (!relative) {
+      _y = parentBottom + marginY;
+
+      if (_y + height > viewportHeight) {
+        _y =
+          overflowFallback === 'viewport'
+            ? viewportHeight - height
+            : parentTop - height - marginY;
+        correctedYPlacement = 'bottom';
+      }
+    } else {
+      _y = parentHeight + marginY;
+
+      if (parentTop + _y + height > viewportHeight) {
+        _y = -height - marginY;
+        correctedYPlacement = 'bottom';
+      }
+    }
+  } // From Bottom to top
+  else if (verticalPlacement === 'bottom') {
+    if (!relative) {
+      _y = parentTop - height - marginY;
+
+      if (_y < 0) {
+        _y = overflowFallback === 'viewport' ? 0 : parentBottom + marginY;
+        correctedYPlacement = 'top';
+      }
+    } else {
+      _y = -height - marginX;
+
+      if (parentTop + _y < 0) {
+        _y = parentHeight + marginY;
+        correctedYPlacement = 'top';
+      }
+    }
+  }
+
+  return {
+    x: _x,
+    y: _y,
+    horizontalPlacement: correctedXPlacement,
+    verticalPlacement: correctedYPlacement,
+  } as any;
 };
