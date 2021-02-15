@@ -56,7 +56,7 @@ const getOppositeXPlacement = (placement: PopupPlacement): PopupPlacement => {
     case 'left-end':
       return 'right-end';
     case 'right-end':
-      return 'right-end';
+      return 'left-end';
     case 'top-start':
       return 'top-end';
     case 'bottom-start':
