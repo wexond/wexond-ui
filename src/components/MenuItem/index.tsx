@@ -58,10 +58,9 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           onClick={mergeEvents(onClick, item.props.onClick)}
           {...props}
         >
-          xdwrakrkwaokrowakoro
-          {/* {icon && <IconContainer>{icon}</IconContainer>} */}
-          {/* <Label leftSpacing={leftSpacing}>{children}</Label> */}
-          {/* <Accelerator>{accelerator}</Accelerator>
+          {icon && <IconContainer>{icon}</IconContainer>}
+          <Label leftSpacing={leftSpacing}>{children}</Label>
+          <Accelerator>{accelerator}</Accelerator>
           {submenu && (
             <SubmenuIcon
               boxSize="32px"
@@ -71,7 +70,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
               invert
             />
           )}
-          {_submenu} */}
+          {_submenu}
         </StyledMenuItem>
       </>
     );

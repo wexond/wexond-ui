@@ -19,7 +19,7 @@ export interface PopupPosition {
   relative: boolean;
 }
 
-export interface PopupPositionerOptions {
+export interface PopupOptions {
   width: number;
   height: number;
 
@@ -49,6 +49,14 @@ const getOppositeXPlacement = (placement: PopupPlacement): PopupPlacement => {
       return 'left';
     case 'left':
       return 'right';
+    case 'left-start':
+      return 'right-start';
+    case 'right-start':
+      return 'left-start';
+    case 'left-end':
+      return 'left-end';
+    case 'right-end':
+      return 'right-end';
     case 'top-start':
       return 'top-end';
     case 'bottom-start':
@@ -137,24 +145,20 @@ const calculateYPos = (
   }
 };
 
-export const getPopupPosition = (
-  opts: PopupPositionerOptions,
-): PopupPosition => {
-  const {
-    width,
-    height,
-    marginX = 0,
-    marginY = 0,
-    parentLeft,
-    parentTop,
-    parentWidth,
-    parentHeight,
-    viewportWidth = window.innerWidth,
-    viewportHeight = window.innerHeight,
-    placement = 'bottom',
-    relative = false,
-  } = opts;
-
+export const getPopupPosition = ({
+  width,
+  height,
+  marginX = 0,
+  marginY = 0,
+  parentLeft,
+  parentTop,
+  parentWidth,
+  parentHeight,
+  viewportWidth = window.innerWidth,
+  viewportHeight = window.innerHeight,
+  placement = 'bottom',
+  relative = false,
+}: PopupOptions): PopupPosition => {
   let _placement = placement;
 
   let x = calculateXPos(placement, width, marginX, parentWidth, parentLeft);
@@ -172,6 +176,11 @@ export const getPopupPosition = (
     if (_placement === placement)
       throw new Error(`Unsupported case ${placement}`);
     y = calculateYPos(_placement, height, marginY, parentHeight, parentTop);
+  }
+
+  if (relative) {
+    x -= parentLeft;
+    y -= parentTop;
   }
 
   return { x, y, placement: _placement, relative };

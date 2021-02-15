@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MenuContext, MenuListContext } from '~/menu/menu-context';
 import { useMenuList } from '~/menu/use-menu-list';
-import { getPopupPosition, PopupPositionerOptions } from '~/popup/popup';
+import { getPopupPosition, PopupOptions } from '~/popup/popup';
 import { setPosition } from '~/utils/dom';
 import { mergeEvents, mergeRefs } from '~/utils/react';
 import { StyledMenuList } from './style';
@@ -35,82 +35,63 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         const parentRect = list?.ref?.current?.parentElement?.getBoundingClientRect();
         const buttonRect = menu.buttonRef.current?.getBoundingClientRect();
 
-        const preferedXPos = parent?.xPosition?.current || 'left';
-
-        // let options: PopupPositionerOptions;
-
-        // if (parent == null) {
-        //   options = {
-        //     width: el.offsetWidth,
-        //     height: el.offsetHeight,
-
-        //     parentX: buttonRect?.left,
-        //     parentY: buttonRect?.top,
-        //     parentWidth: buttonRect?.width,
-        //     parentHeight: buttonRect?.height,
-
-        //     horizontalPlacement: 'right',
-        //     verticalPlacement: 'top-start',
-
-        //     relative: false,
-
-        //     // marginX: MENU_MARGIN,
-        //     // marginY: MENU_PADDING_Y,
-        //   };
-        // } else {
-        //   options = {
-        //     width: el.offsetWidth,
-        //     height: el.offsetHeight,
-
-        //     parentX: parentRect?.x,
-        //     parentY: parentRect?.y,
-        //     parentWidth: parentRect?.width,
-        //     parentHeight: parentRect?.height,
-
-        //     marginX: MENU_MARGIN,
-        //     marginY: MENU_PADDING_Y,
-
-        //     horizontalPlacement: preferedXPos,
-        //     verticalPlacement: 'top-start',
-
-        //     relative: true,
-        //   };
-        // }
-
-        // const popup = getPopupPosition(options);
-
-        // console.log(el.clientWidth);
-
-        // setTimeout(() => {
-        //   let style = getComputedStyle(el);
-        //   console.log(el.clientWidth);
-        // }, 100);
-
-        const popup = getPopupPosition({
+        let opts: Partial<PopupOptions> = {
           width: el.offsetWidth,
           height: el.offsetHeight,
+        };
 
-          parentLeft: buttonRect?.left,
-          parentTop: buttonRect?.top,
-          parentWidth: buttonRect?.width,
-          parentHeight: buttonRect?.height,
+        if (parent == null && buttonRect) {
+          opts = {
+            ...opts,
 
-          placement: 'right',
+            parentLeft: buttonRect.left,
+            parentTop: buttonRect.top + MENU_PADDING_Y,
+            parentWidth: buttonRect.width,
+            parentHeight: buttonRect.height,
 
-          marginX: 16,
-          marginY: 16,
+            placement: 'bottom',
 
-          relative: false,
-        });
+            marginX: 16,
+            marginY: 16,
 
-        setPosition(list.ref.current, popup.x, popup.y);
+            relative: false,
+          };
+        } else if (parentRect) {
+          opts = {
+            ...opts,
 
-        list.xPosition.current = popup.placement;
+            parentLeft: parentRect.x,
+            parentTop: parentRect.y,
+            parentWidth: parentRect.width,
+            parentHeight: parentRect.height,
+
+            marginX: MENU_MARGIN,
+
+            placement: parent?.placement?.current || 'right-start',
+
+            relative: true,
+          };
+        }
+
+        console.log(
+          list.ref.current,
+          opts.placement,
+          parent?.placement?.current,
+        );
+
+        const popup = getPopupPosition(opts as PopupOptions);
+
+        setPosition(list.ref.current, popup.x, popup.y + MENU_PADDING_Y);
+
+        if (parent) {
+          list.placement.current = popup.placement;
+        }
+
         setUp.current = true;
       }
     }, [menu, list, x, y]);
 
-    // if (!menu?.isOpened) return null;
+    if (!menu?.isOpened) return null;
 
     return (
       <StyledMenuList

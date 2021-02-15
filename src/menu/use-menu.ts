@@ -2,12 +2,12 @@ import React from 'react';
 
 import { MenuProps } from '~/components/Menu';
 import { useItems } from '~/hooks/use-items';
-import { PopupXPosition } from '~/popup/popup-utils';
+import { PopupPlacement } from '~/popup/popup';
 
 export interface MenuListData {
   id: number;
   ref?: React.MutableRefObject<HTMLUListElement | null>;
-  xPosition?: React.MutableRefObject<PopupXPosition | null>;
+  placement?: React.MutableRefObject<PopupPlacement | null>;
   activeItem?: MenuItemData | null; // MenuItemData;
   setActiveItem?: React.Dispatch<React.SetStateAction<MenuItemData | null>>;
   unselect: () => void;
