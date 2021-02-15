@@ -9,7 +9,8 @@ export const StyledMenuList = styled.ul`
   position: absolute;
   margin: 0px;
   padding: 4px 0px;
-  border-spacing: 0;
+  list-style: none;
+  border: none;
   font-size: 13px;
   z-index: 10;
   ${noUserSelect};
@@ -33,9 +34,4 @@ export const StyledMenuList = styled.ul`
     outline: none;
     outline: 1px solid red;
   }
-
-  ${({ visible }: { visible: boolean }) => css`
-    pointer-events: ${visible ? 'auto' : 'none'};
-    opacity: ${visible ? 1 : 0};
-  `}
 `;

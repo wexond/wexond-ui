@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useId } from '~/hooks/use-id';
 import { useItems } from '~/hooks/use-items';
-import { PopupXPosition } from '~/popup/popup-utils';
+import { PopupPlacement } from '~/popup/popup';
 import { MenuContext } from './menu-context';
 import { MenuItemData, MenuListData } from './use-menu';
 
@@ -11,7 +11,7 @@ export const useMenuList = () => {
 
   const id = useId();
   const ref = React.useRef<HTMLUListElement | null>(null);
-  const xPosition = React.useRef<PopupXPosition | null>(null);
+  const placement = React.useRef<PopupPlacement | null>(null);
 
   const { items, addItem, removeItem } = useItems<MenuItemData>();
 
@@ -56,7 +56,7 @@ export const useMenuList = () => {
     () => ({
       id,
       ref,
-      xPosition,
+      placement,
       activeItem,
       unselect,
       reselect,
@@ -138,14 +138,27 @@ export const useMenuList = () => {
     [menu, selectedIndex, items, getChildList],
   );
 
+  const onBlur = React.useCallback(
+    (e: React.FocusEvent<HTMLElement>) => {
+      const target = e.relatedTarget as Node;
+
+      if (menu && getParentList() == null && !ref.current?.contains(target)) {
+        menu.clearItemMouseTimer();
+        menu.toggle(false);
+      }
+    },
+    [getParentList, menu],
+  );
+
   return {
+    id,
     ref,
     selectedIndex,
     setSelectedIndex,
     setActiveItem,
-    props: { onKeyDown },
+    props: { onKeyDown, onBlur },
     items,
-    xPosition,
+    placement,
     activeItem,
     addItem,
     removeItem,
