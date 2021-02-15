@@ -3,7 +3,7 @@ import { MenuContext } from '~/menu/menu-context';
 
 import { useMenuButton } from '~/menu/use-menu-button';
 import { mergeEvents, mergeRefs } from '~/utils/react';
-import { StyledMenuButton } from './style';
+import { Button } from '../Button';
 
 export interface MenuButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {
@@ -15,7 +15,7 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
     const menu = React.useContext(MenuContext);
     const btn = useMenuButton();
 
-    const ButtonComponent = as || StyledMenuButton;
+    const ButtonComponent = as || Button;
 
     return (
       <ButtonComponent
