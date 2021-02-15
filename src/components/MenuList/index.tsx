@@ -37,61 +37,85 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
         const preferedXPos = parent?.xPosition?.current || 'left';
 
-        let options: PopupPositionerOptions;
+        // let options: PopupPositionerOptions;
 
-        if (parent == null) {
-          options = {
-            width: el.offsetWidth,
-            height: el.offsetHeight,
+        // if (parent == null) {
+        //   options = {
+        //     width: el.offsetWidth,
+        //     height: el.offsetHeight,
 
-            parentX: buttonRect?.left,
-            parentY: buttonRect?.top,
-            parentWidth: buttonRect?.width,
-            parentHeight: buttonRect?.height,
+        //     parentX: buttonRect?.left,
+        //     parentY: buttonRect?.top,
+        //     parentWidth: buttonRect?.width,
+        //     parentHeight: buttonRect?.height,
 
-            horizontalPlacement: 'right',
-            verticalPlacement: 'top-start',
+        //     horizontalPlacement: 'right',
+        //     verticalPlacement: 'top-start',
 
-            relative: false,
+        //     relative: false,
 
-            // marginX: MENU_MARGIN,
-            // marginY: MENU_PADDING_Y,
-          };
-        } else {
-          options = {
-            width: el.offsetWidth,
-            height: el.offsetHeight,
+        //     // marginX: MENU_MARGIN,
+        //     // marginY: MENU_PADDING_Y,
+        //   };
+        // } else {
+        //   options = {
+        //     width: el.offsetWidth,
+        //     height: el.offsetHeight,
 
-            parentX: parentRect?.x,
-            parentY: parentRect?.y,
-            parentWidth: parentRect?.width,
-            parentHeight: parentRect?.height,
+        //     parentX: parentRect?.x,
+        //     parentY: parentRect?.y,
+        //     parentWidth: parentRect?.width,
+        //     parentHeight: parentRect?.height,
 
-            marginX: MENU_MARGIN,
-            marginY: MENU_PADDING_Y,
+        //     marginX: MENU_MARGIN,
+        //     marginY: MENU_PADDING_Y,
 
-            horizontalPlacement: preferedXPos,
-            verticalPlacement: 'top-start',
+        //     horizontalPlacement: preferedXPos,
+        //     verticalPlacement: 'top-start',
 
-            relative: true,
-          };
-        }
+        //     relative: true,
+        //   };
+        // }
 
-        const popup = getPopupPosition(options);
+        // const popup = getPopupPosition(options);
+
+        // console.log(el.clientWidth);
+
+        // setTimeout(() => {
+        //   let style = getComputedStyle(el);
+        //   console.log(el.clientWidth);
+        // }, 100);
+
+        const popup = getPopupPosition({
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+
+          parentX: buttonRect?.left,
+          parentY: buttonRect?.top,
+          parentWidth: buttonRect?.width,
+          parentHeight: buttonRect?.height,
+
+          placement: 'left-start',
+
+          marginX: 16,
+
+          relative: false,
+        });
 
         setPosition(list.ref.current, popup.x, popup.y);
 
-        list.xPosition.current = popup.horizontalPlacement;
+        list.xPosition.current = popup.placement;
         setUp.current = true;
       }
     }, [menu, list, x, y]);
 
-    if (!menu?.isOpened) return null;
+    // if (!menu?.isOpened) return null;
 
     return (
       <StyledMenuList
         ref={mergeRefs(list.ref, ref, list.ref)}
         tabIndex={-1}
+        id={`xd-${list.id}`}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         // onBlur={list.props.onBlur}
         {...props}
