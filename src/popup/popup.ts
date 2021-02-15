@@ -12,7 +12,7 @@ export type PopupPlacement =
   | 'bottom-start'
   | 'bottom-end';
 
-export interface PopupPosition {
+export interface PopupInfo {
   x: number;
   y: number;
   placement: PopupPlacement;
@@ -158,7 +158,7 @@ export const getPopupPosition = ({
   viewportHeight = window.innerHeight,
   placement = 'bottom',
   relative = false,
-}: PopupOptions): PopupPosition => {
+}: PopupOptions): PopupInfo => {
   let _placement = placement;
 
   let x = calculateXPos(placement, width, marginX, parentWidth, parentLeft);

@@ -2,13 +2,13 @@ import React from 'react';
 
 import { MenuProps } from '~/components/Menu';
 import { useItems } from '~/hooks/use-items';
-import { PopupPlacement } from '~/popup/popup';
+import { PopupInfo } from '~/popup/popup';
 
 export interface MenuListData {
   id: number;
   ref?: React.MutableRefObject<HTMLUListElement | null>;
-  placement?: React.MutableRefObject<PopupPlacement | null>;
-  activeItem?: MenuItemData | null; // MenuItemData;
+  popup?: React.MutableRefObject<PopupInfo | null>;
+  activeItem?: MenuItemData | null;
   setActiveItem?: React.Dispatch<React.SetStateAction<MenuItemData | null>>;
   unselect: () => void;
   reselect: () => void;
@@ -21,8 +21,8 @@ export interface MenuItemData {
   hasSubmenu?: boolean;
 }
 
-export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
-  const [isOpened, toggle] = React.useState(true);
+export const useMenu = ({ onOpen, beforeClose, placement }: MenuProps) => {
+  const [isOpened, toggle] = React.useState(false);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -64,5 +64,6 @@ export const useMenu = ({ onOpen, beforeClose }: MenuProps) => {
     isOpened,
     toggle,
     buttonRef,
+    placement,
   };
 };
