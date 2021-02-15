@@ -9,7 +9,8 @@ export const StyledMenuList = styled.ul`
   position: absolute;
   margin: 0px;
   padding: 4px 0px;
-  border-spacing: 0;
+  list-style: none;
+  border: none;
   font-size: 13px;
   z-index: 10;
   ${noUserSelect};

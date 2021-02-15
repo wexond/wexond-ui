@@ -70,8 +70,8 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
               invert
             />
           )}
+          {_submenu}
         </StyledMenuItem>
-        {_submenu}
       </>
     );
   },

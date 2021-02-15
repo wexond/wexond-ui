@@ -9,7 +9,7 @@ export * from './components/Group';
 
 export * from './constants/dialog';
 
-export * from './popup/popup-utils';
+export * from './popup/popup';
 
 export * from './utils/dom';
 export * from './utils/colors';
