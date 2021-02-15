@@ -95,7 +95,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
           parentWidth: buttonRect?.width,
           parentHeight: buttonRect?.height,
 
-          placement: 'left-start',
+          placement: 'bottom-start',
 
           marginX: 16,
 

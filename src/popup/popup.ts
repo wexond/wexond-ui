@@ -1,8 +1,16 @@
 export type PopupPlacement =
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
   | 'left-start'
   | 'left-end'
   | 'right-start'
-  | 'right-end';
+  | 'right-end'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom-start'
+  | 'bottom-end';
 
 export interface PopupPosition {
   x: number;
@@ -51,7 +59,7 @@ const calculateXPos = (
   placement: PopupPlacement,
   {
     width,
-    marginX,
+    marginX = 0,
     parentX: parentLeft,
     parentWidth,
     relative,
@@ -59,17 +67,25 @@ const calculateXPos = (
 ) => {
   const parentRight = parentLeft + parentWidth;
 
-  if (placement.startsWith('right')) {
-    return parentRight + marginX;
-  } else if (placement.startsWith('left')) {
-    return parentLeft - width - marginX;
+  switch (placement) {
+    case 'top':
+    case 'bottom':
+      return parentLeft + (parentWidth + width) / 2 - width;
+    case 'left':
+    case 'left-start':
+    case 'left-end':
+      return parentLeft - width - marginX;
+    case 'right':
+    case 'right-start':
+    case 'right-end':
+      return parentRight + marginX;
+    case 'top-start':
+    case 'bottom-start':
+      return parentLeft;
+    case 'top-end':
+    case 'bottom-end':
+      return parentRight - width;
   }
-
-  // if (placement.startsWith('right')) {
-  //   return !relative ? parentRight + marginX : parentWidth + marginX;
-  // } else if (placement.startsWith('left')) {
-  //   return !relative ? parentLeft - width - marginX : 0;
-  // }
 
   return null;
 };
@@ -80,15 +96,29 @@ const calculateYPos = (
     height,
     parentY: parentTop,
     parentHeight,
-    relative,
+    marginY = 0,
   }: PopupPositionerOptions,
 ) => {
   const parentBottom = parentTop + parentHeight;
 
-  if (placement.endsWith('start')) {
-    return parentTop;
-  } else if (placement.endsWith('end')) {
-    return parentBottom - height;
+  switch (placement) {
+    case 'left':
+    case 'right':
+      return parentTop + (parentHeight + height) / 2 - height;
+    case 'top':
+    case 'top-start':
+    case 'top-end':
+      return parentTop - height - marginY;
+    case 'bottom':
+    case 'bottom-start':
+    case 'bottom-end':
+      return parentBottom + marginY;
+    case 'left-start':
+    case 'right-start':
+      return parentTop;
+    case 'left-end':
+    case 'right-end':
+      return parentBottom - height;
   }
 
   return null;
