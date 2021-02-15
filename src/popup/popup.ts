@@ -60,10 +60,16 @@ const calculateXPos = (
   const parentRight = parentLeft + parentWidth;
 
   if (placement.startsWith('right')) {
-    return !relative ? parentRight + marginX : parentWidth + marginX;
+    return parentRight + marginX;
   } else if (placement.startsWith('left')) {
-    return !relative ? parentLeft - width - marginX : 0;
+    return parentLeft - width - marginX;
   }
+
+  // if (placement.startsWith('right')) {
+  //   return !relative ? parentRight + marginX : parentWidth + marginX;
+  // } else if (placement.startsWith('left')) {
+  //   return !relative ? parentLeft - width - marginX : 0;
+  // }
 
   return null;
 };
@@ -80,9 +86,9 @@ const calculateYPos = (
   const parentBottom = parentTop + parentHeight;
 
   if (placement.endsWith('start')) {
-    return !relative ? parentTop : 0;
+    return parentTop;
   } else if (placement.endsWith('end')) {
-    return !relative ? parentBottom - height : height;
+    return parentBottom - height;
   }
 
   return null;
@@ -115,22 +121,16 @@ export const getPopupPosition = (
   let _y = calculateYPos(placement, opts);
 
   if (
-    (placement?.startsWith('right') &&
-      ((!relative && _x + width > viewportWidth) ||
-        (relative && _x + parentLeft + width > viewportWidth))) ||
-    (placement?.startsWith('left') && !relative && _x < 0) ||
-    (relative && parentLeft + _x < 0)
+    (placement?.startsWith('right') && _x + width > viewportWidth) ||
+    (placement?.startsWith('left') && _x < 0)
   ) {
     correctedPlacement = getOppositeXPlacement(placement);
     _x = calculateXPos(correctedPlacement, opts);
   }
 
   if (
-    (placement?.endsWith('start') &&
-      ((!relative && _y + height > viewportHeight) ||
-        (relative && _y + parentTop + height > viewportHeight))) ||
-    (placement?.endsWith('end') &&
-      ((!relative && _y < 0) || (relative && _y - parentTop < 0)))
+    (placement?.endsWith('start') && _y + height > viewportHeight) ||
+    (placement?.endsWith('end') && _y < 0)
   ) {
     correctedPlacement = getOppositeYPlacement(placement);
     _y = calculateYPos(correctedPlacement, opts);
