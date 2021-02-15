@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MenuContext, MenuListContext } from '~/menu/menu-context';
 import { useMenuList } from '~/menu/use-menu-list';
-import { getPopupPosition, PopupOptions } from '~/popup/popup';
+import { getPopupPosition, PopupOptions, PopupPlacement } from '~/popup/popup';
 import { setPosition } from '~/utils/dom';
 import { mergeEvents, mergeRefs } from '~/utils/react';
 import { StyledMenuList } from './style';
@@ -23,36 +23,32 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
     const setUp = React.useRef(false);
 
     React.useLayoutEffect(() => {
-      if (setUp.current) return;
-
       const lists = menu?.visibleLists.current;
       const el = list.ref.current;
 
-      if (menu && lists != null && el != null) {
+      if (!setUp.current && menu && lists != null && el != null) {
+        const root = lists[0];
         const parent =
           list?.globalIndex?.current == null ? lists[lists.length - 1] : null;
 
         const parentRect = list?.ref?.current?.parentElement?.getBoundingClientRect();
         const buttonRect = menu.buttonRef.current?.getBoundingClientRect();
 
-        let opts: Partial<PopupOptions> = {
+        let opts = {
           width: el.offsetWidth,
           height: el.offsetHeight,
-        };
+        } as PopupOptions;
 
         if (parent == null && buttonRect) {
           opts = {
             ...opts,
 
             parentLeft: buttonRect.left,
-            parentTop: buttonRect.top + MENU_PADDING_Y,
+            parentTop: buttonRect.top,
             parentWidth: buttonRect.width,
             parentHeight: buttonRect.height,
 
-            placement: 'bottom',
-
-            marginX: 16,
-            marginY: 16,
+            placement: menu.placement,
 
             relative: false,
           };
@@ -67,21 +63,28 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
             marginX: MENU_MARGIN,
 
-            placement: parent?.placement?.current || 'right-start',
+            placement:
+              parent !== root && parent?.popup?.current
+                ? parent.popup.current.placement
+                : 'right-start',
 
             relative: true,
           };
         }
 
-        const popup = getPopupPosition(opts as PopupOptions);
-
-        setPosition(list.ref.current, popup.x, popup.y + MENU_PADDING_Y);
+        list.popup.current = getPopupPosition(opts);
 
         if (parent) {
-          list.placement.current = popup.placement;
+          list.popup.current.y += MENU_PADDING_Y;
         }
 
         setUp.current = true;
+      }
+
+      const popup = list.popup.current;
+
+      if (popup) {
+        setPosition(list.ref.current, popup.x, popup.y);
       }
     }, [menu, list, x, y]);
 
@@ -92,7 +95,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         ref={mergeRefs(list.ref, ref, list.ref)}
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        // onBlur={list.props.onBlur}
+        onBlur={list.props.onBlur}
         {...props}
       >
         <MenuListContext.Provider value={list}>
