@@ -90,14 +90,15 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
           width: el.offsetWidth,
           height: el.offsetHeight,
 
-          parentX: buttonRect?.left,
-          parentY: buttonRect?.top,
+          parentLeft: buttonRect?.left,
+          parentTop: buttonRect?.top,
           parentWidth: buttonRect?.width,
           parentHeight: buttonRect?.height,
 
-          placement: 'bottom-start',
+          placement: 'right',
 
           marginX: 16,
+          marginY: 16,
 
           relative: false,
         });

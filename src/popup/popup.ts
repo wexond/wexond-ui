@@ -23,50 +23,71 @@ export interface PopupPositionerOptions {
   width: number;
   height: number;
 
-  marginX: number;
-  marginY: number;
+  marginX?: number;
+  marginY?: number;
 
   /** Horizontal position in viewport */
-  parentX: number;
+  parentTop: number;
   /** Vertical position in viewport */
-  parentY: number;
+  parentLeft: number;
 
   parentWidth: number;
   parentHeight: number;
 
-  viewportWidth: number;
-  viewportHeight: number;
+  viewportWidth?: number;
+  viewportHeight?: number;
 
-  placement: PopupPlacement;
+  placement?: PopupPlacement;
 
   /** Popup is relative to it's parent */
-  relative: boolean;
+  relative?: boolean;
 }
 
 const getOppositeXPlacement = (placement: PopupPlacement): PopupPlacement => {
-  const [x, y] = placement.split('-');
-
-  return `${x === 'right' ? 'left' : 'right'}-${y}` as PopupPlacement;
+  switch (placement) {
+    case 'right':
+      return 'left';
+    case 'left':
+      return 'right';
+    case 'top-start':
+      return 'top-end';
+    case 'bottom-start':
+      return 'bottom-end';
+    case 'top-end':
+      return 'top-start';
+    case 'bottom-end':
+      return 'bottom-start';
+    default:
+      return placement;
+  }
 };
 
 const getOppositeYPlacement = (placement: PopupPlacement): PopupPlacement => {
-  const [x, y] = placement.split('-');
-
-  return `${x}-${y === 'start' ? 'end' : 'start'}` as PopupPlacement;
+  switch (placement) {
+    case 'top':
+      return 'bottom';
+    case 'bottom':
+      return 'top';
+    case 'top-start':
+      return 'bottom-start';
+    case 'bottom-start':
+      return 'top-start';
+    case 'top-end':
+      return 'bottom-end';
+    case 'bottom-end':
+      return 'top-end';
+    default:
+      return placement;
+  }
 };
 
 const calculateXPos = (
   placement: PopupPlacement,
-  {
-    width,
-    marginX = 0,
-    parentX: parentLeft,
-    parentWidth,
-    relative,
-  }: PopupPositionerOptions,
+  width: number,
+  marginX: number,
+  parentWidth: number,
+  parentLeft: number,
 ) => {
-  const parentRight = parentLeft + parentWidth;
-
   switch (placement) {
     case 'top':
     case 'bottom':
@@ -78,29 +99,23 @@ const calculateXPos = (
     case 'right':
     case 'right-start':
     case 'right-end':
-      return parentRight + marginX;
+      return parentLeft + parentWidth + marginX;
     case 'top-start':
     case 'bottom-start':
       return parentLeft;
     case 'top-end':
     case 'bottom-end':
-      return parentRight - width;
+      return parentLeft + parentWidth - width;
   }
-
-  return null;
 };
 
 const calculateYPos = (
   placement: PopupPlacement,
-  {
-    height,
-    parentY: parentTop,
-    parentHeight,
-    marginY = 0,
-  }: PopupPositionerOptions,
+  height: number,
+  marginY: number,
+  parentHeight: number,
+  parentTop: number,
 ) => {
-  const parentBottom = parentTop + parentHeight;
-
   switch (placement) {
     case 'left':
     case 'right':
@@ -112,59 +127,52 @@ const calculateYPos = (
     case 'bottom':
     case 'bottom-start':
     case 'bottom-end':
-      return parentBottom + marginY;
+      return parentTop + parentHeight + marginY;
     case 'left-start':
     case 'right-start':
       return parentTop;
     case 'left-end':
     case 'right-end':
-      return parentBottom - height;
+      return parentTop + parentHeight - height;
   }
-
-  return null;
 };
 
 export const getPopupPosition = (
-  opts: Partial<PopupPositionerOptions>,
+  opts: PopupPositionerOptions,
 ): PopupPosition => {
   const {
-    width = 0,
-    height = 0,
+    width,
+    height,
     marginX = 0,
     marginY = 0,
-    parentX: parentLeft = 0,
-    parentY: parentTop = 0,
-    parentWidth = 0,
-    parentHeight = 0,
+    parentLeft,
+    parentTop,
+    parentWidth,
+    parentHeight,
     viewportWidth = window.innerWidth,
     viewportHeight = window.innerHeight,
-    placement,
+    placement = 'bottom',
     relative = false,
   } = opts;
 
-  let correctedPlacement = placement;
+  let _placement = placement;
 
-  const parentRight = parentLeft + parentWidth;
-  const parentBottom = parentTop + parentHeight;
+  let x = calculateXPos(placement, width, marginX, parentWidth, parentLeft);
+  let y = calculateYPos(placement, height, marginY, parentHeight, parentTop);
 
-  let _x = calculateXPos(placement, opts);
-  let _y = calculateYPos(placement, opts);
-
-  if (
-    (placement?.startsWith('right') && _x + width > viewportWidth) ||
-    (placement?.startsWith('left') && _x < 0)
-  ) {
-    correctedPlacement = getOppositeXPlacement(placement);
-    _x = calculateXPos(correctedPlacement, opts);
+  if (x + width > viewportWidth || x < 0) {
+    _placement = getOppositeXPlacement(placement);
+    if (_placement === placement)
+      throw new Error(`Unsupported case ${placement}`);
+    x = calculateXPos(_placement, width, marginX, parentWidth, parentLeft);
   }
 
-  if (
-    (placement?.endsWith('start') && _y + height > viewportHeight) ||
-    (placement?.endsWith('end') && _y < 0)
-  ) {
-    correctedPlacement = getOppositeYPlacement(placement);
-    _y = calculateYPos(correctedPlacement, opts);
+  if (y < 0 || y + height > viewportHeight) {
+    _placement = getOppositeYPlacement(placement);
+    if (_placement === placement)
+      throw new Error(`Unsupported case ${placement}`);
+    y = calculateYPos(_placement, height, marginY, parentHeight, parentTop);
   }
 
-  return { x: _x, y: _y, placement: correctedPlacement } as any;
+  return { x, y, placement: _placement, relative };
 };
