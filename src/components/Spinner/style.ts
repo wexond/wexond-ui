@@ -1,5 +1,23 @@
 import styled, { css, keyframes } from 'styled-components';
 
+import { createComponent } from '~/theme/create-component';
+
+export default {
+  sizes: {
+    small: css`
+      width: 16px;
+      height: 16px;
+    `,
+    md: css`
+      width: 48px;
+      height: 48px;
+    `,
+  },
+  variants: {},
+};
+
+export const SpinnerContainer = createComponent('div', 'Spinner');
+
 const turnAnimation = keyframes`
   0% {
     stroke-dashoffset: 180;
@@ -28,41 +46,12 @@ const rotationAnimation = keyframes`
 
 export const StyledSpinner = styled.svg`
   transform-origin: center;
-
-  ${({ indeterminate }: { indeterminate?: boolean }) =>
-    indeterminate &&
-    css`
-      animation: ${rotationAnimation} 1.35s linear infinite;
-    `};
-`;
-
-export const SpinnerContainer = styled.div`
-  z-index: 5;
-
-  ${({
-    size,
-    indeterminate,
-  }: {
-    size?: number;
-    indeterminate?: boolean;
-  }) => css`
-    width: ${size}px;
-    height: ${size}px;
-  `};
+  animation: ${rotationAnimation} 1.35s linear infinite;
 `;
 
 export const Path = styled.circle`
   stroke-linecap: square;
   transform-origin: center;
-
-  ${({ value, indeterminate }: { value?: number; indeterminate?: boolean }) =>
-    indeterminate
-      ? css`
-          stroke-dasharray: 180;
-          animation: ${turnAnimation} 1.35s ease-in-out infinite;
-        `
-      : css`
-          stroke-dasharray: 360;
-          stroke-dashoffset: ${value ? `${180 - value * 180}px` : ''};
-        `};
+  stroke-dasharray: 180;
+  animation: ${turnAnimation} 1.35s ease-in-out infinite;
 `;

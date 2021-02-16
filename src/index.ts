@@ -8,8 +8,6 @@ export * from './components/Input';
 export * from './components/Group';
 export * from './components/Spinner';
 
-export * from './constants/dialog';
-
 export * from './popup/popup';
 
 export * from './utils/dom';

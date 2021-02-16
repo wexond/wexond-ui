@@ -1,31 +1,53 @@
 import React from 'react';
 
 import { ComponentProps } from '../../theme/create-component';
-import ButtonTheme, { StyledButton, ButtonIcon } from './style';
+import ButtonTheme, { StyledButton, ButtonIcon, ButtonSpinner } from './style';
 
 export interface ButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
     ComponentProps<typeof ButtonTheme> {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
+  spinner?: React.ReactElement;
+  loadingText?: React.ReactElement;
+  isLoading?: boolean;
   iconSpacing?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { variant, size, leftIcon, rightIcon, iconSpacing, children, ...props },
+    {
+      variant,
+      size,
+      leftIcon,
+      rightIcon,
+      isLoading,
+      spinner,
+      loadingText,
+      iconSpacing,
+      children,
+      ...props
+    },
     ref,
   ) => {
     return (
       <StyledButton ref={ref} variant={variant} size={size} {...props}>
-        {leftIcon && (
-          <ButtonIcon spacing={iconSpacing} left>
+        {leftIcon && !isLoading && (
+          <ButtonIcon iconSpacing={iconSpacing} left>
             {leftIcon}
           </ButtonIcon>
         )}
-        {children}
-        {rightIcon && (
-          <ButtonIcon spacing={iconSpacing}>{rightIcon}</ButtonIcon>
+        {isLoading && (
+          <>
+            <ButtonSpinner iconSpacing={loadingText && iconSpacing}>
+              {spinner}
+            </ButtonSpinner>
+            {loadingText}
+          </>
+        )}
+        {!isLoading && children}
+        {rightIcon && !isLoading && (
+          <ButtonIcon iconSpacing={iconSpacing}>{rightIcon}</ButtonIcon>
         )}
       </StyledButton>
     );

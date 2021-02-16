@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { robotoMedium } from '~/mixins/typography';
+import { noUserSelect } from '~/mixins/user-selection';
 import {
   ComponentVariantProps,
   createComponent,
@@ -22,7 +23,8 @@ export default {
     border-radius: 4px;
     transition: 0.1s background-color, 0.1s box-shadow;
     position: relative;
-    ${robotoMedium};
+    ${robotoMedium}
+    ${noUserSelect}
 
     &:focus {
       box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
@@ -67,12 +69,18 @@ export default {
 export const StyledButton = createComponent('button', 'Button');
 
 export const ButtonIcon = styled.span`
-  ${({ spacing, left }: { spacing?: string; left?: boolean }) =>
+  ${({ iconSpacing, left }: { iconSpacing?: string; left?: boolean }) =>
     left
       ? css`
-          margin-right: ${spacing};
+          margin-right: ${iconSpacing};
         `
       : css`
-          margin-left: ${spacing};
+          margin-left: ${iconSpacing};
         `}
+`;
+
+export const ButtonSpinner = styled.div`
+  ${({ iconSpacing }: { iconSpacing?: string }) => css`
+    margin-right: ${iconSpacing};
+  `};
 `;
