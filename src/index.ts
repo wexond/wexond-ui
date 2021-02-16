@@ -27,3 +27,6 @@ export * from './mixins/shadows';
 export * from './mixins/typography';
 export * from './mixins/user-selection';
 export * from './mixins/default-styles';
+
+export * from './theme/theme';
+export * from './theme/theme-provider';
