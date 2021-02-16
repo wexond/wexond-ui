@@ -67,7 +67,12 @@ export default {
 export const StyledButton = createComponent('button', 'Button');
 
 export const ButtonIcon = styled.span`
-  ${({ spacing }: { spacing?: string }) => css`
-    margin-left: ${spacing};
-  `}
+  ${({ spacing, left }: { spacing?: string; left?: boolean }) =>
+    left
+      ? css`
+          margin-right: ${spacing};
+        `
+      : css`
+          margin-left: ${spacing};
+        `}
 `;
