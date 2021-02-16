@@ -1,19 +1,28 @@
 import React from 'react';
 
-import { ComponentProps } from '../..//system/create-component';
-import { StyledButton, ButtonIcon } from './style';
+import { ComponentProps } from '../../theme/create-component';
+import ButtonTheme, { StyledButton, ButtonIcon } from './style';
 
 export interface ButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
-    ComponentProps<'Button'> {
-  rightIcon?: React.ReactNode;
+    ComponentProps<typeof ButtonTheme> {
+  leftIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement;
   iconSpacing?: string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant, rightIcon, iconSpacing, children, ...props }, ref) => {
+  (
+    { variant, size, leftIcon, rightIcon, iconSpacing, children, ...props },
+    ref,
+  ) => {
     return (
-      <StyledButton ref={ref} variant={variant} {...props}>
+      <StyledButton ref={ref} variant={variant} size={size} {...props}>
+        {leftIcon && (
+          <ButtonIcon spacing={iconSpacing} left>
+            {leftIcon}
+          </ButtonIcon>
+        )}
         {children}
         {rightIcon && (
           <ButtonIcon spacing={iconSpacing}>{rightIcon}</ButtonIcon>
@@ -22,3 +31,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
+
+Button.defaultProps = {
+  variant: 'contained',
+  size: 'md',
+  iconSpacing: '8px',
+};
