@@ -50,6 +50,9 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
             placement: menu.placement,
 
+            marginX: menu.marginX,
+            marginY: menu.marginY,
+
             relative: false,
           };
         } else if (parentRect) {
@@ -88,7 +91,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       }
     }, [menu, list, x, y]);
 
-    if (!menu?.isOpened) return null;
+    if (!menu?.isOpen) return null;
 
     return (
       <StyledMenuList

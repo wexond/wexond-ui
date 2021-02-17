@@ -21,8 +21,14 @@ export interface MenuItemData {
   hasSubmenu?: boolean;
 }
 
-export const useMenu = ({ onOpen, beforeClose, placement }: MenuProps) => {
-  const [isOpened, toggle] = React.useState(false);
+export const useMenu = ({
+  onOpen,
+  beforeClose,
+  placement,
+  marginX,
+  marginY,
+}: MenuProps) => {
+  const [isOpen, toggle] = React.useState(false);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -61,9 +67,11 @@ export const useMenu = ({ onOpen, beforeClose, placement }: MenuProps) => {
     clearItemMouseTimer,
     onOpen,
     emitBeforeClose,
-    isOpened,
+    isOpen,
     toggle,
     buttonRef,
     placement,
+    marginX,
+    marginY,
   };
 };

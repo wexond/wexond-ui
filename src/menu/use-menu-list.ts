@@ -106,13 +106,21 @@ export const useMenuList = () => {
 
         return;
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
+        if (!menu) return;
+
         const lists = menu?.visibleLists.current;
         const list = lists[lists.length - 2];
 
-        menu?.emitBeforeClose(lists?.indexOf(list));
+        if (list) {
+          menu.emitBeforeClose(lists.indexOf(list));
 
-        list?.activeItem?.toggleSubmenu?.(false);
-        list?.ref?.current?.focus();
+          list.activeItem?.toggleSubmenu?.(false);
+          list.ref?.current?.focus();
+        } else {
+          menu.toggle(false);
+          menu.buttonRef?.current?.focus();
+        }
+
         setActiveItem(null);
 
         return;
@@ -143,8 +151,12 @@ export const useMenuList = () => {
       const target = e.relatedTarget as Node;
 
       if (menu && getParentList() == null && !ref.current?.contains(target)) {
+        setSelectedIndex(-1);
+        setActiveItem(null);
+
         menu.clearItemMouseTimer();
         menu.toggle(false);
+        menu.buttonRef?.current?.focus();
       }
     },
     [getParentList, menu],

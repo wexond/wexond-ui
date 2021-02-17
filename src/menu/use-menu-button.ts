@@ -9,7 +9,16 @@ export const useMenuButton = () => {
     menu?.toggle(true);
   }, [menu]);
 
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key === 'Enter' && !menu?.isOpen) {
+        menu?.toggle(true);
+      }
+    },
+    [menu],
+  );
+
   return {
-    props: { onMouseDown },
+    props: { onMouseDown, onKeyDown },
   };
 };
