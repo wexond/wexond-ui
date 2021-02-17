@@ -40,6 +40,6 @@ export const Accelerator = styled.span`
   white-space: nowrap;
 `;
 
-export const SubmenuIcon = styled(Icon)`
+export const SubmenuIconContainer = styled.div`
   margin-left: auto;
 `;
