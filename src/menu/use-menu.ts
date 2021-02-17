@@ -11,11 +11,11 @@ export interface MenuListData {
   activeItem?: MenuItemData | null;
   setActiveItem?: React.Dispatch<React.SetStateAction<MenuItemData | null>>;
   unselect: () => void;
-  reselect: () => void;
 }
 
 export interface MenuItemData {
   id: number;
+  listId?: number;
   ref?: React.MutableRefObject<HTMLLIElement | null>;
   toggleSubmenu?: React.Dispatch<React.SetStateAction<boolean>>;
   hasSubmenu?: boolean;
@@ -28,7 +28,7 @@ export const useMenu = ({
   marginX,
   marginY,
 }: MenuProps) => {
-  const [isOpen, toggle] = React.useState(false);
+  const [isOpen, toggle] = React.useState(true);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 

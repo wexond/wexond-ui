@@ -38,17 +38,6 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
   ) => {
     const item = useMenuItem(!!submenu);
 
-    const _submenu = React.useMemo(() => {
-      if (!item.isSubmenuOpened || !submenu) return null;
-      return React.cloneElement(
-        submenu as any,
-        {
-          x: item.itemRef.current!.clientWidth,
-          y: item.itemRef.current!.offsetTop - MENU_PADDING_Y,
-        } as MenuListProps,
-      );
-    }, [item.isSubmenuOpened, item.itemRef, submenu]);
-
     return (
       <>
         <StyledMenuItem
@@ -70,7 +59,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
               invert
             />
           )}
-          {_submenu}
+          {item.isSubmenuOpened && submenu}
         </StyledMenuItem>
       </>
     );

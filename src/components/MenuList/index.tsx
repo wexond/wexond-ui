@@ -99,6 +99,8 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         onBlur={list.props.onBlur}
+        onMouseLeave={list.props.onMouseLeave}
+        onMouseEnter={list.props.onMouseEnter}
         {...props}
       >
         <MenuListContext.Provider value={list}>

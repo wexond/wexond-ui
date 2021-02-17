@@ -14,8 +14,8 @@ export const useMenuItem = (hasSubmenu: boolean) => {
   const [isSubmenuOpened, toggleSubmenu] = React.useState(false);
 
   const itemData: MenuItemData = React.useMemo(
-    () => ({ id, ref: itemRef, toggleSubmenu, hasSubmenu }),
-    [id, hasSubmenu],
+    () => ({ id, listId: list?.id, ref: itemRef, toggleSubmenu, hasSubmenu }),
+    [id, list?.id, hasSubmenu],
   );
 
   React.useEffect(() => {
@@ -64,20 +64,10 @@ export const useMenuItem = (hasSubmenu: boolean) => {
 
       list.setSelectedIndex(itemIndex);
 
-      if (list.activeItem !== itemData) {
-        const childList = list.getChildList();
-
-        childList?.unselect();
-      }
-
-      list.getParentList()?.reselect();
-
       menu.clearItemMouseTimer();
       menu.itemMouseTimer.current = setTimeout(onHover, 300);
     }
-
-    return menu?.clearItemMouseTimer;
-  }, [list, itemData, onHover, menu]);
+  }, [itemData, list, menu, onHover]);
 
   const isSelected = React.useMemo(() => {
     const index = list?.items.current.indexOf(itemData);
