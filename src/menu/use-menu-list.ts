@@ -16,7 +16,6 @@ export const useMenuList = () => {
   const { items, addItem, removeItem } = useItems<MenuItemData>();
 
   const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
-  const selectedItem = items.current[selectedIndex];
 
   const [activeItem, setActiveItem] = React.useState<MenuItemData | null>(null);
 
@@ -45,13 +44,6 @@ export const useMenuList = () => {
     }
   }, [selectedIndex, getChildList]);
 
-  const reselect = React.useCallback(() => {
-    if (activeItem !== selectedItem) {
-      setSelectedIndex(items.current.indexOf(activeItem));
-      getParentList()?.reselect();
-    }
-  }, [activeItem, selectedItem, getParentList, items]);
-
   const listData = React.useMemo<MenuListData>(
     () => ({
       id,
@@ -59,10 +51,9 @@ export const useMenuList = () => {
       popup,
       activeItem,
       unselect,
-      reselect,
       setActiveItem,
     }),
-    [id, activeItem, unselect, reselect],
+    [id, activeItem, unselect],
   );
 
   React.useEffect(() => {
@@ -78,7 +69,6 @@ export const useMenuList = () => {
   React.useEffect(() => {
     if (ref.current) {
       ref.current.focus();
-
       menu?.onOpen?.(ref.current);
     }
   }, [menu]);
@@ -98,13 +88,11 @@ export const useMenuList = () => {
       } else if (e.key === 'ArrowUp' && --focusedIndex < 0) {
         focusedIndex = itemsLength - 1;
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
-        items.current[focusedIndex]?.toggleSubmenu?.(true);
-
-        getChildList()?.ref?.current?.focus();
-
-        setActiveItem(items.current[focusedIndex]);
-
-        return;
+        if (focusedIndex === -1) {
+          focusedIndex = 0;
+        } else {
+          items.current[focusedIndex]?.toggleSubmenu?.(true);
+        }
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
         if (!menu) return;
 
@@ -116,14 +104,12 @@ export const useMenuList = () => {
 
           list.activeItem?.toggleSubmenu?.(false);
           list.ref?.current?.focus();
-        } else {
+
+          focusedIndex = -1;
+        } else if (e.key !== 'ArrowLeft') {
           menu.toggle(false);
           menu.buttonRef?.current?.focus();
         }
-
-        setActiveItem(null);
-
-        return;
       } else {
         const rest = items.current
           .slice(focusedIndex + 1)
@@ -143,7 +129,21 @@ export const useMenuList = () => {
         setActiveItem(items.current[focusedIndex]);
       }
     },
-    [menu, selectedIndex, items, getChildList],
+    [menu, selectedIndex, items],
+  );
+
+  const onMouseEnter = React.useCallback(() => {
+    getChildList()?.unselect();
+  }, [getChildList]);
+
+  const onMouseLeave = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (!activeItem?.hasSubmenu) {
+        setSelectedIndex(-1);
+      }
+    },
+    [activeItem],
   );
 
   const onBlur = React.useCallback(
@@ -168,7 +168,7 @@ export const useMenuList = () => {
     selectedIndex,
     setSelectedIndex,
     setActiveItem,
-    props: { onKeyDown, onBlur },
+    props: { onKeyDown, onBlur, onMouseLeave, onMouseEnter },
     items,
     popup,
     activeItem,
