@@ -39,14 +39,14 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
           height: el.offsetHeight,
         } as PopupOptions;
 
-        if (parent == null && buttonRect) {
+        if ((parent == null && buttonRect) || (x != null && y != null)) {
           opts = {
             ...opts,
 
-            parentLeft: buttonRect.left,
-            parentTop: buttonRect.top,
-            parentWidth: buttonRect.width,
-            parentHeight: buttonRect.height,
+            parentLeft: buttonRect?.left ?? (x as number),
+            parentTop: buttonRect?.top ?? (y as number),
+            parentWidth: buttonRect?.width ?? 0,
+            parentHeight: buttonRect?.height ?? 0,
 
             placement: menu.placement,
 
