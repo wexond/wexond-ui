@@ -23,8 +23,7 @@ export default {
     border-radius: 4px;
     transition: 0.1s background-color, 0.1s box-shadow;
     position: relative;
-    ${robotoMedium}
-    ${noUserSelect}
+    ${noUserSelect};
 
     &:focus {
       box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
@@ -34,6 +33,7 @@ export default {
     md: css`
       height: 32px;
       font-size: 13px;
+      ${robotoMedium};
     `,
   },
   variants: {
