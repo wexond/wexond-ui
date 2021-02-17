@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ICON_ARROW_RIGHT } from '../../constants/icons';
 import { useMenuItem } from '../../menu/use-menu-item';
 import { mergeEvents, mergeRefs } from '../../utils/react';
 import { MenuListProps, MENU_PADDING_Y } from '../MenuList';
@@ -13,7 +12,8 @@ import {
 } from './style';
 
 export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
+  submenuIcon?: React.ReactElement;
   accelerator?: string;
   leftSpacing?: string;
   rightSpacing?: string;
@@ -24,6 +24,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
   (
     {
       icon,
+      submenuIcon,
       accelerator,
       leftSpacing,
       rightSpacing,
@@ -50,15 +51,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           {icon && <IconContainer>{icon}</IconContainer>}
           <Label leftSpacing={leftSpacing}>{children}</Label>
           <Accelerator>{accelerator}</Accelerator>
-          {submenu && (
-            <SubmenuIcon
-              boxSize="32px"
-              iconSize="16px"
-              src={ICON_ARROW_RIGHT}
-              opacity={0.8}
-              invert
-            />
-          )}
+          {submenu && submenuIcon}
           {item.isSubmenuOpened && submenu}
         </StyledMenuItem>
       </>
