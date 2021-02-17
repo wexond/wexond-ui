@@ -31,7 +31,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     return (
-      <StyledButton ref={ref} variant={variant} size={size} {...props}>
+      <StyledButton ref={ref} _variant={variant} _size={size} {...props}>
         {leftIcon && !isLoading && (
           <ButtonIcon iconSpacing={iconSpacing} left>
             {leftIcon}

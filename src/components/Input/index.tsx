@@ -1,25 +1,19 @@
-import styled from 'styled-components';
+import React from 'react';
 
-export const Input = styled.input.attrs(() => ({
-  spellCheck: false,
-}))`
-  height: 32px;
-  min-width: 64px;
-  padding: 0 12px;
-  border-radius: 4px;
-  font-size: 13px;
-  color: #fff;
-  background-color: rgb(50, 50, 50);
-  border: none;
-  outline: none;
-  cursor: text;
-  transition: 0.1s background-color, 0.1s box-shadow;
+import { ComponentProps } from '../../theme/create-component';
+import InputTheme, { StyledInput } from './style';
 
-  &:focus {
-    box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
-  }
+export interface InputProps
+  extends React.HTMLAttributes<HTMLInputElement>,
+    ComponentProps<typeof InputTheme> {}
 
-  &:hover {
-    background-color: rgb(70, 70, 70);
-  }
-`;
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ variant, size, ...props }, ref) => {
+    return <StyledInput ref={ref} _variant={variant} _size={size} {...props} />;
+  },
+);
+
+Input.defaultProps = {
+  variant: 'filled',
+  size: 'md',
+};

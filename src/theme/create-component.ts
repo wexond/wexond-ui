@@ -31,14 +31,17 @@ export const createComponent = <
   return styled(type)`
     ${(props: {
       theme?: Theme;
-      size: string | undefined;
-      variant: string | undefined;
+      _size: string | undefined;
+      _variant: string | undefined;
     }) =>
       props.theme &&
       css`
         ${getStyle(props.theme.components[name].baseStyle, props)}
-        ${getStyle(props.theme.components[name].sizes[props.size], props)}
-        ${getStyle(props.theme.components[name].variants[props.variant], props)}
+        ${getStyle(props.theme.components[name].sizes[props._size], props)}
+        ${getStyle(
+          props.theme.components[name].variants[props._variant],
+          props,
+        )}
       `}
   `;
 };

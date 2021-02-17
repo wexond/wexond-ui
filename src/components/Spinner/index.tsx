@@ -13,7 +13,7 @@ export interface SpinnerProps
 export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
   ({ size, variant, color, thickness, ...props }, ref) => {
     return (
-      <SpinnerContainer ref={ref} size={size} variant={variant} {...props}>
+      <SpinnerContainer ref={ref} _size={size} _variant={variant} {...props}>
         <StyledSpinner stroke={color} viewBox="0 0 66 66">
           <Path
             fill="none"
