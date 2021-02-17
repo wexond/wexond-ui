@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useId } from '~/hooks/use-id';
-import { useItems } from '~/hooks/use-items';
-import { PopupInfo } from '~/popup/popup';
+import { useId } from '../hooks/use-id';
+import { useItems } from '../hooks/use-items';
+import { PopupInfo } from '../popup/popup';
 import { MenuContext } from './menu-context';
 import { MenuItemData, MenuListData } from './use-menu';
 

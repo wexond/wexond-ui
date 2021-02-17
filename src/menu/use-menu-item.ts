@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useId } from '~/hooks/use-id';
+import { useId } from '../hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemData, MenuListData } from './use-menu';
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { MenuContext } from '~/menu/menu-context';
 
-import { useMenuButton } from '~/menu/use-menu-button';
-import { mergeEvents, mergeRefs } from '~/utils/react';
+import { MenuContext } from '../../menu/menu-context';
+import { useMenuButton } from '../../menu/use-menu-button';
+import { mergeEvents, mergeRefs } from '../../utils/react';
 import { Button } from '../Button';
 
 export interface MenuButtonProps

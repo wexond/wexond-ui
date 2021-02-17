@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MenuContext } from '~/menu/menu-context';
-import { useMenu } from '~/menu/use-menu';
-import { PopupPlacement } from '~/popup/popup';
+import { MenuContext } from '../../menu/menu-context';
+import { useMenu } from '../../menu/use-menu';
+import { PopupPlacement } from '../../popup/popup';
 
 export interface MenuProps {
   onOpen?: (listRef: HTMLUListElement) => void;

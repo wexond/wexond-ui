@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { MenuProps } from '~/components/Menu';
-import { useItems } from '~/hooks/use-items';
-import { PopupInfo } from '~/popup/popup';
+import { MenuProps } from '../components/Menu';
+import { useItems } from '../hooks/use-items';
+import { PopupInfo } from '../popup/popup';
 
 export interface MenuListData {
   id: number;

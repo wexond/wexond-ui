@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 
-import { Theme, ThemeColors } from '~/theme/theme';
+import { Theme, ThemeColors } from './theme';
 
 const getStyle = (style, props): FlattenSimpleInterpolation => {
   if (typeof style === 'function') return style(props);

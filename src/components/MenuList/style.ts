@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import { DIALOG_BOX_SHADOW } from '~/constants/dialog';
-import { noUserSelect } from '~/mixins/user-selection';
+import { DIALOG_BOX_SHADOW } from '../../constants/dialog';
+import { noUserSelect } from '../../mixins/user-selection';
 
 export const StyledMenuList = styled.ul`
   width: fit-content;

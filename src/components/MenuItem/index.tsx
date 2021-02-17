@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { ICON_ARROW_RIGHT } from '~/constants/icons';
-import { useMenuItem } from '~/menu/use-menu-item';
-import { mergeEvents, mergeRefs } from '~/utils/react';
+import { ICON_ARROW_RIGHT } from '../../constants/icons';
+import { useMenuItem } from '../../menu/use-menu-item';
+import { mergeEvents, mergeRefs } from '../../utils/react';
 import { MenuListProps, MENU_PADDING_Y } from '../MenuList';
 import {
   IconContainer,

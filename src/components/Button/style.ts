@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
-import { robotoMedium } from '~/mixins/typography';
-import { noUserSelect } from '~/mixins/user-selection';
+import { robotoMedium } from '../../mixins/typography';
+import { noUserSelect } from '../../mixins/user-selection';
 import {
   ComponentVariantProps,
   createComponent,

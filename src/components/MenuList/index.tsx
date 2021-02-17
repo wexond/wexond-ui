@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { MenuContext, MenuListContext } from '~/menu/menu-context';
-import { useMenuList } from '~/menu/use-menu-list';
-import { getPopupPosition, PopupOptions, PopupPlacement } from '~/popup/popup';
-import { setPosition } from '~/utils/dom';
-import { mergeEvents, mergeRefs } from '~/utils/react';
+import { MenuContext, MenuListContext } from '../../menu/menu-context';
+import { useMenuList } from '../../menu/use-menu-list';
+import { getPopupPosition, PopupOptions } from '../../popup/popup';
+import { setPosition } from '../../utils/dom';
+import { mergeEvents, mergeRefs } from '../../utils/react';
 import { StyledMenuList } from './style';
 
 export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {

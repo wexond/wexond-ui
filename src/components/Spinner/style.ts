@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 
-import { createComponent } from '~/theme/create-component';
+import { createComponent } from '../../theme/create-component';
 
 export default {
   sizes: {
