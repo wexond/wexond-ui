@@ -7,6 +7,7 @@ export * from './components/Button';
 export * from './components/Input';
 export * from './components/Group';
 export * from './components/Spinner';
+export * from './components/Input';
 
 export * from './popup/popup';
 
