@@ -9,7 +9,7 @@ export interface ButtonProps
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   spinner?: React.ReactElement;
-  loadingText?: React.ReactElement;
+  loadingText?: React.ReactElement | string;
   isLoading?: boolean;
   iconSpacing?: string;
 }
