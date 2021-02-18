@@ -1,5 +1,5 @@
 {
-  "name": "@wexond/react",
+  "name": "@wexond/ui",
   "version": "1.0.0",
   "description": "List of React reusable components following Wexond design patterns",
   "main": "build/index.js",
@@ -9,9 +9,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wexond/wexond-react.git"
+    "url": "git+https://github.com/wexond/wexond-ui.git"
   },
-  "homepage": "https://github.com/wexond/wexond-react#readme",
+  "homepage": "https://github.com/wexond/wexond-ui#readme",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"cross-env dev=1 webpack --watch\"",
     "build": "webpack",
