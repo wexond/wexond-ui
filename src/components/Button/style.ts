@@ -21,7 +21,7 @@ export default {
     white-space: nowrap;
     background-color: transparent;
     border-radius: 4px;
-    transition: 0.1s background-color, 0.1s box-shadow;
+    transition: 0.15s background-color, 0.15s box-shadow;
     position: relative;
     ${noUserSelect};
 

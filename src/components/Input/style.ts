@@ -13,6 +13,16 @@ export default {
     outline: none;
     cursor: text;
     border-radius: 4px;
+    transition: 0.15s border-color, 0.15s box-shadow;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.48);
+    }
+
+    &:focus {
+      border-color: rgba(100, 181, 246, 0.54);
+      box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+    }
   `,
   sizes: {
     md: css`
@@ -27,31 +37,11 @@ export default {
       background-color: rgb(50, 50, 50);
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: 0.15s border-color, 0.15s box-shadow;
-
-      &:hover {
-        border-color: rgba(255, 255, 255, 0.48);
-      }
-
-      &:focus {
-        border-color: rgba(100, 181, 246, 0.54);
-        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
-      }
     `,
     outlined: ({ theme: { colors } }: ComponentVariantProps) => css`
       padding: 0px 12px;
       border: 1px solid rgba(255, 255, 255, 0.24);
       background-color: transparent;
-      transition: 0.15s border-color, 0.15s box-shadow;
-
-      &:hover {
-        border-color: rgba(255, 255, 255, 0.48);
-      }
-
-      &:focus {
-        border-color: rgba(100, 181, 246, 0.54);
-        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
-      }
     `,
   },
 };
