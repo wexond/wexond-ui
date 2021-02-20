@@ -17,7 +17,8 @@ export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   accelerator?: string;
   leftSpacing?: string;
   rightSpacing?: string;
-  submenu?: React.ElementType<MenuListProps>;
+  submenu?: React.ReactNode;
+  onSelect?: () => void;
 }
 
 export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
@@ -30,6 +31,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       rightSpacing,
       submenu,
       children,
+      onSelect,
       onClick,
       onMouseEnter,
       onMouseLeave,
@@ -37,7 +39,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     },
     ref,
   ) => {
-    const item = useMenuItem(!!submenu);
+    const item = useMenuItem(!!submenu, onSelect);
 
     return (
       <>

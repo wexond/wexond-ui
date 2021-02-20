@@ -56,6 +56,19 @@ export const useMenuList = () => {
     [id, activeItem, unselect],
   );
 
+  const hideAll = React.useCallback(() => {
+    if (menu) {
+      setSelectedIndex(-1);
+      setActiveItem(null);
+
+      menu.emitBeforeClose(globalIndex.current);
+      menu.clearItemMouseTimer();
+      menu.toggle(false);
+      menu.onClose?.();
+      menu.buttonRef?.current?.focus();
+    }
+  }, [menu]);
+
   React.useEffect(() => {
     if (menu) {
       globalIndex.current = menu.addVisibleList(listData);
@@ -76,7 +89,7 @@ export const useMenuList = () => {
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLUListElement>) => {
       const list = ref.current;
-      if (!list || !menu?.visibleLists.current) return;
+      if (!list || !menu?.visibleLists.current || !menu) return;
 
       e.stopPropagation();
 
@@ -87,6 +100,9 @@ export const useMenuList = () => {
         focusedIndex = 0;
       } else if (e.key === 'ArrowUp' && --focusedIndex < 0) {
         focusedIndex = itemsLength - 1;
+      } else if (!activeItem?.hasSubmenu && e.key === 'Enter') {
+        activeItem?.onSelect?.();
+        hideAll();
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
         if (focusedIndex === -1) {
           focusedIndex = 0;
@@ -94,9 +110,7 @@ export const useMenuList = () => {
           items.current[focusedIndex]?.toggleSubmenu?.(true);
         }
       } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
-        if (!menu) return;
-
-        const lists = menu?.visibleLists.current;
+        const lists = menu.visibleLists.current;
         const list = lists[lists.length - 2];
 
         if (list) {
@@ -108,6 +122,7 @@ export const useMenuList = () => {
           focusedIndex = -1;
         } else if (e.key !== 'ArrowLeft') {
           menu.toggle(false);
+          menu.onClose?.();
           menu.buttonRef?.current?.focus();
         }
       } else {
@@ -129,7 +144,7 @@ export const useMenuList = () => {
         setActiveItem(items.current[focusedIndex]);
       }
     },
-    [menu, selectedIndex, items],
+    [menu, selectedIndex, items, activeItem, hideAll],
   );
 
   const onMouseEnter = React.useCallback(() => {
@@ -150,16 +165,16 @@ export const useMenuList = () => {
     (e: React.FocusEvent<HTMLElement>) => {
       const target = e.relatedTarget as Node;
 
-      if (menu && getParentList() == null && !ref.current?.contains(target)) {
-        setSelectedIndex(-1);
-        setActiveItem(null);
-
-        menu.clearItemMouseTimer();
-        menu.toggle(false);
-        menu.buttonRef?.current?.focus();
+      if (
+        ref.current &&
+        menu &&
+        getParentList() == null &&
+        !ref.current.contains(target)
+      ) {
+        hideAll();
       }
     },
-    [getParentList, menu],
+    [getParentList, menu, hideAll],
   );
 
   return {
@@ -177,5 +192,6 @@ export const useMenuList = () => {
     getParentList,
     getChildList,
     globalIndex,
+    hideAll,
   };
 };

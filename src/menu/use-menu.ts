@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { MenuItemProps } from '../components/MenuItem';
 import { MenuProps } from '../components/Menu';
 import { useItems } from '../hooks/use-items';
 import { PopupInfo } from '../popup/popup';
@@ -19,11 +20,13 @@ export interface MenuItemData {
   ref?: React.MutableRefObject<HTMLLIElement | null>;
   toggleSubmenu?: React.Dispatch<React.SetStateAction<boolean>>;
   hasSubmenu?: boolean;
+  onSelect?: () => void;
 }
 
 export const useMenu = ({
   onOpen,
   beforeClose,
+  onClose,
   placement,
   marginX,
   marginY,
@@ -67,6 +70,7 @@ export const useMenu = ({
     clearItemMouseTimer,
     onOpen,
     emitBeforeClose,
+    onClose,
     isOpen,
     toggle,
     buttonRef,

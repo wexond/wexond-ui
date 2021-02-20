@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { MenuItemProps } from '../components/MenuItem';
 import { useId } from '../hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
-import { MenuItemData, MenuListData } from './use-menu';
+import { MenuItemData } from './use-menu';
 
-export const useMenuItem = (hasSubmenu: boolean) => {
+export const useMenuItem = (hasSubmenu: boolean, onSelect?: () => void) => {
   const id = useId();
 
   const menu = React.useContext(MenuContext);
@@ -14,8 +15,15 @@ export const useMenuItem = (hasSubmenu: boolean) => {
   const [isSubmenuOpened, toggleSubmenu] = React.useState(false);
 
   const itemData: MenuItemData = React.useMemo(
-    () => ({ id, listId: list?.id, ref: itemRef, toggleSubmenu, hasSubmenu }),
-    [id, list?.id, hasSubmenu],
+    () => ({
+      id,
+      listId: list?.id,
+      ref: itemRef,
+      toggleSubmenu,
+      hasSubmenu,
+      onSelect,
+    }),
+    [id, list?.id, hasSubmenu, onSelect],
   );
 
   React.useEffect(() => {
@@ -30,8 +38,11 @@ export const useMenuItem = (hasSubmenu: boolean) => {
     if (hasSubmenu) {
       toggleSubmenu(true);
       list?.setActiveItem(itemData);
+    } else if (list) {
+      onSelect?.();
+      list.hideAll();
     }
-  }, [hasSubmenu, itemData, list]);
+  }, [hasSubmenu, itemData, list, onSelect]);
 
   const onHover = React.useCallback(() => {
     if (hasSubmenu && itemData !== list?.activeItem) {

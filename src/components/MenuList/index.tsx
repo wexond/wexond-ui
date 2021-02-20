@@ -16,7 +16,7 @@ export const MENU_MARGIN = -4;
 export const MENU_PADDING_Y = -4;
 
 export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
-  ({ x, y, onKeyDown, onMouseEnter, children, ...props }, ref) => {
+  ({ x, y, onKeyDown, onMouseEnter, onBlur, children, ...props }, ref) => {
     const menu = React.useContext(MenuContext);
     const list = useMenuList();
 
@@ -98,7 +98,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         ref={mergeRefs(list.ref, ref, list.ref)}
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        onBlur={list.props.onBlur}
+        onBlur={mergeEvents(onBlur, list.props.onBlur)}
         onMouseLeave={list.props.onMouseLeave}
         onMouseEnter={list.props.onMouseEnter}
         {...props}

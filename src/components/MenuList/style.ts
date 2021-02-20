@@ -12,7 +12,7 @@ export const StyledMenuList = styled.ul`
   list-style: none;
   border: none;
   font-size: 13px;
-  z-index: 10;
+  z-index: 99999;
   ${noUserSelect};
 
   &::before {
@@ -32,5 +32,6 @@ export const StyledMenuList = styled.ul`
 
   &:focus {
     outline: none;
+    outline: 1px solid red;
   }
 `;

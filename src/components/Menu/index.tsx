@@ -6,6 +6,7 @@ import { PopupPlacement } from '../../popup/popup';
 
 export interface MenuProps {
   onOpen?: (listRef: HTMLUListElement) => void;
+  onClose?: () => void;
   beforeClose?: (...listRef: HTMLUListElement[]) => void;
   marginX?: number;
   marginY?: number;
