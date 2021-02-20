@@ -91,8 +91,6 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       }
     }, [menu, list, x, y]);
 
-    if (!menu?.isOpen) return null;
-
     return (
       <StyledMenuList
         ref={mergeRefs(list.ref, ref, list.ref)}
@@ -101,11 +99,14 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         onBlur={mergeEvents(onBlur, list.props.onBlur)}
         onMouseLeave={list.props.onMouseLeave}
         onMouseEnter={list.props.onMouseEnter}
+        isOpen={menu?.isOpen}
         {...props}
       >
-        <MenuListContext.Provider value={list}>
-          {children}
-        </MenuListContext.Provider>
+        {menu?.isOpen && (
+          <MenuListContext.Provider value={list}>
+            {children}
+          </MenuListContext.Provider>
+        )}
       </StyledMenuList>
     );
   },

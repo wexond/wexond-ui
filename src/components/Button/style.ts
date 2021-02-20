@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { robotoMedium } from '../../mixins/typography';
+import { robotoRegular } from '../../mixins/typography';
 import { noUserSelect } from '../../mixins/user-selection';
 import {
   ComponentVariantProps,
@@ -33,7 +33,7 @@ export default {
     md: css`
       height: 32px;
       font-size: 13px;
-      ${robotoMedium};
+      ${robotoRegular};
     `,
   },
   variants: {
@@ -63,20 +63,55 @@ export default {
         background-color: rgba(33, 150, 243, 0.2);
       }
     `,
+    input: ({ theme: { colors } }: ComponentVariantProps) => css`
+      padding: 0px 12px;
+      background-color: rgb(50, 50, 50);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+      justify-content: flex-start;
+
+      &:hover {
+        border-color: rgba(255, 255, 255, 0.48);
+      }
+
+      &:focus {
+        border-color: rgba(100, 181, 246, 0.54);
+        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+      }
+    `,
   },
 };
 
 export const StyledButton = createComponent('button', 'Button');
 
+interface ButtonIconProps {
+  iconSpacing?: string;
+  left?: boolean;
+  disabledIconEvents?: boolean;
+}
+
 export const ButtonIcon = styled.span`
-  ${({ iconSpacing, left }: { iconSpacing?: string; left?: boolean }) =>
-    left
-      ? css`
-          margin-right: ${iconSpacing};
-        `
-      : css`
-          margin-left: ${iconSpacing};
-        `}
+  ${({ iconSpacing, left, disabledIconEvents }: ButtonIconProps) => css`
+    ${
+      disabledIconEvents &&
+      css`
+        pointer-events: none;
+      `
+    }
+
+    ${
+      left
+        ? css`
+            margin-right: auto;
+            padding-right: ${iconSpacing};
+          `
+        : css`
+            margin-left: auto;
+            padding-left: ${iconSpacing};
+          `
+    }}
+  `}
 `;
 
 export const ButtonSpinner = styled.div`

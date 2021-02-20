@@ -30,8 +30,9 @@ export const useMenu = ({
   placement,
   marginX,
   marginY,
+  isVisibleByDefault,
 }: MenuProps) => {
-  const [isOpen, toggle] = React.useState(true);
+  const [isOpen, toggle] = React.useState(isVisibleByDefault);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 

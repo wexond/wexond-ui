@@ -1,20 +1,18 @@
 import React from 'react';
 
-import { StyledFormControl, FormLabel } from './style';
+import { StyledFormControl } from './style';
 
 export interface FormControlProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: React.ReactElement | string;
   spacing?: string;
-  horizontal?: boolean;
+  ySpacing?: string;
+  vertical?: boolean;
 }
 
 export const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
-  ({ label, horizontal, spacing, children, ...props }, ref) => {
+  ({ label, vertical, children, ...props }, ref) => {
     return (
-      <StyledFormControl ref={ref} horizontal={horizontal} {...props}>
-        <FormLabel horizontal={horizontal} spacing={spacing}>
-          {label}
-        </FormLabel>
+      <StyledFormControl ref={ref} vertical={vertical} {...props}>
         {children}
       </StyledFormControl>
     );
@@ -23,5 +21,5 @@ export const FormControl = React.forwardRef<HTMLDivElement, FormControlProps>(
 
 FormControl.defaultProps = {
   spacing: '12px',
-  horizontal: false,
+  ySpacing: '8px',
 };

@@ -12,6 +12,7 @@ export interface ButtonProps
   loadingText?: React.ReactElement | string;
   isLoading?: boolean;
   iconSpacing?: string;
+  disabledIconEvents?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -25,6 +26,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       spinner,
       loadingText,
       iconSpacing,
+      disabledIconEvents,
       children,
       ...props
     },
@@ -33,7 +35,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <StyledButton ref={ref} _variant={variant} _size={size} {...props}>
         {leftIcon && !isLoading && (
-          <ButtonIcon iconSpacing={iconSpacing} left>
+          <ButtonIcon
+            iconSpacing={iconSpacing}
+            disabledIconEvents={disabledIconEvents}
+            left
+          >
             {leftIcon}
           </ButtonIcon>
         )}
@@ -47,7 +53,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {!isLoading && children}
         {rightIcon && !isLoading && (
-          <ButtonIcon iconSpacing={iconSpacing}>{rightIcon}</ButtonIcon>
+          <ButtonIcon
+            iconSpacing={iconSpacing}
+            disabledIconEvents={disabledIconEvents}
+          >
+            {rightIcon}
+          </ButtonIcon>
         )}
       </StyledButton>
     );
@@ -58,4 +69,5 @@ Button.defaultProps = {
   variant: 'contained',
   size: 'md',
   iconSpacing: '8px',
+  disabledIconEvents: true,
 };

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { useMenuItem } from '../../menu/use-menu-item';
 import { mergeEvents, mergeRefs } from '../../utils/react';
-import { MenuListProps } from '../MenuList';
 import {
   IconContainer,
   Label,

@@ -1,29 +1,19 @@
 import styled, { css } from 'styled-components';
 
-import { noUserSelect } from '../../mixins/user-selection';
+interface FormControlProps {
+  vertical?: boolean;
+  spacing?: string;
+  ySpacing?: string;
+}
 
 export const StyledFormControl = styled.div`
-  display: flex;
+  width: 100%;
+  display: grid;
+  align-items: center;
 
-  ${({ horizontal }: { horizontal?: boolean }) =>
-    horizontal
-      ? css`
-          align-items: center;
-        `
-      : css`
-          flex-direction: column;
-        `}
-`;
-
-export const FormLabel = styled.span`
-  ${noUserSelect};
-
-  ${({ horizontal, spacing }: { horizontal?: boolean; spacing?: string }) =>
-    horizontal
-      ? css`
-          margin-right: ${spacing};
-        `
-      : css`
-          margin-bottom: ${spacing};
-        `}
+  ${({ vertical, spacing, ySpacing }: FormControlProps) => css`
+    grid-template-columns: ${vertical ? '1fr' : 'min-content 1fr'};
+    column-gap: ${spacing};
+    row-gap: ${ySpacing};
+  `}
 `;

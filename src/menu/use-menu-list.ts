@@ -166,8 +166,9 @@ export const useMenuList = () => {
       const target = e.relatedTarget as Node;
 
       if (
-        ref.current &&
         menu &&
+        menu.isOpen &&
+        ref.current &&
         getParentList() == null &&
         !ref.current.contains(target)
       ) {

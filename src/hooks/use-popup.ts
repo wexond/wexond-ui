@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface UsePopupOptions {
-  ref: React.RefObject<any>;
+  ref: React.MutableRefObject<HTMLElement | null>;
   visible: boolean;
   onHide?: () => void;
 }
@@ -19,10 +19,10 @@ export const usePopup = ({ ref, visible, onHide }: UsePopupOptions) => {
 
   const onBlur = React.useCallback(
     (e: React.FocusEvent<HTMLElement>) => {
-      if (!ref.current.contains(e.relatedTarget)) {
-        if (onHide) {
-          timeout.current = setTimeout(onHide);
-        }
+      const target = e.relatedTarget as Node;
+
+      if (ref.current && onHide && !ref.current.contains(target)) {
+        timeout.current = setTimeout(onHide);
       }
     },
     [ref, onHide],
@@ -33,7 +33,7 @@ export const usePopup = ({ ref, visible, onHide }: UsePopupOptions) => {
   }, []);
 
   const focus = React.useCallback(() => {
-    ref.current.focus();
+    ref?.current?.focus();
   }, [ref]);
 
   React.useEffect(() => {

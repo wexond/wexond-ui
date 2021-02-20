@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { DIALOG_BOX_SHADOW } from '../../constants/dialog';
 import { noUserSelect } from '../../mixins/user-selection';
@@ -33,4 +33,9 @@ export const StyledMenuList = styled.ul`
   &:focus {
     outline: none;
   }
+
+  ${({ isOpen }: { isOpen?: boolean }) => css`
+    opacity: ${isOpen ? 1 : 0};
+    pointer-events: ${isOpen ? 'auto' : 'none'};
+  `}
 `;

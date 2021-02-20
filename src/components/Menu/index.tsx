@@ -11,6 +11,7 @@ export interface MenuProps {
   marginX?: number;
   marginY?: number;
   placement?: PopupPlacement;
+  isVisibleByDefault?: boolean;
 }
 
 export const Menu: React.FC<MenuProps> = ({ children, ...props }) => {
@@ -25,6 +26,7 @@ export const Menu: React.FC<MenuProps> = ({ children, ...props }) => {
 };
 
 Menu.defaultProps = {
-  placement: 'bottom',
+  placement: 'bottom-start',
   marginY: 8,
+  isVisibleByDefault: false,
 };

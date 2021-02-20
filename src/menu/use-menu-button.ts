@@ -5,9 +5,15 @@ import { MenuContext } from './menu-context';
 export const useMenuButton = () => {
   const menu = React.useContext(MenuContext);
 
-  const onMouseDown = React.useCallback(() => {
-    menu?.toggle(true);
-  }, [menu]);
+  const onMouseDown = React.useCallback(
+    (e) => {
+      if (menu) {
+        e.preventDefault();
+        menu.toggle(!menu.isOpen);
+      }
+    },
+    [menu],
+  );
 
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLButtonElement>) => {
