@@ -63,12 +63,13 @@ export default {
         background-color: rgba(33, 150, 243, 0.2);
       }
     `,
-    text: ({ theme: { colors } }: ComponentVariantProps) => css`
-      padding: 0px 8px;
-      color: ${colors.blue['500']};
+    primary: ({ theme: { colors } }: ComponentVariantProps) => css`
+      padding: 0px 16px;
+      color: #fff;
+      background-color: ${colors.blue['500']};
 
       &:hover {
-        background-color: rgba(33, 150, 243, 0.2);
+        background-color: ${colors.blue['700']};
       }
     `,
   },
