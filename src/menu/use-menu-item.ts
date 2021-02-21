@@ -54,11 +54,11 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
     if (hasSubmenu) {
       list.setSelectedItem(data);
     } else if (menu) {
-      onSelect?.();
+      _onSelect?.();
       menu.toggle(false);
       menu.buttonRef.current?.focus();
     }
-  }, [hasSubmenu, list, data, menu, onSelect]);
+  }, [hasSubmenu, list, data, menu, _onSelect]);
 
   const onMouseEnter = React.useCallback(
     (e: React.MouseEvent) => {

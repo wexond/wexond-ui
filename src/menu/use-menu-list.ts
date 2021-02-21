@@ -78,8 +78,8 @@ export const useMenuList = (parentId?: number) => {
         _hoveredIndex = 0;
       } else if (e.key === 'ArrowUp' && --_hoveredIndex < 0) {
         _hoveredIndex = itemsLength - 1;
-      } else if (!selectedItem?.hasSubmenu && e.key === 'Enter') {
-        selectedItem?.onSelect?.();
+      } else if (!hoveredItem?.hasSubmenu && e.key === 'Enter') {
+        hoveredItem?.onSelect?.();
         menu.toggle(false);
         menu.buttonRef.current?.focus();
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
