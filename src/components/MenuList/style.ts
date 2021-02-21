@@ -28,6 +28,7 @@ export const StyledMenuList = styled.ul`
     left: 0;
     box-shadow: ${DIALOG_BOX_SHADOW};
     border-radius: 6px;
+    z-index: -1;
   }
 
   &:focus {
