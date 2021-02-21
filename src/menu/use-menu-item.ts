@@ -18,8 +18,9 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
       listId: list?.id,
       ref,
       hasSubmenu,
+      onSelect: _onSelect,
     }),
-    [id, list?.id, hasSubmenu],
+    [id, list?.id, hasSubmenu, _onSelect],
   );
 
   React.useEffect(() => {
@@ -46,6 +47,17 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
   }, [list, data, getChildList]);
 
   const isSubmenuOpen = hasSubmenu && list && list.selectedItem === data;
+
+  const onClick = React.useCallback(() => {
+    if (!list) return;
+
+    if (hasSubmenu) {
+      list.setSelectedItem(data);
+    } else {
+      onSelect?.();
+      menu?.toggle(false);
+    }
+  }, [hasSubmenu, list, data, menu, onSelect]);
 
   const onMouseEnter = React.useCallback(
     (e: React.MouseEvent) => {
@@ -78,7 +90,10 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
         e.relatedTarget !== list.ref.current &&
         parentList?.ref?.current?.contains(e.relatedTarget as Node)
       ) {
-        menu.setItemMouseTimer(() => list.setSelectedItem(null));
+        menu.setItemMouseTimer(() => {
+          list.setSelectedItem(null);
+          list.ref.current?.focus();
+        });
       }
 
       if (
@@ -102,6 +117,6 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
     ref,
     isHovered,
     isSubmenuOpen,
-    props: { onMouseEnter, onMouseLeave },
+    props: { onMouseEnter, onMouseLeave, onClick },
   };
 };

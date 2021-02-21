@@ -32,7 +32,6 @@ export const StyledMenuList = styled.ul`
 
   &:focus {
     outline: none;
-    outline: 1px solid red;
   }
 
   ${({ isOpen }: { isOpen?: boolean }) => css`

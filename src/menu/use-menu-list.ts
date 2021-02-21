@@ -56,9 +56,8 @@ export const useMenuList = (parentId?: number) => {
   }, [id, menu, data]);
 
   React.useEffect(() => {
-    if (ref.current) {
+    if (ref.current && menu?.isOpen) {
       ref.current.focus();
-      // menu?.onOpen?.(ref.current);
     }
   }, [menu]);
 
@@ -75,15 +74,13 @@ export const useMenuList = (parentId?: number) => {
         hoveredItem == null ? -1 : items.current.indexOf(hoveredItem);
       let _hoveredIndex = hoveredIndex;
 
-      // console.log(_hoveredIndex);
-
       if (e.key === 'ArrowDown' && ++_hoveredIndex >= itemsLength) {
         _hoveredIndex = 0;
       } else if (e.key === 'ArrowUp' && --_hoveredIndex < 0) {
         _hoveredIndex = itemsLength - 1;
       } else if (!selectedItem?.hasSubmenu && e.key === 'Enter') {
-        // selectedItem?.onSelect?.();
-        // hideAll();
+        selectedItem?.onSelect?.();
+        menu.toggle(false);
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
         if (_hoveredIndex === -1) {
           _hoveredIndex = 0;
@@ -95,8 +92,6 @@ export const useMenuList = (parentId?: number) => {
         const list = lists[lists.length - 2];
 
         if (list) {
-          menu.emitBeforeClose(lists.indexOf(list));
-
           list.setSelectedItem?.(null);
           list.ref?.current?.focus();
 
@@ -123,7 +118,24 @@ export const useMenuList = (parentId?: number) => {
         setHoveredItem(items.current[_hoveredIndex]);
       }
     },
-    [hoveredItem, items, menu, selectedItem?.hasSubmenu],
+    [hoveredItem, items, menu, selectedItem],
+  );
+
+  const onBlur = React.useCallback(
+    (e: React.FocusEvent<HTMLElement>) => {
+      const target = e.relatedTarget as Node;
+
+      if (
+        menu &&
+        menu.isOpen &&
+        ref.current &&
+        getParentList() == null &&
+        !ref.current.contains(target)
+      ) {
+        menu.toggle(false);
+      }
+    },
+    [getParentList, menu],
   );
 
   return {
@@ -137,7 +149,7 @@ export const useMenuList = (parentId?: number) => {
     selectedItem,
     setSelectedItem,
     popup,
-    props: { onKeyDown },
+    props: { onKeyDown, onBlur },
     getParentList,
   };
 };

@@ -20,18 +20,18 @@ export interface MenuItemData {
   listId?: number;
   ref?: React.MutableRefObject<HTMLLIElement | null>;
   hasSubmenu?: boolean;
+  onSelect?: () => void;
 }
 
 export const useMenu = ({
   onOpen,
-  beforeClose,
   onClose,
   placement,
   marginX,
   marginY,
   isVisibleByDefault,
 }: MenuProps) => {
-  const [isOpen, toggle] = React.useState(isVisibleByDefault);
+  const [isOpen, _toggle] = React.useState(isVisibleByDefault);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
@@ -56,17 +56,17 @@ export const useMenu = ({
     [clearItemMouseTimer],
   );
 
-  const emitBeforeClose = React.useCallback(
-    (index: number | null | undefined) => {
-      if (index === -1 || index == null) return;
-
-      const refs = visibleLists.current
-        .slice(index + 1)
-        .map((r) => r?.ref?.current) as HTMLUListElement[];
-
-      beforeClose?.(...refs);
+  const toggle = React.useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        onOpen?.();
+      } else {
+        onClose?.();
+        buttonRef.current?.focus();
+      }
+      _toggle(visible);
     },
-    [visibleLists, beforeClose],
+    [onOpen, onClose],
   );
 
   return {
@@ -77,7 +77,6 @@ export const useMenu = ({
     clearItemMouseTimer,
     setItemMouseTimer,
     onOpen,
-    emitBeforeClose,
     onClose,
     isOpen,
     toggle,
