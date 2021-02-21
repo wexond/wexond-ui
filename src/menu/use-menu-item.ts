@@ -1,98 +1,107 @@
 import React from 'react';
 
-import { MenuItemProps } from '../components/MenuItem';
 import { useId } from '../hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemData } from './use-menu';
 
-export const useMenuItem = (hasSubmenu: boolean, onSelect?: () => void) => {
+export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
   const id = useId();
 
   const menu = React.useContext(MenuContext);
   const list = React.useContext(MenuListContext);
 
-  const itemRef = React.useRef<HTMLLIElement | null>(null);
-  const [isSubmenuOpened, toggleSubmenu] = React.useState(false);
+  const ref = React.useRef<HTMLLIElement | null>(null);
 
-  const itemData: MenuItemData = React.useMemo(
+  const data = React.useMemo<MenuItemData>(
     () => ({
       id,
       listId: list?.id,
-      ref: itemRef,
-      toggleSubmenu,
+      ref,
       hasSubmenu,
-      onSelect,
     }),
-    [id, list?.id, hasSubmenu, onSelect],
+    [id, list?.id, hasSubmenu],
   );
 
   React.useEffect(() => {
-    list?.addItem(itemData);
-  }, [list, itemData]);
-
-  React.useEffect(() => {
+    list?.addItem(data);
     return () => list?.removeItem(id);
-  }, [list, id]);
+  }, [id, list, data]);
 
-  const onClick = React.useCallback(() => {
-    if (hasSubmenu) {
-      toggleSubmenu(true);
-      list?.setActiveItem(itemData);
-    } else if (list) {
-      onSelect?.();
-      list.hideAll();
-    }
-  }, [hasSubmenu, itemData, list, onSelect]);
+  const isHovered = React.useMemo(() => {
+    if (!list) return false;
+    return list.hoveredItem?.id === data.id;
+  }, [list, data]);
 
-  const onHover = React.useCallback(() => {
-    if (hasSubmenu && itemData !== list?.activeItem) {
-      toggleSubmenu(true);
-      list?.setActiveItem(itemData);
+  const getChildList = React.useCallback(() => {
+    return menu?.visibleLists.current.find((r) => r?.parentId === list?.id);
+  }, [list?.id, menu?.visibleLists]);
+
+  const onSelect = React.useCallback(() => {
+    if (list?.selectedItem?.id == data.id) {
+      getChildList()?.setSelectedItem?.(null);
       return;
     }
 
-    const lists = menu?.visibleLists.current;
-    const childList = list?.getChildList();
+    list?.setSelectedItem(data);
+  }, [list, data, getChildList]);
 
-    if (list?.activeItem?.hasSubmenu && list.activeItem !== itemData) {
-      menu?.emitBeforeClose(list.globalIndex.current);
+  const isSubmenuOpen = hasSubmenu && list && list.selectedItem === data;
 
-      list.activeItem?.toggleSubmenu?.(false);
-      list.setActiveItem(null);
-    } else if (childList?.activeItem?.hasSubmenu) {
-      menu?.emitBeforeClose(lists?.indexOf(childList));
+  const onMouseEnter = React.useCallback(
+    (e: React.MouseEvent) => {
+      if (!list || !menu) return;
 
-      childList.activeItem.toggleSubmenu?.(false);
-      childList.setActiveItem?.(null);
-    }
-  }, [itemData, list, hasSubmenu, menu]);
-
-  const onMouseEnter = React.useCallback(() => {
-    if (menu && list) {
       list.ref.current?.focus();
 
-      const itemIndex = list.items.current.indexOf(itemData);
+      list.setHoveredItem(data);
+      menu.setItemMouseTimer(onSelect);
 
-      list.setSelectedIndex(itemIndex);
+      if (list.selectedItem?.hasSubmenu && data.id !== list.selectedItem?.id) {
+        getChildList()?.unselect?.();
+      }
 
-      menu.clearItemMouseTimer();
-      menu.itemMouseTimer.current = setTimeout(onHover, 300);
-    }
-  }, [itemData, list, menu, onHover]);
+      return menu.clearItemMouseTimer;
+    },
+    [menu, list, data, onSelect, getChildList],
+  );
 
-  const isSelected = React.useMemo(() => {
-    const index = list?.items.current.indexOf(itemData);
+  const onMouseLeave = React.useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      if (!list || !menu) return;
 
-    return list?.selectedIndex !== -1 && list?.selectedIndex === index;
-  }, [list, itemData]);
+      e.stopPropagation();
+
+      const parentList = list.getParentList();
+
+      if (
+        e.relatedTarget !== window &&
+        e.relatedTarget !== list.ref.current &&
+        parentList?.ref?.current?.contains(e.relatedTarget as Node)
+      ) {
+        menu.setItemMouseTimer(() => list.setSelectedItem(null));
+      }
+
+      if (
+        list.selectedItem?.hasSubmenu &&
+        list.hoveredItem === list.selectedItem
+      ) {
+        return;
+      }
+
+      if (
+        e.relatedTarget === window ||
+        !list.items.current.find((r) => r?.ref?.current === e.relatedTarget)
+      ) {
+        list.setHoveredItem(null);
+      }
+    },
+    [menu, list],
+  );
 
   return {
-    itemRef,
-    isSubmenuOpened,
-    props: {
-      onMouseEnter,
-      onClick,
-    },
-    isSelected,
+    ref,
+    isHovered,
+    isSubmenuOpen,
+    props: { onMouseEnter, onMouseLeave },
   };
 };

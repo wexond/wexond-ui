@@ -1,26 +1,25 @@
 import React from 'react';
 
-import { MenuItemProps } from '../components/MenuItem';
 import { MenuProps } from '../components/Menu';
 import { useItems } from '../hooks/use-items';
 import { PopupInfo } from '../popup/popup';
 
 export interface MenuListData {
   id: number;
+  parentId?: number;
   ref?: React.MutableRefObject<HTMLUListElement | null>;
   popup?: React.MutableRefObject<PopupInfo | null>;
-  activeItem?: MenuItemData | null;
-  setActiveItem?: React.Dispatch<React.SetStateAction<MenuItemData | null>>;
-  unselect: () => void;
+  setSelectedItem?: React.Dispatch<
+    React.SetStateAction<MenuItemData | null | undefined>
+  >;
+  unselect?: () => void;
 }
 
 export interface MenuItemData {
   id: number;
   listId?: number;
   ref?: React.MutableRefObject<HTMLLIElement | null>;
-  toggleSubmenu?: React.Dispatch<React.SetStateAction<boolean>>;
   hasSubmenu?: boolean;
-  onSelect?: () => void;
 }
 
 export const useMenu = ({
@@ -35,7 +34,6 @@ export const useMenu = ({
   const [isOpen, toggle] = React.useState(isVisibleByDefault);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-
   const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
 
   const {
@@ -49,6 +47,14 @@ export const useMenu = ({
       clearTimeout(itemMouseTimer.current);
     }
   }, []);
+
+  const setItemMouseTimer = React.useCallback(
+    (cb: (...args: any[]) => any) => {
+      clearItemMouseTimer();
+      itemMouseTimer.current = setTimeout(cb, 300);
+    },
+    [clearItemMouseTimer],
+  );
 
   const emitBeforeClose = React.useCallback(
     (index: number | null | undefined) => {
@@ -69,6 +75,7 @@ export const useMenu = ({
     removeVisibleList,
     itemMouseTimer,
     clearItemMouseTimer,
+    setItemMouseTimer,
     onOpen,
     emitBeforeClose,
     onClose,
