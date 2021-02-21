@@ -38,12 +38,20 @@ export default {
   },
   variants: {
     contained: ({ theme: { colors } }: ComponentVariantProps) => css`
-      padding: 0px 16px;
+      padding: 0px 12px;
+      background-color: rgb(50, 50, 50);
       color: #fff;
-      background-color: ${colors.blue['500']};
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+      justify-content: flex-start;
 
       &:hover {
-        background-color: ${colors.blue['700']};
+        border-color: rgba(255, 255, 255, 0.48);
+      }
+
+      &:focus {
+        border-color: rgba(100, 181, 246, 0.54);
+        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
       }
     `,
     outlined: ({ theme: { colors } }: ComponentVariantProps) => css`
@@ -61,23 +69,6 @@ export default {
 
       &:hover {
         background-color: rgba(33, 150, 243, 0.2);
-      }
-    `,
-    input: ({ theme: { colors } }: ComponentVariantProps) => css`
-      padding: 0px 12px;
-      background-color: rgb(50, 50, 50);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: left;
-      justify-content: flex-start;
-
-      &:hover {
-        border-color: rgba(255, 255, 255, 0.48);
-      }
-
-      &:focus {
-        border-color: rgba(100, 181, 246, 0.54);
-        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
       }
     `,
   },
