@@ -81,6 +81,7 @@ export const useMenuList = (parentId?: number) => {
       } else if (!selectedItem?.hasSubmenu && e.key === 'Enter') {
         selectedItem?.onSelect?.();
         menu.toggle(false);
+        menu.buttonRef.current?.focus();
       } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
         if (_hoveredIndex === -1) {
           _hoveredIndex = 0;

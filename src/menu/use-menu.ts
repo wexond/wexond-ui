@@ -62,7 +62,6 @@ export const useMenu = ({
         onOpen?.();
       } else {
         onClose?.();
-        buttonRef.current?.focus();
       }
       _toggle(visible);
     },
