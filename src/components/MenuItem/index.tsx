@@ -43,9 +43,10 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     return (
       <>
         <StyledMenuItem
-          ref={mergeRefs(item.itemRef, ref)}
-          isSelected={item.isSelected}
+          ref={mergeRefs(item.ref, ref)}
+          isSelected={item.isHovered}
           onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
+          onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
           onClick={mergeEvents(onClick, item.props.onClick)}
           {...props}
         >
@@ -55,7 +56,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           {submenu && (
             <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>
           )}
-          {item.isSubmenuOpened && submenu}
+          {item.isSubmenuOpen && submenu}
         </StyledMenuItem>
       </>
     );

@@ -18,7 +18,9 @@ export const MENU_PADDING_Y = -4;
 export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
   ({ x, y, onKeyDown, onMouseEnter, onBlur, children, ...props }, ref) => {
     const menu = React.useContext(MenuContext);
-    const list = useMenuList();
+
+    const parentList = React.useContext(MenuListContext);
+    const list = useMenuList(parentList?.id);
 
     const setUp = React.useRef(false);
 
@@ -28,8 +30,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
       if (!setUp.current && menu && lists != null && el != null) {
         const root = lists[0];
-        const parent =
-          list?.globalIndex?.current == null ? lists[lists.length - 1] : null;
+        const parent = list.getParentList();
 
         const parentRect = list?.ref?.current?.parentElement?.getBoundingClientRect();
         const buttonRect = menu.buttonRef.current?.getBoundingClientRect();
@@ -97,8 +98,6 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         onBlur={mergeEvents(onBlur, list.props.onBlur)}
-        onMouseLeave={list.props.onMouseLeave}
-        onMouseEnter={list.props.onMouseEnter}
         isOpen={menu?.isOpen}
         {...props}
       >

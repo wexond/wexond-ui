@@ -1,41 +1,39 @@
 import React from 'react';
 
-import { MenuItemProps } from '../components/MenuItem';
 import { MenuProps } from '../components/Menu';
 import { useItems } from '../hooks/use-items';
 import { PopupInfo } from '../popup/popup';
 
 export interface MenuListData {
   id: number;
+  parentId?: number;
   ref?: React.MutableRefObject<HTMLUListElement | null>;
   popup?: React.MutableRefObject<PopupInfo | null>;
-  activeItem?: MenuItemData | null;
-  setActiveItem?: React.Dispatch<React.SetStateAction<MenuItemData | null>>;
-  unselect: () => void;
+  setSelectedItem?: React.Dispatch<
+    React.SetStateAction<MenuItemData | null | undefined>
+  >;
+  unselect?: () => void;
 }
 
 export interface MenuItemData {
   id: number;
   listId?: number;
   ref?: React.MutableRefObject<HTMLLIElement | null>;
-  toggleSubmenu?: React.Dispatch<React.SetStateAction<boolean>>;
   hasSubmenu?: boolean;
   onSelect?: () => void;
 }
 
 export const useMenu = ({
   onOpen,
-  beforeClose,
   onClose,
   placement,
   marginX,
   marginY,
   isVisibleByDefault,
 }: MenuProps) => {
-  const [isOpen, toggle] = React.useState(isVisibleByDefault);
+  const [isOpen, _toggle] = React.useState(isVisibleByDefault);
 
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-
   const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
 
   const {
@@ -50,17 +48,25 @@ export const useMenu = ({
     }
   }, []);
 
-  const emitBeforeClose = React.useCallback(
-    (index: number | null | undefined) => {
-      if (index === -1 || index == null) return;
-
-      const refs = visibleLists.current
-        .slice(index + 1)
-        .map((r) => r?.ref?.current) as HTMLUListElement[];
-
-      beforeClose?.(...refs);
+  const setItemMouseTimer = React.useCallback(
+    (cb: (...args: any[]) => any) => {
+      clearItemMouseTimer();
+      itemMouseTimer.current = setTimeout(cb, 300);
     },
-    [visibleLists, beforeClose],
+    [clearItemMouseTimer],
+  );
+
+  const toggle = React.useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        onOpen?.();
+      } else {
+        onClose?.();
+        buttonRef.current?.focus();
+      }
+      _toggle(visible);
+    },
+    [onOpen, onClose],
   );
 
   return {
@@ -69,8 +75,8 @@ export const useMenu = ({
     removeVisibleList,
     itemMouseTimer,
     clearItemMouseTimer,
+    setItemMouseTimer,
     onOpen,
-    emitBeforeClose,
     onClose,
     isOpen,
     toggle,

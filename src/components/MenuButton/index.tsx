@@ -10,7 +10,7 @@ export interface MenuButtonProps extends ButtonProps {
 }
 
 export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
-  ({ as, onMouseDown, ...props }, ref) => {
+  ({ as, onMouseDown, onKeyDown, ...props }, ref) => {
     const menu = React.useContext(MenuContext);
     const btn = useMenuButton();
 
@@ -20,7 +20,7 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
       <ButtonComponent
         ref={mergeRefs(ref, menu?.buttonRef)}
         onMouseDown={mergeEvents(onMouseDown, btn.props.onMouseDown)}
-        onKeyDown={btn.props.onKeyDown}
+        onKeyDown={mergeEvents(onKeyDown, btn.props.onKeyDown)}
         {...props}
       ></ButtonComponent>
     );

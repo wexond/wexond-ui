@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const useItems = <T extends { id: any }>() => {
-  const items = React.useRef<(T | null)[]>([]);
+export const useItems = <T extends { id: any }>(defaultValue: T[] = []) => {
+  const items = React.useRef<(T | null)[]>(defaultValue);
 
   const addItem = React.useCallback((item: T) => {
     const { id } = item;
