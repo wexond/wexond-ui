@@ -61,11 +61,15 @@ export const useMenu = ({
       if (visible) {
         onOpen?.();
       } else {
+        clearItemMouseTimer();
         onClose?.();
       }
-      _toggle(visible);
+
+      if (buttonRef.current) {
+        _toggle(visible);
+      }
     },
-    [onOpen, onClose],
+    [onOpen, onClose, clearItemMouseTimer],
   );
 
   return {
