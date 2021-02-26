@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
 
-const MENU_ITEM_MARGIN = 4;
+import { MENU_ITEM_MARGIN } from '../MenuList';
 
 export const StyledMenuItem = styled.li`
-  width: calc(100% - ${MENU_ITEM_MARGIN * 2}px);
   height: 32px;
   display: flex;
   flex: 1 1 auto;
@@ -11,7 +10,7 @@ export const StyledMenuItem = styled.li`
   align-items: center;
   position: relative;
   border-radius: 4px;
-  margin-left: ${MENU_ITEM_MARGIN}px;
+  margin: 0 ${MENU_ITEM_MARGIN}px;
 
   ${({ isSelected }: { isSelected?: boolean }) =>
     isSelected &&

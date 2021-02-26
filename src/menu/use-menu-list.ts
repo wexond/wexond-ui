@@ -119,7 +119,7 @@ export const useMenuList = (parentId?: number) => {
         setHoveredItem(items.current[_hoveredIndex]);
       }
     },
-    [hoveredItem, items, menu, selectedItem],
+    [hoveredItem, items, menu],
   );
 
   const onBlur = React.useCallback(
@@ -133,7 +133,7 @@ export const useMenuList = (parentId?: number) => {
         getParentList() == null &&
         !ref.current.contains(target)
       ) {
-        menu.toggle(false);
+        // menu.toggle(false);
       }
     },
     [getParentList, menu],
