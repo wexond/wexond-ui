@@ -26,34 +26,37 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
     const setUp = React.useRef(false);
 
     React.useLayoutEffect(() => {
-      const lists = menu?.visibleLists.current;
+      if (!menu || !menu.isOpen) return;
+
+      const lists = menu.visibleLists.current;
       const el = list.ref.current;
 
-      if (!setUp.current && menu && lists != null && el != null) {
+      if (!setUp.current && lists != null && el != null) {
         const root = lists[0];
         const parent = list.getParentList();
 
         const parentRect = list?.ref?.current?.parentElement?.getBoundingClientRect();
-        const buttonRect = menu.buttonRef.current?.getBoundingClientRect();
+
+        const btn = menu.buttonRef.current;
 
         let opts = {
-          width: el.offsetWidth,
-          height: el.offsetHeight,
+          width: el.clientWidth,
+          height: el.clientHeight,
         } as PopupOptions;
 
-        if ((parent == null && buttonRect) || (x != null && y != null)) {
+        if ((parent == null && btn) || (x != null && y != null)) {
           opts = {
             ...opts,
 
-            parentLeft: buttonRect?.left ?? (x as number),
-            parentTop: buttonRect?.top ?? (y as number),
-            parentWidth: buttonRect?.width ?? 0,
-            parentHeight: buttonRect?.height ?? 0,
+            parentLeft: btn?.offsetLeft ?? (x as number),
+            parentTop: btn?.offsetTop ?? (y as number),
+            parentWidth: btn?.clientWidth ?? 0,
+            parentHeight: btn?.clientHeight ?? 0,
 
             placement: menu.placement,
 
             marginX: menu.marginX,
-            marginY: (menu.marginY ?? 0) + MENU_MARGIN + 1,
+            marginY: menu.marginY,
 
             relative: false,
           };
