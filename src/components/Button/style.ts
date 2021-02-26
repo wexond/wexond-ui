@@ -7,6 +7,9 @@ import {
   createComponent,
 } from '../../theme/create-component';
 
+const DEFAULT_BUTTON_COLOR = '#6ec6ff';
+const DEFAULT_BUTTON_HOVER_COLOR = '#63a4ff';
+
 export default {
   baseStyle: css`
     min-width: 64px;
@@ -16,12 +19,11 @@ export default {
     text-align: center;
     outline: none;
     border: none;
-    cursor: pointer;
     text-align: center;
     white-space: nowrap;
     background-color: transparent;
     border-radius: 4px;
-    transition: 0.15s background-color, 0.15s box-shadow;
+    transition: 0.1s background-color, 0.15s box-shadow;
     position: relative;
     ${noUserSelect};
 
@@ -56,8 +58,8 @@ export default {
     `,
     outlined: ({ theme: { colors } }: ComponentVariantProps) => css`
       padding: 0px 16px;
-      border: 1px solid ${colors.blue['500']};
-      color: ${colors.blue['500']};
+      border: 1px solid ${DEFAULT_BUTTON_COLOR};
+      color: ${DEFAULT_BUTTON_COLOR};
 
       &:hover {
         background-color: rgba(33, 150, 243, 0.2);
@@ -65,11 +67,11 @@ export default {
     `,
     primary: ({ theme: { colors } }: ComponentVariantProps) => css`
       padding: 0px 16px;
-      color: #fff;
-      background-color: ${colors.blue['500']};
+      color: #000;
+      background-color: ${DEFAULT_BUTTON_COLOR};
 
       &:hover {
-        background-color: ${colors.blue['700']};
+        background-color: ${DEFAULT_BUTTON_HOVER_COLOR};
       }
     `,
   },

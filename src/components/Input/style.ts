@@ -13,7 +13,7 @@ export default {
     outline: none;
     cursor: text;
     border-radius: 4px;
-    transition: 0.15s border-color, 0.15s box-shadow;
+    transition: 0.15s box-shadow;
 
     &:hover {
       border-color: rgba(255, 255, 255, 0.48);

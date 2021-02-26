@@ -1,15 +1,17 @@
 import styled, { css } from 'styled-components';
 
-import { Icon } from '../Icon';
+const MENU_ITEM_MARGIN = 4;
 
 export const StyledMenuItem = styled.li`
-  width: 100%;
+  width: calc(100% - ${MENU_ITEM_MARGIN * 2}px);
   height: 32px;
   display: flex;
   flex: 1 1 auto;
   position: relative;
   align-items: center;
   position: relative;
+  border-radius: 4px;
+  margin-left: ${MENU_ITEM_MARGIN}px;
 
   ${({ isSelected }: { isSelected?: boolean }) =>
     isSelected &&
