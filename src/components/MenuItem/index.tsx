@@ -17,6 +17,7 @@ export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   leftSpacing?: string;
   rightSpacing?: string;
   submenu?: React.ReactNode;
+  isDisabled?: boolean;
   onSelect?: () => void;
 }
 
@@ -34,11 +35,12 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       onClick,
       onMouseEnter,
       onMouseLeave,
+      isDisabled,
       ...props
     },
     ref,
   ) => {
-    const item = useMenuItem(!!submenu, onSelect);
+    const item = useMenuItem(!!submenu, onSelect, isDisabled);
 
     return (
       <>
@@ -48,10 +50,13 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
           onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
           onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
           onClick={mergeEvents(onClick, item.props.onClick)}
+          isDisabled={isDisabled}
           {...props}
         >
           {icon && <IconContainer>{icon}</IconContainer>}
-          <Label leftSpacing={leftSpacing}>{children}</Label>
+          <Label leftSpacing={leftSpacing} isDisabled={isDisabled}>
+            {children}
+          </Label>
           <Accelerator>{accelerator}</Accelerator>
           {submenu && (
             <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>

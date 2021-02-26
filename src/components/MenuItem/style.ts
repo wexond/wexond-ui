@@ -12,10 +12,22 @@ export const StyledMenuItem = styled.li`
   border-radius: 4px;
   margin: 0 ${MENU_ITEM_MARGIN}px;
 
-  ${({ isSelected }: { isSelected?: boolean }) =>
-    isSelected &&
+  ${({
+    isSelected,
+    isDisabled,
+  }: {
+    isSelected?: boolean;
+    isDisabled?: boolean;
+  }) =>
     css`
-      background-color: rgba(255, 255, 255, 0.12) !important;
+      pointer-events: ${isDisabled ? 'none' : 'inherit'};
+
+      ${isSelected &&
+      css`
+        &&& {
+          background-color: rgba(255, 255, 255, 0.12);
+        }
+      `}
     `}
 `;
 
@@ -28,8 +40,15 @@ export const Label = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  ${({ leftSpacing }: { leftSpacing?: string }) => css`
+  ${({
+    leftSpacing,
+    isDisabled,
+  }: {
+    leftSpacing?: string;
+    isDisabled?: boolean;
+  }) => css`
     margin-left: ${leftSpacing};
+    opacity: ${isDisabled ? 0.32 : 1};
   `}
 `;
 

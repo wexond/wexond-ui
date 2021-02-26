@@ -4,7 +4,11 @@ import { useId } from '../hooks/use-id';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemData } from './use-menu';
 
-export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
+export const useMenuItem = (
+  hasSubmenu: boolean,
+  _onSelect?: () => void,
+  isDisabled?: boolean,
+) => {
   const id = useId();
 
   const menu = React.useContext(MenuContext);
@@ -24,9 +28,11 @@ export const useMenuItem = (hasSubmenu: boolean, _onSelect?: () => void) => {
   );
 
   React.useEffect(() => {
-    list?.addItem(data);
+    if (!isDisabled) {
+      list?.addItem(data);
+    }
     return () => list?.removeItem(id);
-  }, [id, list, data]);
+  }, [id, list, data, isDisabled]);
 
   const isHovered = React.useMemo(() => {
     if (!list) return false;
