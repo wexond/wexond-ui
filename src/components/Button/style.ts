@@ -7,8 +7,8 @@ import {
   createComponent,
 } from '../../theme/create-component';
 
-const DEFAULT_BUTTON_COLOR = '#6ec6ff';
-const DEFAULT_BUTTON_HOVER_COLOR = '#63a4ff';
+export const DEFAULT_BUTTON_COLOR = '#6ec6ff';
+export const DEFAULT_BUTTON_HOVER_COLOR = '#63a4ff';
 
 export default {
   baseStyle: css`
@@ -57,12 +57,13 @@ export default {
       }
     `,
     outlined: ({ theme: { colors } }: ComponentVariantProps) => css`
-      padding: 0px 16px;
-      border: 1px solid ${DEFAULT_BUTTON_COLOR};
-      color: ${DEFAULT_BUTTON_COLOR};
+      color: #fff;
+      padding: 0px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background-color: transparent;
 
       &:hover {
-        background-color: rgba(33, 150, 243, 0.2);
+        border-color: rgba(255, 255, 255, 0.48);
       }
     `,
     primary: ({ theme: { colors } }: ComponentVariantProps) => css`

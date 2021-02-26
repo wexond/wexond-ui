@@ -79,3 +79,5 @@ Button.defaultProps = {
   iconSpacing: '8px',
   disabledIconEvents: true,
 };
+
+export { DEFAULT_BUTTON_COLOR, DEFAULT_BUTTON_HOVER_COLOR } from './style';
