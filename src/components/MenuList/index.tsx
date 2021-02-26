@@ -13,7 +13,7 @@ export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
 }
 
 export const MENU_MARGIN = -4;
-export const MENU_PADDING_Y = -4;
+export const MENU_PADDING_Y = 4;
 
 export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
   ({ x, y, onKeyDown, onMouseEnter, onBlur, children, ...props }, ref) => {
@@ -52,7 +52,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
             placement: menu.placement,
 
             marginX: menu.marginX,
-            marginY: menu.marginY,
+            marginY: (menu.marginY ?? 0) + MENU_PADDING_Y + 1,
 
             relative: false,
           };
@@ -79,7 +79,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         list.popup.current = getPopupPosition(opts);
 
         if (parent) {
-          list.popup.current.y += MENU_PADDING_Y;
+          list.popup.current.y -= MENU_PADDING_Y;
         }
 
         setUp.current = true;

@@ -22,7 +22,7 @@ export const usePopup = ({ ref, visible, onHide }: UsePopupOptions) => {
       const target = e.relatedTarget as Node;
 
       if (ref.current && onHide && !ref.current.contains(target)) {
-        timeout.current = setTimeout(onHide);
+        timeout.current = setTimeout(onHide) as any;
       }
     },
     [ref, onHide],

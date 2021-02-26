@@ -16,6 +16,8 @@ export * from './utils/dom';
 export * from './utils/colors';
 export * from './utils/react';
 
+export * from './constants/dialog';
+
 export * from './hooks/use-delayed-hover';
 export * from './hooks/use-popup';
 export * from './hooks/use-safe-layout-effect';

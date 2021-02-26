@@ -36,12 +36,12 @@ export const createComponent = <
     }) =>
       props.theme &&
       css`
-        ${getStyle(props.theme.components[name].baseStyle, props)}
-        ${getStyle(props.theme.components[name].sizes[props._size], props)}
+        ${getStyle(props.theme.components[name].baseStyle, props)};
         ${getStyle(
           props.theme.components[name].variants[props._variant],
           props,
-        )}
+        )};
+        ${getStyle(props.theme.components[name].sizes[props._size], props)};
       `}
   `;
 };
