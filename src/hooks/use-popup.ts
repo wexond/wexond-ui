@@ -32,6 +32,15 @@ export const usePopup = ({ ref, visible, onHide }: UsePopupOptions) => {
     clearTimeout(timeout.current);
   }, []);
 
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      if (onHide && e.key === 'Escape') {
+        onHide();
+      }
+    },
+    [onHide],
+  );
+
   const focus = React.useCallback(() => {
     ref?.current?.focus();
   }, [ref]);
@@ -40,5 +49,5 @@ export const usePopup = ({ ref, visible, onHide }: UsePopupOptions) => {
     return () => clearTimeout(timeout.current);
   }, [onHide]);
 
-  return { onBlur, onFocus, focus };
+  return { onBlur, onFocus, onKeyDown, focus };
 };

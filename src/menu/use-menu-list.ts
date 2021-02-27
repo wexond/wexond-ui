@@ -74,10 +74,10 @@ export const useMenuList = (parentId?: number) => {
         hoveredItem == null ? -1 : items.current.indexOf(hoveredItem);
       let _hoveredIndex = hoveredIndex;
 
-      if (e.key === 'ArrowDown' && ++_hoveredIndex >= itemsLength) {
-        _hoveredIndex = 0;
-      } else if (e.key === 'ArrowUp' && --_hoveredIndex < 0) {
+      if (e.key === 'ArrowUp' && --_hoveredIndex < 0) {
         _hoveredIndex = itemsLength - 1;
+      } else if (e.key === 'ArrowDown' && ++_hoveredIndex >= itemsLength) {
+        _hoveredIndex = 0;
       } else if (!hoveredItem?.hasSubmenu && e.key === 'Enter') {
         hoveredItem?.onSelect?.();
         menu.toggle(false);

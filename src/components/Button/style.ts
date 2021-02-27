@@ -65,6 +65,11 @@ export default {
       &:hover {
         border-color: rgba(255, 255, 255, 0.48);
       }
+
+      &:focus {
+        border-color: rgba(100, 181, 246, 0.54);
+        box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+      }
     `,
     primary: ({ theme: { colors } }: ComponentVariantProps) => css`
       padding: 0px 16px;

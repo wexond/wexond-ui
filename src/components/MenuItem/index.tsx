@@ -11,8 +11,8 @@ import {
 } from './style';
 
 export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
-  icon?: React.ReactElement;
-  submenuIcon?: React.ReactElement;
+  icon?: React.ReactNode;
+  submenuIcon?: React.ReactNode;
   accelerator?: string;
   leftSpacing?: string;
   rightSpacing?: string;
