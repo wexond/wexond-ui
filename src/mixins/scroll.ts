@@ -6,6 +6,7 @@ export interface ScrollOptions {
   color?: string;
   hoverColor?: string;
   alwaysVisible?: boolean;
+  activeColor?: string;
 }
 
 const defaultOptions: ScrollOptions = {
@@ -14,10 +15,18 @@ const defaultOptions: ScrollOptions = {
   alwaysVisible: true,
   color: 'rgba(0, 0, 0, 0.16)',
   hoverColor: 'rgba(0, 0, 0, 0.38)',
+  activeColor: 'rgba(0, 0, 0, 0.52)',
 };
 
 export const noButtons = (options?: ScrollOptions) => {
-  const { color, hoverColor, size, alwaysVisible, borderRadius } = {
+  const {
+    color,
+    hoverColor,
+    size,
+    alwaysVisible,
+    borderRadius,
+    activeColor,
+  } = {
     ...defaultOptions,
     ...options,
   };
@@ -47,6 +56,10 @@ export const noButtons = (options?: ScrollOptions) => {
 
     &::-webkit-scrollbar-thumb:hover {
       background-color: ${hoverColor};
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background-color: ${activeColor};
     }
 
     &::-webkit-scrollbar-corner {
