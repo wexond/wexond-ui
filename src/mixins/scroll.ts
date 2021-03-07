@@ -18,7 +18,7 @@ const defaultOptions: ScrollOptions = {
   activeColor: 'rgba(0, 0, 0, 0.52)',
 };
 
-export const noButtons = (options?: ScrollOptions) => {
+export const customScroll = (options?: ScrollOptions) => {
   const {
     color,
     hoverColor,
