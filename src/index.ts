@@ -18,6 +18,7 @@ export * from './utils/colors';
 export * from './utils/react';
 
 export * from './constants/dialog';
+export * from './constants/icons';
 
 export * from './hooks/use-delayed-hover';
 export * from './hooks/use-popup';

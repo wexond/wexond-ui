@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { ICON_CHECKED } from '../../constants/icons';
 import { mergeEvents } from '../../utils/react';
+import { Icon, IconProps } from '../Icon';
 import { StyledCheckbox, Box, IconContainer } from './style';
 
 export interface CheckboxProps
@@ -36,7 +38,17 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       [toggle],
     );
 
-    const _icon = typeof icon === 'function' ? icon(selected) : icon;
+    const _icon =
+      typeof icon === 'function'
+        ? icon(selected)
+        : icon || (
+            <Icon
+              src={ICON_CHECKED}
+              boxSize="18px"
+              iconSize="18px"
+              {...props}
+            />
+          );
 
     return (
       <StyledCheckbox
