@@ -9,7 +9,7 @@ export interface CheckboxProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   isSelected?: boolean;
   value?: any;
-  onChange: (selected: boolean, value: any) => void;
+  onChange?: (selected: boolean, value: any) => void;
   icon?: any;
 }
 

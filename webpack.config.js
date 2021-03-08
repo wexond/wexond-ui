@@ -24,9 +24,10 @@ module.exports = {
         include: INCLUDE,
         use: [
           {
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
               esModule: false,
+              limit: 8192,
             },
           },
         ],
