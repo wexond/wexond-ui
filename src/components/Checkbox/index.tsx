@@ -29,6 +29,14 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       }
     }, [selected, isSelected, onChange, value]);
 
+    const _onClick = React.useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        toggle();
+      },
+      [toggle],
+    );
+
     const _onKeyDown = React.useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') {
@@ -45,7 +53,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
             <Icon
               src={ICON_CHECKED}
               boxSize="18px"
-              iconSize="18px"
+              iconSize="20px"
               {...props}
             />
           );
@@ -54,7 +62,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       <StyledCheckbox
         ref={ref}
         tabIndex={-1}
-        onClick={mergeEvents(onClick, toggle)}
+        onClick={mergeEvents(onClick, _onClick)}
         isSelected={selected}
         onKeyDown={mergeEvents(_onKeyDown, onKeyDown)}
         {...props}

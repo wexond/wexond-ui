@@ -10,6 +10,7 @@ export const StyledCheckbox = styled.div`
   border-radius: 32px;
   cursor: pointer;
   outline: none;
+  position: relative;
   transition: 0.15s background-color;
 
   ${({ isSelected }: { isSelected: boolean }) => css`
@@ -38,8 +39,7 @@ export const Box = styled.div`
   margin: 0px;
   transition: 0.2s background-color, 0.2s border-color;
   pointer-events: none;
-  border: 2px solid rgba(255, 255, 255, 0.36);
-  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.56);
   display: flex;
   align-items: center;
   justify-content: center;
