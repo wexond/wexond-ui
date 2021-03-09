@@ -10,12 +10,22 @@ export interface CheckboxProps
   isSelected?: boolean;
   value?: any;
   onChange?: (selected: boolean, value: any) => void;
+  customClickHandler?: boolean;
   icon?: any;
 }
 
 export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
   (
-    { icon, isSelected, onChange, value, onClick, onKeyDown, ...props },
+    {
+      icon,
+      isSelected,
+      onChange,
+      value,
+      onClick,
+      onKeyDown,
+      customClickHandler,
+      ...props
+    },
     ref,
   ) => {
     const [_isSelected, _toggle] = React.useState(isSelected || false);
@@ -31,10 +41,12 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
 
     const _onClick = React.useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        e.stopPropagation();
-        toggle();
+        if (!customClickHandler) {
+          e.stopPropagation();
+          toggle();
+        }
       },
-      [toggle],
+      [toggle, customClickHandler],
     );
 
     const _onKeyDown = React.useCallback(
