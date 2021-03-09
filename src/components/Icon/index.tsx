@@ -1,58 +1,57 @@
-import styled, { css } from 'styled-components';
+import React from 'react';
 
-export interface IconProps {
+export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string;
   color?: string;
-  boxSize?: string;
-  boxWidth?: string;
-  boxHeight?: string;
-  iconSize?: string;
+  boxSize?: string | number;
+  boxWidth?: string | number;
+  boxHeight?: string | number;
+  iconSize?: string | number;
   opacity?: number;
   invert?: boolean;
   useMask?: boolean;
 }
 
-export const Icon = styled.div`
-  ${({
-    src,
-    color,
-    boxSize,
-    boxWidth,
-    boxHeight,
-    iconSize,
-    opacity,
-    invert,
-    useMask,
-  }: IconProps) => css`
-    width: ${boxWidth ?? boxSize};
-    height: ${boxHeight ?? boxSize};
+export const Icon = React.forwardRef<HTMLDivElement, IconProps>(
+  (
+    {
+      src,
+      color,
+      boxSize,
+      boxWidth,
+      boxHeight,
+      iconSize,
+      opacity,
+      invert,
+      useMask,
+      style,
+      ...props
+    },
+    ref,
+  ) => {
+    const prefix = useMask ? 'mask' : 'background';
 
-    ${
-      useMask
-        ? css`
-            mask-image: url(${src});
-            mask-position: center;
-            mask-repeat: no-repeat;
-            mask-size: ${iconSize ?? 'center'};
-            background-color: ${color};
-          `
-        : css`
-            background-image: url(${src});
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: ${iconSize ?? 'center'};
-          `
-    }
-    opacity: ${opacity};
+    const _style: React.CSSProperties = {
+      width: boxWidth ?? boxSize,
+      height: boxHeight ?? boxSize,
+      [`${prefix}Image`]: `url(${src})`,
+      [`${prefix}Position`]: 'center',
+      [`${prefix}Repeat`]: 'no-repeat',
+      [`${prefix}Size`]: iconSize ?? 'center',
+      opacity: opacity,
+    };
 
-    ${
-      invert &&
-      css`
-        filter: invert(100%);
-      `
+    if (invert) {
+      _style.filter = 'invert(100%)';
     }
-  `}
-`;
+
+    if (color && useMask) {
+      _style.backgroundColor = color;
+    }
+
+    return <div ref={ref} style={{ ..._style, ...style }} {...props} />;
+  },
+);
 
 Icon.defaultProps = {
   color: '#000',
