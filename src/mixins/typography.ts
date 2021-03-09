@@ -104,3 +104,9 @@ export const maxLines = (count: number) => css`
   -webkit-line-clamp: ${count};
   -webkit-box-orient: vertical;
 `;
+
+export const singleLine = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
