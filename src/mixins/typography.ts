@@ -4,17 +4,17 @@ export const getLetterSpacing = (fontSize: number, tracking: number) =>
   tracking / fontSize;
 
 export const robotoLight = () => css`
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 300;
 `;
 
 export const robotoRegular = css`
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 400;
 `;
 
 export const robotoMedium = css`
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-weight: 500;
 `;
 
