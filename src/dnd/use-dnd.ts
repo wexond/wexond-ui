@@ -15,15 +15,6 @@ export interface DndItem {
   draggableId: any;
 }
 
-export interface DndThumbRenderProps {
-  style: React.CSSProperties;
-}
-
-export type DndThumbRenderer = (
-  props: DndThumbRenderProps,
-  ref: any,
-) => React.ReactNode;
-
 export const useDnd = ({ onDragEnd }: DragDropProps) => {
   const [isActive, setActive] = React.useState(false);
   const [isThumbVisible, toggleThumb] = React.useState(false);
@@ -31,11 +22,10 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
   const startPoint = React.useRef<Point | null>(null);
   const dragItem = React.useRef<DndItem | null>(null);
 
-  const thumbRenderer = React.useRef<DndThumbRenderer | null>(null);
   const thumbRef = React.useRef<HTMLElement | null>(null);
 
   const isThumb = React.useCallback(() => {
-    return thumbRenderer.current && thumbRef.current;
+    return thumbRef.current;
   }, []);
 
   const updateThumb = React.useCallback(
@@ -137,7 +127,6 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
     dragItem,
     setActive,
     thumbRef,
-    thumbRenderer,
     updateThumb,
     thumbStyle,
     finishDrag,

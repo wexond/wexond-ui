@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { DndThumbRenderer } from '../../dnd/use-dnd';
 import { useDraggable } from '../../dnd/use-draggable';
 
 export interface DraggableHandlerProps {
@@ -10,17 +9,15 @@ export interface DraggableHandlerProps {
 export interface DraggableProps {
   index: number;
   draggableId?: any;
-  thumb?: DndThumbRenderer;
   children: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
 }
 
 export const Draggable: React.FC<DraggableProps> = ({
-  thumb,
   index,
   draggableId,
   children,
 }) => {
-  const draggable = useDraggable(index, draggableId, thumb);
+  const draggable = useDraggable(index, draggableId);
 
   const _children =
     typeof children === 'function' ? children(draggable.props) : children;

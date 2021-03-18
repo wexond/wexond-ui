@@ -2,13 +2,9 @@ import React from 'react';
 
 import { DraggableProps } from '../components/Draggable';
 import { DndContext, DroppableContext } from './dnd-context';
-import { DndThumbRenderer, useDnd } from './use-dnd';
+import { useDnd } from './use-dnd';
 
-export const useDraggable = (
-  index: number,
-  draggableId?: any,
-  thumbRenderer?: DndThumbRenderer,
-) => {
+export const useDraggable = (index: number, draggableId?: any) => {
   const dnd = React.useContext(DndContext);
   const droppable = React.useContext(DroppableContext);
 
@@ -18,12 +14,8 @@ export const useDraggable = (
     e.preventDefault();
 
     dnd.dragItem.current = { index, draggableId };
-
-    if (thumbRenderer && dnd.thumbRenderer) {
-      dnd.thumbRenderer.current = thumbRenderer;
-    }
-
     dnd.startPoint.current = [e.pageX, e.pageY];
+
     dnd.setActive(true);
   }, []);
 
