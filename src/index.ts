@@ -10,6 +10,9 @@ export * from './components/Spinner';
 export * from './components/Input';
 export * from './components/FormControl';
 export * from './components/Checkbox';
+export * from './components/DragDrop';
+export * from './components/Droppable';
+export * from './components/Draggable';
 
 export * from './popup/popup';
 
