@@ -20,7 +20,9 @@ export type DndMode = 'thumb' | 'thumb-native';
 export const useDnd = ({
   mode,
   setDataTransfer,
+  onDragStart: _onDragStart,
   onDragEnd: _onDragEnd,
+  getThumbOffset,
 }: DragDropProps) => {
   const [isActive, setActive] = React.useState(false);
   const [isThumbVisible, toggleThumb] = React.useState(false);
@@ -32,15 +34,17 @@ export const useDnd = ({
 
   const updateThumb = React.useCallback(
     (x: number, y: number) => {
-      if (mode === 'thumb' && thumbRef.current) {
+      if (mode === 'thumb' && thumbRef.current && dragItem.current) {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
         const thumbWidth = thumbRef.current.clientWidth;
         const thumbHeight = thumbRef.current.clientHeight;
 
-        let _x = Math.max(x, 0);
-        let _y = Math.max(y, 0);
+        const offset = getThumbOffset?.(thumbRef.current, dragItem.current);
+
+        let _x = Math.max(x - (offset?.[0] ?? 0), 0);
+        let _y = Math.max(y - (offset?.[1] ?? 0), 0);
 
         if (x + thumbWidth > viewportWidth) {
           _x = viewportWidth - thumbWidth;
@@ -53,7 +57,7 @@ export const useDnd = ({
         setPosition(thumbRef.current, _x, _y);
       }
     },
-    [mode],
+    [mode, getThumbOffset],
   );
 
   const onMouseMove = React.useCallback(
@@ -121,16 +125,17 @@ export const useDnd = ({
   const thumbStyle = React.useMemo<React.CSSProperties>(() => {
     return {
       position: 'fixed',
-      display: isThumbVisible ? 'flex' : 'none',
       top: '100vh',
       left: 0,
       pointerEvents: 'none',
+      opacity: isThumbVisible ? 1 : 0,
     };
   }, [isThumbVisible]);
 
   return {
     isActive,
     isThumbVisible,
+    toggleThumb,
     startPoint,
     dragItem,
     setActive,
@@ -140,5 +145,7 @@ export const useDnd = ({
     finishDrag,
     mode,
     setDataTransfer,
+    getThumbOffset,
+    onDragStart: _onDragStart,
   };
 };

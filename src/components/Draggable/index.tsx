@@ -10,7 +10,7 @@ export interface DraggableHandlerProps {
 export interface DraggableProps {
   index: number;
   draggableId?: any;
-  onDragEnter?: (sourceItem: DndItem, e?: React.DragEvent<HTMLElement>) => void;
+  onDragOver?: (sourceItem: DndItem, e?: React.DragEvent<HTMLElement>) => void;
   onDragLeave?: (sourceItem: DndItem, e?: React.DragEvent<HTMLElement>) => void;
   children?: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
 }
