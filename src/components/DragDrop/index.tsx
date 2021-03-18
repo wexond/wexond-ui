@@ -7,11 +7,12 @@ export type DragDropProps = React.PropsWithChildren<{
   onDragEnd: (e: DndEndResult) => void;
   thumb?: (
     props: React.PropsWithChildren<{
-      sourceItem: DndItem | null;
+      sourceItem: DndItem;
       style?: React.CSSProperties;
     }>,
     context?: any,
   ) => React.ReactElement;
+  setDataTransfer?: (dataTransfer: DataTransfer, sourceItem: DndItem) => void;
 }>;
 
 export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
@@ -20,11 +21,13 @@ export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
   return (
     <DndContext.Provider value={dnd}>
       {children}
-      {dnd.isActive &&
-        props.thumb?.(
-          { sourceItem: dnd.dragItem.current, style: dnd.thumbStyle },
-          dnd?.thumbRef,
-        )}
+      {props.thumb?.(
+        {
+          sourceItem: dnd.dragItem.current as DndItem,
+          style: dnd.thumbStyle,
+        },
+        dnd?.thumbRef,
+      )}
     </DndContext.Provider>
   );
 };

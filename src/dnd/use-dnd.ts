@@ -15,9 +15,13 @@ export interface DndItem {
   draggableId: any;
 }
 
-export type DndMode = 'fluid' | 'thumb' | 'thumb-native';
+export type DndMode = 'thumb' | 'thumb-native';
 
-export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
+export const useDnd = ({
+  thumb,
+  setDataTransfer,
+  onDragEnd: _onDragEnd,
+}: DragDropProps) => {
   const [isActive, setActive] = React.useState(false);
   const [isThumbVisible, toggleThumb] = React.useState(false);
 
@@ -26,7 +30,7 @@ export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
 
   const thumbRef = React.useRef<HTMLElement | null>(null);
 
-  const mode: DndMode = thumb ? 'thumb' : 'fluid';
+  const mode: DndMode = setDataTransfer ? 'thumb-native' : 'thumb';
 
   const updateThumb = React.useCallback(
     (x: number, y: number) => {
@@ -79,7 +83,7 @@ export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
   const finishDrag = React.useCallback(
     (dest?: DndItem) => {
       if (dragItem.current && dest) {
-        onDragEnd?.({ source: dragItem.current, dest });
+        _onDragEnd?.({ source: dragItem.current, dest });
       }
 
       startPoint.current = null;
@@ -87,36 +91,44 @@ export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
       setActive(false);
       toggleThumb(false);
     },
-    [onDragEnd],
+    [_onDragEnd],
   );
 
-  const onMouseUp = React.useCallback(
-    (e: MouseEvent) => {
-      finishDrag();
-    },
-    [finishDrag],
-  );
+  const onMouseUp = React.useCallback(() => finishDrag(), [finishDrag]);
+
+  const onDragEnd = React.useCallback(() => finishDrag(), [finishDrag]);
 
   React.useEffect(() => {
     if (isActive) {
       window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-      window.addEventListener('blur', onMouseUp);
+
+      if (mode === 'thumb') {
+        window.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('blur', onMouseUp);
+      } else {
+        window.addEventListener('dragend', onDragEnd);
+      }
     }
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-      window.addEventListener('blur', onMouseUp);
+
+      if (mode === 'thumb') {
+        window.removeEventListener('mouseup', onMouseUp);
+        window.removeEventListener('blur', onMouseUp);
+      } else {
+        window.removeEventListener('dragend', onDragEnd);
+      }
     };
-  }, [isActive, onMouseMove, onMouseUp]);
+  }, [isActive, onMouseMove, onMouseUp, mode, onDragEnd]);
 
   const thumbStyle = React.useMemo<React.CSSProperties>(() => {
     return {
       position: 'fixed',
       display: isThumbVisible ? 'flex' : 'none',
-      top: 0,
+      top: '100vh',
       left: 0,
+      pointerEvents: 'none',
     };
   }, [isThumbVisible]);
 
@@ -131,5 +143,6 @@ export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
     thumbStyle,
     finishDrag,
     mode,
+    setDataTransfer,
   };
 };

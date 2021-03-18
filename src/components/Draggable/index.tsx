@@ -1,4 +1,5 @@
 import React from 'react';
+import { DndItem } from '../../dnd/use-dnd';
 
 import { useDraggable } from '../../dnd/use-draggable';
 
@@ -9,6 +10,10 @@ export interface DraggableHandlerProps {
 export interface DraggableProps {
   index: number;
   draggableId?: any;
+  onDragMouseOver?: (
+    sourceItem: DndItem,
+    e?: React.DragEvent<HTMLElement>,
+  ) => void;
   children?: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
 }
 
