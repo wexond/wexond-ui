@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DndContext } from '../../dnd/dnd-context';
-import { DndEndResult, DndItem, useDnd } from '../../dnd/use-dnd';
+import { DndEndResult, DndItem, DndMode, useDnd } from '../../dnd/use-dnd';
 
 export type DragDropProps = React.PropsWithChildren<{
   onDragEnd: (e: DndEndResult) => void;
@@ -13,6 +13,7 @@ export type DragDropProps = React.PropsWithChildren<{
     context?: any,
   ) => React.ReactElement;
   setDataTransfer?: (dataTransfer: DataTransfer, sourceItem: DndItem) => void;
+  mode?: DndMode;
 }>;
 
 export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
@@ -30,4 +31,8 @@ export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
       )}
     </DndContext.Provider>
   );
+};
+
+DragDrop.defaultProps = {
+  mode: 'thumb',
 };

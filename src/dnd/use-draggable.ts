@@ -7,7 +7,8 @@ import { DndItem } from './use-dnd';
 export const useDraggable = ({
   index,
   draggableId,
-  onDragMouseOver,
+  onDragEnter: _onDragEnter,
+  onDragLeave: _onDragLeave,
 }: DraggableProps) => {
   const dnd = React.useContext(DndContext);
   const droppable = React.useContext(DroppableContext);
@@ -43,22 +44,51 @@ export const useDraggable = ({
     dnd?.finishDrag(item);
   }, []);
 
-  const onDragEnd = React.useCallback((e: React.DragEvent) => {
-    e.stopPropagation();
-    dnd?.finishDrag(item);
-  }, []);
+  const onDragEnd = React.useCallback(
+    (e: React.DragEvent) => {
+      e.stopPropagation();
+      dnd?.finishDrag(item);
+    },
+    [dnd],
+  );
 
   const onMouseMove = React.useCallback(() => {
-    if (dnd?.mode === 'thumb' && dnd.dragItem.current) {
-      onDragMouseOver?.(dnd.dragItem.current);
+    if (dnd?.isActive && dnd?.mode === 'thumb' && dnd.dragItem.current) {
+      _onDragEnter?.(dnd.dragItem.current);
     }
-  }, []);
+  }, [dnd]);
 
-  const onDragOver = React.useCallback((e: React.DragEvent<HTMLElement>) => {
-    if (dnd?.mode === 'thumb-native' && dnd.dragItem.current) {
-      onDragMouseOver?.(dnd.dragItem.current, e);
+  const onDragOver = React.useCallback(
+    (e: React.DragEvent<HTMLElement>) => {
+      if (
+        dnd?.isActive &&
+        dnd?.mode === 'thumb-native' &&
+        dnd.dragItem.current
+      ) {
+        _onDragEnter?.(dnd.dragItem.current, e);
+      }
+    },
+    [dnd],
+  );
+
+  const onMouseLeave = React.useCallback(() => {
+    if (dnd?.isActive && dnd?.mode === 'thumb' && dnd.dragItem.current) {
+      _onDragLeave?.(dnd.dragItem.current);
     }
-  }, []);
+  }, [dnd]);
+
+  const onDragLeave = React.useCallback(
+    (e: React.DragEvent<HTMLElement>) => {
+      if (
+        dnd?.isActive &&
+        dnd?.mode === 'thumb-native' &&
+        dnd.dragItem.current
+      ) {
+        _onDragLeave?.(dnd.dragItem.current, e);
+      }
+    },
+    [dnd],
+  );
 
   return {
     props: {
@@ -67,6 +97,8 @@ export const useDraggable = ({
       onMouseMove,
       onDragOver,
       onDragEnd,
+      onMouseLeave,
+      onDragLeave,
       draggable: true,
     },
   };

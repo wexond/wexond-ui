@@ -18,7 +18,7 @@ export interface DndItem {
 export type DndMode = 'thumb' | 'thumb-native';
 
 export const useDnd = ({
-  thumb,
+  mode,
   setDataTransfer,
   onDragEnd: _onDragEnd,
 }: DragDropProps) => {
@@ -29,8 +29,6 @@ export const useDnd = ({
   const dragItem = React.useRef<DndItem | null>(null);
 
   const thumbRef = React.useRef<HTMLElement | null>(null);
-
-  const mode: DndMode = setDataTransfer ? 'thumb-native' : 'thumb';
 
   const updateThumb = React.useCallback(
     (x: number, y: number) => {
@@ -96,8 +94,6 @@ export const useDnd = ({
 
   const onMouseUp = React.useCallback(() => finishDrag(), [finishDrag]);
 
-  const onDragEnd = React.useCallback(() => finishDrag(), [finishDrag]);
-
   React.useEffect(() => {
     if (isActive) {
       window.addEventListener('mousemove', onMouseMove);
@@ -106,7 +102,7 @@ export const useDnd = ({
         window.addEventListener('mouseup', onMouseUp);
         window.addEventListener('blur', onMouseUp);
       } else {
-        window.addEventListener('dragend', onDragEnd);
+        window.addEventListener('dragend', onMouseUp);
       }
     }
 
@@ -117,10 +113,10 @@ export const useDnd = ({
         window.removeEventListener('mouseup', onMouseUp);
         window.removeEventListener('blur', onMouseUp);
       } else {
-        window.removeEventListener('dragend', onDragEnd);
+        window.removeEventListener('dragend', onMouseUp);
       }
     };
-  }, [isActive, onMouseMove, onMouseUp, mode, onDragEnd]);
+  }, [isActive, onMouseMove, onMouseUp, mode]);
 
   const thumbStyle = React.useMemo<React.CSSProperties>(() => {
     return {
