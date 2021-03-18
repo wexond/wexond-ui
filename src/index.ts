@@ -4,6 +4,7 @@ export * from './components/MenuItem';
 export * from './components/MenuButton';
 export * from './components/Icon';
 export * from './components/Button';
+export * from './components/IconButton';
 export * from './components/Input';
 export * from './components/Group';
 export * from './components/Spinner';
