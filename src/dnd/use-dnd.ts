@@ -15,7 +15,9 @@ export interface DndItem {
   draggableId: any;
 }
 
-export const useDnd = ({ onDragEnd }: DragDropProps) => {
+export type DndMode = 'fluid' | 'thumb' | 'thumb-native';
+
+export const useDnd = ({ thumb, onDragEnd }: DragDropProps) => {
   const [isActive, setActive] = React.useState(false);
   const [isThumbVisible, toggleThumb] = React.useState(false);
 
@@ -24,13 +26,11 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
 
   const thumbRef = React.useRef<HTMLElement | null>(null);
 
-  const isThumb = React.useCallback(() => {
-    return thumbRef.current;
-  }, []);
+  const mode: DndMode = thumb ? 'thumb' : 'fluid';
 
   const updateThumb = React.useCallback(
     (x: number, y: number) => {
-      if (isThumb() && thumbRef.current) {
+      if (mode === 'thumb' && thumbRef.current) {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
@@ -51,12 +51,12 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
         setPosition(thumbRef.current, _x, _y);
       }
     },
-    [isThumb],
+    [mode],
   );
 
   const onMouseMove = React.useCallback(
     (e: MouseEvent) => {
-      if (isThumb()) {
+      if (mode === 'thumb') {
         updateThumb(e.pageX, e.pageY);
 
         if (
@@ -73,7 +73,7 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
         }
       }
     },
-    [isThumb, isThumbVisible, updateThumb],
+    [mode, isThumbVisible, updateThumb],
   );
 
   const finishDrag = React.useCallback(
@@ -130,5 +130,6 @@ export const useDnd = ({ onDragEnd }: DragDropProps) => {
     updateThumb,
     thumbStyle,
     finishDrag,
+    mode,
   };
 };

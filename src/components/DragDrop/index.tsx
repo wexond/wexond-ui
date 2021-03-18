@@ -14,18 +14,14 @@ export type DragDropProps = React.PropsWithChildren<{
   ) => React.ReactElement;
 }>;
 
-export const DragDrop: React.FC<DragDropProps> = ({
-  thumb,
-  children,
-  ...props
-}) => {
+export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
   const dnd = useDnd(props);
 
   return (
     <DndContext.Provider value={dnd}>
       {children}
       {dnd.isActive &&
-        thumb?.(
+        props.thumb?.(
           { sourceItem: dnd.dragItem.current, style: dnd.thumbStyle },
           dnd?.thumbRef,
         )}

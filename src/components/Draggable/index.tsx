@@ -9,15 +9,11 @@ export interface DraggableHandlerProps {
 export interface DraggableProps {
   index: number;
   draggableId?: any;
-  children: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
+  children?: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
 }
 
-export const Draggable: React.FC<DraggableProps> = ({
-  index,
-  draggableId,
-  children,
-}) => {
-  const draggable = useDraggable(index, draggableId);
+export const Draggable: React.FC<DraggableProps> = ({ children, ...props }) => {
+  const draggable = useDraggable(props);
 
   const _children =
     typeof children === 'function' ? children(draggable.props) : children;

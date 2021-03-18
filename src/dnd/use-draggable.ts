@@ -2,9 +2,8 @@ import React from 'react';
 
 import { DraggableProps } from '../components/Draggable';
 import { DndContext, DroppableContext } from './dnd-context';
-import { useDnd } from './use-dnd';
 
-export const useDraggable = (index: number, draggableId?: any) => {
+export const useDraggable = ({ index, draggableId }: DraggableProps) => {
   const dnd = React.useContext(DndContext);
   const droppable = React.useContext(DroppableContext);
 
