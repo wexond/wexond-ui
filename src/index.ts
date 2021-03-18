@@ -19,6 +19,7 @@ export * from './popup/popup';
 export * from './utils/dom';
 export * from './utils/colors';
 export * from './utils/react';
+export * from './utils/box';
 
 export * from './constants/dialog';
 export * from './constants/icons';
@@ -39,3 +40,5 @@ export * from './mixins/default-styles';
 
 export * from './theme/theme';
 export * from './theme/theme-provider';
+
+export * from './interfaces';

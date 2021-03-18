@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { DndContext } from '../../dnd/dnd-context';
-import { useDnd } from '../../dnd/use-dnd';
+import { DndEndResult, useDnd } from '../../dnd/use-dnd';
 
-export interface DragDropProps {}
+export interface DragDropProps {
+  onDragEnd: (e: DndEndResult) => void;
+  children?: React.ReactNode;
+}
 
 export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
   const dnd = useDnd(props);
@@ -12,10 +15,7 @@ export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {
     <DndContext.Provider value={dnd}>
       {children}
       {dnd.isActive &&
-        dnd.thumbRenderer.current?.(
-          { style: { position: 'fixed', top: 0, left: 0 } },
-          dnd?.thumbRef,
-        )}
+        dnd.thumbRenderer.current?.({ style: dnd.thumbStyle }, dnd?.thumbRef)}
     </DndContext.Provider>
   );
 };

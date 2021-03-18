@@ -24,8 +24,7 @@
     "lib": ["dom", "esnext"],
 
     "rootDir": "src",
-    "outDir": "build",
-    "baseUrl": "."
+    "outDir": "build"
   },
   "include": ["./src/"],
   "exclude": ["./src/**/*.test.ts"]

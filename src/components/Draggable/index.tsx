@@ -8,17 +8,22 @@ export interface DraggableHandlerProps {
 }
 
 export interface DraggableProps {
+  index: number;
+  draggableId?: any;
   thumb?: DndThumbRenderer;
-  children: (props: DraggableHandlerProps) => React.ReactNode;
+  children: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
 }
 
-export const Draggable: React.FC<DraggableProps> = ({ thumb, children }) => {
-  const draggable = useDraggable(thumb);
+export const Draggable: React.FC<DraggableProps> = ({
+  thumb,
+  index,
+  draggableId,
+  children,
+}) => {
+  const draggable = useDraggable(index, draggableId, thumb);
 
   const _children =
-    typeof children === 'function'
-      ? children({ onMouseDown: draggable.onMouseDown })
-      : children;
+    typeof children === 'function' ? children(draggable.props) : children;
 
   return <>{_children}</>;
 };
