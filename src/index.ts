@@ -16,7 +16,7 @@ export * from './components/Draggable';
 
 export * from './popup/popup';
 
-export { DndEndResult, DndItem } from './dnd/use-dnd';
+export * from './dnd/use-dnd';
 
 export * from './utils/dom';
 export * from './utils/colors';
