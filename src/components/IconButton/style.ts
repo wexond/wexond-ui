@@ -9,7 +9,7 @@ export const StyledIconButton = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 32px;
-  transition: 0.2s background-color, 0.05s max-width;
+  transition: 0.2s background-color, 0.05s max-width, 0.15s opacity;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.08);
