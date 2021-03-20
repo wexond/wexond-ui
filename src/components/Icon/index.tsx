@@ -47,7 +47,14 @@ export const Icon = React.forwardRef<HTMLDivElement, IconProps>(
       _style.backgroundColor = color;
     }
 
-    return <StyledIcon ref={ref} useMask={useMask} style={_style} {...props} />;
+    return (
+      <StyledIcon
+        ref={ref}
+        useMask={useMask}
+        style={{ ..._style, ...style }}
+        {...props}
+      />
+    );
   },
 );
 
