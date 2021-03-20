@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { StyledIcon, ICON_VAR_URL, ICON_VAR_SIZE } from './style';
+
 export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string;
   color?: string;
@@ -29,17 +31,13 @@ export const Icon = React.forwardRef<HTMLDivElement, IconProps>(
     },
     ref,
   ) => {
-    const prefix = useMask ? 'mask' : 'background';
-
     const _style: React.CSSProperties = {
       width: boxWidth ?? boxSize,
       height: boxHeight ?? boxSize,
-      [`${prefix}Image`]: `url(${src})`,
-      [`${prefix}Position`]: 'center',
-      [`${prefix}Repeat`]: 'no-repeat',
-      [`${prefix}Size`]: iconSize ?? 'center',
-      opacity: opacity,
-    };
+      opacity,
+      [ICON_VAR_URL]: `url(${src})`,
+      [ICON_VAR_SIZE]: iconSize ?? 'center',
+    } as any;
 
     if (invert) {
       _style.filter = 'invert(100%)';
@@ -49,7 +47,7 @@ export const Icon = React.forwardRef<HTMLDivElement, IconProps>(
       _style.backgroundColor = color;
     }
 
-    return <div ref={ref} style={{ ..._style, ...style }} {...props} />;
+    return <StyledIcon ref={ref} useMask={useMask} style={_style} {...props} />;
   },
 );
 
