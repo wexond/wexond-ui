@@ -5,7 +5,7 @@ import { useMenuList } from '../../menu/use-menu-list';
 import { getPopupPosition, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
 import { mergeEvents, mergeRefs } from '../../utils/react';
-import { StyledMenuList } from './style';
+import { StyledMenuList, BlurEffect, Container } from './style';
 
 export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
   x?: number;
@@ -24,6 +24,7 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
     const list = useMenuList(parentList?.id);
 
     const setUp = React.useRef(false);
+    const blurRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useLayoutEffect(() => {
       if (!menu || !menu.isOpen) return;
@@ -87,6 +88,10 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         }
 
         setUp.current = true;
+
+        if (blurRef.current && list.ref.current) {
+          blurRef.current.style.height = list.ref.current.scrollHeight + 'px';
+        }
       }
 
       const popup = list.popup.current;
@@ -98,17 +103,20 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
 
     return (
       <StyledMenuList
-        ref={mergeRefs(list.ref, ref, list.ref)}
+        ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         onBlur={mergeEvents(onBlur, list.props.onBlur)}
         isOpen={menu?.isOpen}
         {...props}
       >
+        <BlurEffect ref={blurRef} />
         {menu?.isOpen && (
-          <MenuListContext.Provider value={list}>
-            {children}
-          </MenuListContext.Provider>
+          <Container style={{ maxHeight: props?.style?.maxHeight }}>
+            <MenuListContext.Provider value={list}>
+              {children}
+            </MenuListContext.Provider>
+          </Container>
         )}
       </StyledMenuList>
     );

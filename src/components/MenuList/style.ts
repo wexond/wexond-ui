@@ -1,35 +1,20 @@
 import styled, { css } from 'styled-components';
 
 import { DIALOG_BOX_SHADOW } from '../../constants/dialog';
+import { customScroll } from '../../mixins/scroll';
 import { noUserSelect } from '../../mixins/user-selection';
 
-export const StyledMenuList = styled.ul`
+const MENU_LIST_BORDER_RADIUS = 6;
+
+export const StyledMenuList = styled.div`
   width: fit-content;
   color: #fff;
   position: absolute;
   margin: 0px;
-  padding: 4px 0px;
-  list-style: none;
   border: none;
-  font-size: 13px;
   z-index: 99999;
+  border-radius: ${MENU_LIST_BORDER_RADIUS}px;
   ${noUserSelect};
-
-  &::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: rgba(25, 25, 25, 0.56);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: absolute;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
-    box-shadow: ${DIALOG_BOX_SHADOW};
-    border-radius: 6px;
-    z-index: -1;
-  }
 
   &:focus {
     outline: none;
@@ -39,4 +24,34 @@ export const StyledMenuList = styled.ul`
     opacity: ${isOpen ? 1 : 0};
     pointer-events: ${isOpen ? 'inherit' : 'none'};
   `}
+`;
+
+export const BlurEffect = styled.div`
+  background-color: rgba(25, 25, 25, 0.56);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  box-shadow: ${DIALOG_BOX_SHADOW};
+  border-radius: ${MENU_LIST_BORDER_RADIUS}px;
+  z-index: -1;
+`;
+
+export const Container = styled.ul`
+  width: 100%;
+  max-height: 100%;
+  color: #fff;
+  margin: 0px;
+  padding: 4px 0px;
+  list-style: none;
+  border: none;
+  font-size: 13px;
+  overflow-y: auto;
+  ${customScroll({
+    borderRadius: `${MENU_LIST_BORDER_RADIUS}px`,
+  })};
 `;
