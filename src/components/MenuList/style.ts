@@ -11,12 +11,13 @@ export const StyledMenuList = styled.div`
   width: fit-content;
   color: #fff;
   position: absolute;
+  position: fixed;
   margin: 0px;
   border: none;
   z-index: 99999;
-  overflow: hidden;
-  border-radius: ${MENU_LIST_BORDER_RADIUS}px;
   ${noUserSelect};
+  font-size: 13px;
+  border-radius: ${MENU_LIST_BORDER_RADIUS}px;
 
   &:focus {
     outline: none;
@@ -50,9 +51,6 @@ export const Container = styled.ul`
   margin-top: ${MENU_LIST_PADDING_Y}px;
   list-style: none;
   border: none;
-  font-size: 13px;
-  overflow: hidden;
-  overflow-y: auto;
   overflow: hidden;
   ${customScroll({
     borderRadius: `${MENU_LIST_BORDER_RADIUS}px`,

@@ -11,6 +11,8 @@ export interface MenuProps {
   marginY?: number;
   placement?: PopupPlacement;
   isVisibleByDefault?: boolean;
+  maxWidth?: number;
+  maxHeight?: number;
 }
 
 export const Menu: React.FC<MenuProps> = ({ children, ...props }) => {

@@ -17,7 +17,6 @@ export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
   y?: number;
 }
 
-export const MENU_MARGIN = 4;
 export const SUBMENU_MARGIN = -4;
 export const MENU_ITEM_MARGIN = 4;
 
@@ -35,22 +34,29 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
     const blurRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useLayoutEffect(() => {
-      if (!menu || !menu.isOpen) return;
+      const ref = list.ref.current;
+      const containerRef = list.containerRef.current;
+
+      if (!menu || !menu.isOpen || !ref || !containerRef || !blurRef.current)
+        return;
 
       const lists = menu.visibleLists.current;
-      const el = list.ref.current;
 
-      if (!setUp.current && lists != null && el != null) {
-        const root = lists[0];
+      if (!setUp.current && lists != null) {
+        const root = lists.find((r) => r?.parentId == null);
         const parent = list.getParentList();
 
-        const parentRect = list?.ref?.current?.parentElement?.getBoundingClientRect();
+        const parentRect = ref.parentElement?.getBoundingClientRect();
 
         const btn = menu.buttonRef.current;
 
         let opts = {
-          width: el.clientWidth,
-          height: el.clientHeight,
+          width: ref.clientWidth,
+          height: ref.clientHeight,
+          maxWidth: menu.maxWidth,
+          maxHeight: menu.maxHeight,
+          insetY: 24,
+          relative: false,
         } as PopupOptions;
 
         if ((parent == null && btn) || (x != null && y != null)) {
@@ -66,8 +72,6 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
             marginX: menu.marginX,
             marginY: menu.marginY,
-
-            relative: false,
           };
         } else if (parentRect) {
           opts = {
@@ -79,38 +83,32 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
             parentHeight: parentRect.height,
 
             marginX: SUBMENU_MARGIN,
+            marginY: -MENU_ITEM_MARGIN,
 
             placement:
               parent !== root && parent?.popup?.current
                 ? parent.popup.current.placement
                 : 'right-start',
-
-            relative: true,
           };
         }
 
         list.popup.current = getPopupPosition(opts);
-
-        if (parent) {
-          list.popup.current.y -= MENU_MARGIN;
-        }
-
         setUp.current = true;
-
-        if (blurRef.current && list.ref.current) {
-          blurRef.current.style.height =
-            list.ref.current.scrollHeight - MENU_LIST_PADDING_Y * 2 + 'px';
-        }
       }
 
       const popup = list.popup.current;
 
       if (popup) {
+        ref.style.maxWidth = popup.maxWidth + 'px';
+        ref.style.maxHeight = popup.maxHeight - MENU_LIST_PADDING_Y + 'px';
+        containerRef.style.maxHeight = popup.maxHeight + 'px';
+
+        blurRef.current.style.height =
+          containerRef.clientHeight + MENU_LIST_PADDING_Y * 2 + 'px';
+
         setPosition(list.ref.current, popup.x, popup.y);
       }
     }, [menu, list, x, y]);
-
-    const maxHeight = props?.style?.maxHeight as number;
 
     return (
       <StyledMenuList
@@ -124,15 +122,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       >
         <BlurEffect ref={blurRef} />
         {menu?.isOpen && (
-          <Container
-            ref={list.containerRef}
-            style={{
-              maxHeight:
-                maxHeight != null
-                  ? maxHeight - MENU_LIST_PADDING_Y * 2
-                  : 'unset',
-            }}
-          >
+          <Container ref={list.containerRef}>
             <MenuListContext.Provider value={list}>
               {children}
             </MenuListContext.Provider>

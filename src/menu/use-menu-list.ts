@@ -53,7 +53,9 @@ export const useMenuList = (parentId?: number) => {
       menu.addVisibleList(data);
     }
 
-    return () => menu?.removeVisibleList(id);
+    return () => {
+      menu?.removeVisibleList(id);
+    };
   }, [id, menu, data]);
 
   React.useEffect(() => {
@@ -160,6 +162,8 @@ export const useMenuList = (parentId?: number) => {
 
   const onWheel = React.useCallback((e: React.WheelEvent) => {
     if (!containerRef.current) return;
+
+    e.stopPropagation();
 
     containerRef.current.scrollTop = containerRef.current.scrollTop + e.deltaY;
   }, []);

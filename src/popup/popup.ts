@@ -15,6 +15,8 @@ export type PopupPlacement =
 export interface PopupInfo {
   x: number;
   y: number;
+  maxWidth: number;
+  maxHeight: number;
   placement: PopupPlacement;
   relative: boolean;
 }
@@ -23,8 +25,14 @@ export interface PopupOptions {
   width: number;
   height: number;
 
+  maxWidth?: number;
+  maxHeight?: number;
+
   marginX?: number;
   marginY?: number;
+
+  insetX?: number;
+  insetY?: number;
 
   /** Horizontal position in viewport */
   parentTop: number;
@@ -84,6 +92,10 @@ const getOppositeYPlacement = (placement: PopupPlacement): PopupPlacement => {
       return 'bottom-end';
     case 'bottom-end':
       return 'top-end';
+    case 'right-end':
+      return 'right-start';
+    case 'right-start':
+      return 'right-end';
     default:
       return placement;
   }
@@ -110,7 +122,7 @@ const calculateXPos = (
       return parentLeft + parentWidth + marginX;
     case 'top-start':
     case 'bottom-start':
-      return parentLeft;
+      return parentLeft + marginX;
     case 'top-end':
     case 'bottom-end':
       return parentLeft + parentWidth - width;
@@ -138,7 +150,7 @@ const calculateYPos = (
       return parentTop + parentHeight + marginY;
     case 'left-start':
     case 'right-start':
-      return parentTop;
+      return parentTop + marginY;
     case 'left-end':
     case 'right-end':
       return parentTop + parentHeight - height;
@@ -150,6 +162,8 @@ export const getPopupPosition = ({
   height,
   marginX = 0,
   marginY = 0,
+  insetX = 0,
+  insetY = 0,
   parentLeft,
   parentTop,
   parentWidth,
@@ -158,24 +172,43 @@ export const getPopupPosition = ({
   viewportHeight = window.innerHeight,
   placement = 'bottom',
   relative = false,
+  maxWidth,
+  maxHeight,
 }: PopupOptions): PopupInfo => {
   let _placement = placement;
 
+  let _maxWidth = maxWidth;
+  let _maxHeight = maxHeight;
+
   let x = calculateXPos(placement, width, marginX, parentWidth, parentLeft);
   let y = calculateYPos(placement, height, marginY, parentHeight, parentTop);
+
+  const _x = x;
+  const _y = y;
 
   if (x + width > viewportWidth || x < 0) {
     _placement = getOppositeXPlacement(placement);
     if (_placement === placement)
       throw new Error(`Unsupported case ${placement}`);
     x = calculateXPos(_placement, width, marginX, parentWidth, parentLeft);
+
+    if (x < 0) {
+      x = _x;
+      _maxWidth = _maxWidth ?? window.innerWidth - _x - insetX;
+    }
   }
 
   if (y < 0 || y + height > viewportHeight) {
     _placement = getOppositeYPlacement(placement);
     if (_placement === placement)
       throw new Error(`Unsupported case ${placement}`);
+
     y = calculateYPos(_placement, height, marginY, parentHeight, parentTop);
+
+    if (y < 0) {
+      y = _y;
+      _maxHeight = window.innerHeight - _y - insetY;
+    }
   }
 
   if (relative) {
@@ -183,5 +216,12 @@ export const getPopupPosition = ({
     y -= parentTop;
   }
 
-  return { x, y, placement: _placement, relative };
+  return {
+    x,
+    y,
+    maxWidth: _maxWidth,
+    maxHeight: _maxHeight,
+    placement: _placement,
+    relative,
+  };
 };

@@ -7,7 +7,7 @@ import { PopupInfo } from '../popup/popup';
 export interface MenuListData {
   id: number;
   parentId?: number;
-  ref?: React.MutableRefObject<HTMLUListElement | null>;
+  ref?: React.MutableRefObject<HTMLDivElement | null>;
   popup?: React.MutableRefObject<PopupInfo | null>;
   setSelectedItem?: React.Dispatch<
     React.SetStateAction<MenuItemData | null | undefined>
@@ -30,6 +30,8 @@ export const useMenu = ({
   marginX,
   marginY,
   isVisibleByDefault,
+  maxWidth,
+  maxHeight,
 }: MenuProps) => {
   const [isOpen, _toggle] = React.useState(isVisibleByDefault);
 
@@ -87,5 +89,7 @@ export const useMenu = ({
     placement,
     marginX,
     marginY,
+    maxWidth,
+    maxHeight,
   };
 };
