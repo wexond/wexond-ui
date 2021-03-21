@@ -172,13 +172,16 @@ export const getPopupPosition = ({
   viewportHeight = window.innerHeight,
   placement = 'bottom',
   relative = false,
-  maxWidth,
-  maxHeight,
+  maxWidth = width,
+  maxHeight = height,
 }: PopupOptions): PopupInfo => {
   let _placement = placement;
 
   let _maxWidth = maxWidth;
   let _maxHeight = maxHeight;
+
+  width = Math.min(width, maxWidth);
+  height = Math.min(height, maxHeight);
 
   let x = calculateXPos(placement, width, marginX, parentWidth, parentLeft);
   let y = calculateYPos(placement, height, marginY, parentHeight, parentTop);
@@ -194,7 +197,7 @@ export const getPopupPosition = ({
 
     if (x < 0) {
       x = _x;
-      _maxWidth = _maxWidth ?? window.innerWidth - _x - insetX;
+      _maxWidth = window.innerWidth - _x - insetX;
     }
   }
 

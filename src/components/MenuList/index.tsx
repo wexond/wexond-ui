@@ -15,6 +15,8 @@ import {
 export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
   x?: number;
   y?: number;
+  parentWidth?: number;
+  parentHeight?: number;
 }
 
 export const SUBMENU_MARGIN = -4;
@@ -22,7 +24,18 @@ export const MENU_ITEM_MARGIN = 4;
 
 export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
   (
-    { x, y, onKeyDown, onMouseEnter, onBlur, onWheel, children, ...props },
+    {
+      x,
+      y,
+      parentWidth,
+      parentHeight,
+      onKeyDown,
+      onMouseEnter,
+      onBlur,
+      onWheel,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const menu = React.useContext(MenuContext);
@@ -65,8 +78,8 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
             parentLeft: btn?.offsetLeft ?? (x as number),
             parentTop: btn?.offsetTop ?? (y as number),
-            parentWidth: btn?.clientWidth ?? 0,
-            parentHeight: btn?.clientHeight ?? 0,
+            parentWidth: btn?.clientWidth ?? (parentWidth as number),
+            parentHeight: btn?.clientHeight ?? (parentHeight as number),
 
             placement: menu.placement,
 
@@ -108,7 +121,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
         setPosition(list.ref.current, popup.x, popup.y);
       }
-    }, [menu, list, x, y]);
+    }, [menu, list, x, y, parentWidth, parentHeight]);
 
     return (
       <StyledMenuList
@@ -132,3 +145,8 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
     );
   },
 );
+
+MenuList.defaultProps = {
+  parentWidth: 0,
+  parentHeight: 0,
+};
