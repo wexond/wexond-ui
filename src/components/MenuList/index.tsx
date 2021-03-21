@@ -98,7 +98,8 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         setUp.current = true;
 
         if (blurRef.current && list.ref.current) {
-          blurRef.current.style.height = list.ref.current.scrollHeight + 'px';
+          blurRef.current.style.height =
+            list.ref.current.scrollHeight - MENU_LIST_PADDING_Y * 2 + 'px';
         }
       }
 
