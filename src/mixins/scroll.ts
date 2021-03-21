@@ -67,3 +67,14 @@ export const customScroll = (options?: ScrollOptions) => {
     }
   `;
 };
+
+export const hiddenScroll = css`
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+`;
