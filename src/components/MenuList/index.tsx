@@ -105,8 +105,10 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       <StyledMenuList
         ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
-        onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
+        // onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         isOpen={menu?.isOpen}
+        // onBlur={mergeEvents(onBlur, list.props.onBlur)}
+        // onWheel={console.log}
         {...props}
       >
         <BlurEffect ref={blurRef} />

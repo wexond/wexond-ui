@@ -64,9 +64,14 @@ export const useMenuList = (parentId?: number) => {
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLUListElement>) => {
       const list = ref.current;
-      if (!list || !menu?.visibleLists.current || !menu) return;
-
-      e.stopPropagation();
+      if (
+        !list ||
+        !menu?.visibleLists.current ||
+        !menu ||
+        ['Home', 'End'].includes(e.key)
+      )
+        return;
+      console.log('XDDDDDDDDDDDDDDDDDD');
 
       const itemsLength = items.current.length;
 
