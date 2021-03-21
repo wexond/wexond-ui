@@ -15,7 +15,6 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
     }, []);
 
     const onKeyDown = React.useCallback((e: React.KeyboardEvent) => {
-      console.log('xd');
       if (!_ref.current) return;
 
       if (e.key === 'Home') {

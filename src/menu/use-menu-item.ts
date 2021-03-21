@@ -75,8 +75,6 @@ export const useMenuItem = (
     (e: React.MouseEvent) => {
       if (!list || !menu) return;
 
-      console.log(ref.current, list.id);
-
       list.ref.current?.focus();
 
       list.setHoveredItem(data);
