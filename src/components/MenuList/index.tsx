@@ -5,7 +5,12 @@ import { useMenuList } from '../../menu/use-menu-list';
 import { getPopupPosition, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
 import { mergeEvents, mergeRefs } from '../../utils/react';
-import { StyledMenuList, BlurEffect, Container } from './style';
+import {
+  StyledMenuList,
+  BlurEffect,
+  Container,
+  MENU_LIST_PADDING_Y,
+} from './style';
 
 export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
   x?: number;
@@ -104,22 +109,28 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       }
     }, [menu, list, x, y]);
 
+    const maxHeight = props?.style?.maxHeight as number;
+
     return (
       <StyledMenuList
         ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         onWheel={mergeEvents(onWheel, list.props.onWheel)}
+        onBlur={mergeEvents(onBlur, list.props.onBlur)}
         isOpen={menu?.isOpen}
-        // onBlur={mergeEvents(onBlur, list.props.onBlur)}
-        // onWheel={console.log}
         {...props}
       >
         <BlurEffect ref={blurRef} />
         {menu?.isOpen && (
           <Container
             ref={list.containerRef}
-            style={{ maxHeight: props?.style?.maxHeight }}
+            style={{
+              maxHeight:
+                maxHeight != null
+                  ? maxHeight - MENU_LIST_PADDING_Y * 2
+                  : 'unset',
+            }}
           >
             <MenuListContext.Provider value={list}>
               {children}

@@ -132,6 +132,10 @@ export const useMenuList = (parentId?: number) => {
 
       if (hoveredIndex !== _hoveredIndex) {
         setHoveredItem(items.current[_hoveredIndex]);
+
+        items.current[_hoveredIndex]?.ref?.current?.scrollIntoView({
+          block: 'nearest',
+        });
       }
     },
     [hoveredItem, items, menu],

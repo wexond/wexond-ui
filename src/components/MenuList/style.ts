@@ -5,6 +5,7 @@ import { customScroll } from '../../mixins/scroll';
 import { noUserSelect } from '../../mixins/user-selection';
 
 const MENU_LIST_BORDER_RADIUS = 6;
+export const MENU_LIST_PADDING_Y = 4;
 
 export const StyledMenuList = styled.div`
   width: fit-content;
@@ -45,8 +46,8 @@ export const BlurEffect = styled.div`
 export const Container = styled.ul`
   width: 100%;
   color: #fff;
-  margin: 0px;
-  padding: 4px 0px;
+  padding: 0px;
+  margin-top: ${MENU_LIST_PADDING_Y}px;
   list-style: none;
   border: none;
   font-size: 13px;
