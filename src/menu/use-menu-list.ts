@@ -10,7 +10,8 @@ export const useMenuList = (parentId?: number) => {
   const menu = React.useContext(MenuContext);
 
   const id = useId();
-  const ref = React.useRef<HTMLUListElement | null>(null);
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const containerRef = React.useRef<HTMLUListElement | null>(null);
   const popup = React.useRef<PopupInfo | null>(null);
 
   const [hoveredItem, setHoveredItem] = React.useState<MenuItemData | null>();
@@ -68,10 +69,19 @@ export const useMenuList = (parentId?: number) => {
         !list ||
         !menu?.visibleLists.current ||
         !menu ||
-        ['Home', 'End'].includes(e.key)
+        !containerRef.current
       )
         return;
-      console.log('XDDDDDDDDDDDDDDDDDD');
+
+      e.stopPropagation();
+
+      if (e.key === 'Home') {
+        containerRef.current.scrollTop = 0;
+        return;
+      } else if (e.key === 'End') {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        return;
+      }
 
       const itemsLength = items.current.length;
 
@@ -144,9 +154,16 @@ export const useMenuList = (parentId?: number) => {
     [getParentList, menu],
   );
 
+  const onWheel = React.useCallback((e: React.WheelEvent) => {
+    if (!containerRef.current) return;
+
+    containerRef.current.scrollTop = containerRef.current.scrollTop + e.deltaY;
+  }, []);
+
   return {
     id,
     ref,
+    containerRef,
     items,
     addItem,
     removeItem,
@@ -155,7 +172,7 @@ export const useMenuList = (parentId?: number) => {
     selectedItem,
     setSelectedItem,
     popup,
-    props: { onKeyDown, onBlur },
+    props: { onKeyDown, onBlur, onWheel },
     getParentList,
   };
 };

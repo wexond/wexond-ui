@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 import { DIALOG_BOX_SHADOW } from '../../constants/dialog';
 import { customScroll } from '../../mixins/scroll';
 import { noUserSelect } from '../../mixins/user-selection';
-import { Scrollable } from '../Scrollable';
 
 const MENU_LIST_BORDER_RADIUS = 6;
 
@@ -43,7 +42,7 @@ export const BlurEffect = styled.div`
   z-index: -1;
 `;
 
-export const Container = styled(Scrollable)`
+export const Container = styled.ul`
   width: 100%;
   color: #fff;
   margin: 0px;

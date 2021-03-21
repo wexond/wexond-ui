@@ -7,7 +7,7 @@ import { setPosition } from '../../utils/dom';
 import { mergeEvents, mergeRefs } from '../../utils/react';
 import { StyledMenuList, BlurEffect, Container } from './style';
 
-export interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
+export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
   x?: number;
   y?: number;
 }
@@ -16,8 +16,11 @@ export const MENU_MARGIN = 4;
 export const SUBMENU_MARGIN = -4;
 export const MENU_ITEM_MARGIN = 4;
 
-export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
-  ({ x, y, onKeyDown, onMouseEnter, onBlur, children, ...props }, ref) => {
+export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
+  (
+    { x, y, onKeyDown, onMouseEnter, onBlur, onWheel, children, ...props },
+    ref,
+  ) => {
     const menu = React.useContext(MenuContext);
 
     const parentList = React.useContext(MenuListContext);
@@ -105,7 +108,8 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       <StyledMenuList
         ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
-        // onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
+        onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
+        onWheel={mergeEvents(onWheel, list.props.onWheel)}
         isOpen={menu?.isOpen}
         // onBlur={mergeEvents(onBlur, list.props.onBlur)}
         // onWheel={console.log}
@@ -113,7 +117,10 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
       >
         <BlurEffect ref={blurRef} />
         {menu?.isOpen && (
-          <Container style={{ maxHeight: props?.style?.maxHeight }}>
+          <Container
+            ref={list.containerRef}
+            style={{ maxHeight: props?.style?.maxHeight }}
+          >
             <MenuListContext.Provider value={list}>
               {children}
             </MenuListContext.Provider>
