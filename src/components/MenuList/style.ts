@@ -13,6 +13,7 @@ export const StyledMenuList = styled.div`
   margin: 0px;
   border: none;
   z-index: 99999;
+  overflow: hidden;
   border-radius: ${MENU_LIST_BORDER_RADIUS}px;
   ${noUserSelect};
 
@@ -43,14 +44,15 @@ export const BlurEffect = styled.div`
 
 export const Container = styled.ul`
   width: 100%;
-  max-height: 100%;
   color: #fff;
   margin: 0px;
   padding: 4px 0px;
   list-style: none;
   border: none;
   font-size: 13px;
+  overflow: hidden;
   overflow-y: auto;
+  overflow: hidden;
   ${customScroll({
     borderRadius: `${MENU_LIST_BORDER_RADIUS}px`,
   })};

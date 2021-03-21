@@ -6,7 +6,7 @@ import { MenuItemData } from './use-menu';
 
 export const useMenuItem = (
   hasSubmenu: boolean,
-  _onSelect?: () => void,
+  _onSelect?: (middleButton?: boolean) => void,
   isDisabled?: boolean,
 ) => {
   const id = useId();
@@ -54,17 +54,22 @@ export const useMenuItem = (
 
   const isSubmenuOpen = hasSubmenu && list && list.selectedItem === data;
 
-  const onClick = React.useCallback(() => {
-    if (!list) return;
+  const onMouseUp = React.useCallback(
+    (e: React.MouseEvent) => {
+      if (!list) return;
 
-    if (hasSubmenu) {
-      list.setSelectedItem(data);
-    } else if (menu) {
-      _onSelect?.();
-      menu.toggle(false);
-      menu.buttonRef.current?.focus();
-    }
-  }, [hasSubmenu, list, data, menu, _onSelect]);
+      e.stopPropagation();
+
+      if (hasSubmenu) {
+        list.setSelectedItem(data);
+      } else if (menu) {
+        _onSelect?.(e.button === 1);
+        menu.toggle(false);
+        menu.buttonRef.current?.focus();
+      }
+    },
+    [hasSubmenu, list, data, menu, _onSelect],
+  );
 
   const onMouseEnter = React.useCallback(
     (e: React.MouseEvent) => {
@@ -124,6 +129,6 @@ export const useMenuItem = (
     ref,
     isHovered,
     isSubmenuOpen,
-    props: { onMouseEnter, onMouseLeave, onClick },
+    props: { onMouseEnter, onMouseLeave, onMouseUp },
   };
 };

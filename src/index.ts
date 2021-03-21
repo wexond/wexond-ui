@@ -27,6 +27,7 @@ export * from './utils/box';
 
 export * from './constants/dialog';
 export * from './constants/icons';
+export * from './constants/menu';
 
 export * from './hooks/use-delayed-hover';
 export * from './hooks/use-popup';

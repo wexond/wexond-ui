@@ -32,7 +32,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       submenu,
       children,
       onSelect,
-      onClick,
+      onMouseUp,
       onMouseEnter,
       onMouseLeave,
       isDisabled,
@@ -43,27 +43,23 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     const item = useMenuItem(!!submenu, onSelect, isDisabled);
 
     return (
-      <>
-        <StyledMenuItem
-          ref={mergeRefs(item.ref, ref)}
-          isSelected={item.isHovered}
-          onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
-          onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
-          onClick={mergeEvents(onClick, item.props.onClick)}
-          isDisabled={isDisabled}
-          {...props}
-        >
-          {icon && <IconContainer>{icon}</IconContainer>}
-          <Label leftSpacing={leftSpacing} isDisabled={isDisabled}>
-            {children}
-          </Label>
-          <Accelerator>{accelerator}</Accelerator>
-          {submenu && (
-            <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>
-          )}
-          {item.isSubmenuOpen && submenu}
-        </StyledMenuItem>
-      </>
+      <StyledMenuItem
+        ref={mergeRefs(item.ref, ref)}
+        isSelected={item.isHovered}
+        onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
+        onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
+        onMouseUp={mergeEvents(onMouseUp, item.props.onMouseUp)}
+        isDisabled={isDisabled}
+        {...props}
+      >
+        {icon && <IconContainer>{icon}</IconContainer>}
+        <Label leftSpacing={leftSpacing} isDisabled={isDisabled}>
+          {children}
+        </Label>
+        <Accelerator>{accelerator}</Accelerator>
+        {submenu && <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>}
+        {item.isSubmenuOpen && submenu}
+      </StyledMenuItem>
     );
   },
 );

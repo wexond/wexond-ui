@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components';
 
+import { MENU_LIST_ITEM_HEIGHT } from '../../constants/menu';
 import { MENU_ITEM_MARGIN } from '../MenuList';
 
 export const StyledMenuItem = styled.li`
-  height: 32px;
+  height: ${MENU_LIST_ITEM_HEIGHT}px;
   display: flex;
   flex: 1 1 auto;
   position: relative;

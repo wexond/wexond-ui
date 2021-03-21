@@ -106,7 +106,6 @@ export const MenuList = React.forwardRef<HTMLUListElement, MenuListProps>(
         ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        onBlur={mergeEvents(onBlur, list.props.onBlur)}
         isOpen={menu?.isOpen}
         {...props}
       >
