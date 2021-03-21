@@ -219,8 +219,8 @@ export const getPopupPosition = ({
   return {
     x,
     y,
-    maxWidth: _maxWidth,
-    maxHeight: _maxHeight,
+    maxWidth: _maxWidth ?? width,
+    maxHeight: _maxHeight ?? height,
     placement: _placement,
     relative,
   };
