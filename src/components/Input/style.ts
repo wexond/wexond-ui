@@ -13,6 +13,7 @@ export default {
     outline: none;
     cursor: text;
     border-radius: 4px;
+    will-change: box-shadow;
     transition: 0.15s box-shadow;
 
     &:hover {

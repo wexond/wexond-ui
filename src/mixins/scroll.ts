@@ -51,6 +51,7 @@ export const customScroll = (options?: ScrollOptions) => {
       border: none;
       border-radius: ${borderRadius};
       opacity: 0 !important;
+      will-change: background-color;
       transition: 0.3s background-color;
     }
 

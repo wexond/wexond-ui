@@ -2,6 +2,12 @@ import styled, { css } from 'styled-components';
 
 import { Icon } from '../Icon';
 
+interface StyledIconButtonProps {
+  isDisabled?: boolean;
+  isActive?: boolean;
+  dense?: boolean;
+}
+
 export const StyledIconButton = styled.div`
   width: 30px;
   height: 30px;
@@ -10,6 +16,7 @@ export const StyledIconButton = styled.div`
   align-items: center;
   border-radius: 32px;
   flex-shrink: 0;
+  will-change: background-color, max-width, opacity;
   transition: 0.2s background-color, 0.05s max-width, 0.15s opacity;
 
   &:hover {
@@ -20,15 +27,7 @@ export const StyledIconButton = styled.div`
     background-color: rgba(255, 255, 255, 0.12);
   }
 
-  ${({
-    isDisabled,
-    isActive,
-    dense,
-  }: {
-    isDisabled?: boolean;
-    isActive?: boolean;
-    dense?: boolean;
-  }) =>
+  ${({ isDisabled, isActive, dense }: StyledIconButtonProps) =>
     css`
       ${
         isDisabled &&
@@ -59,5 +58,6 @@ export const StyledIconButton = styled.div`
 `;
 
 export const StyledIcon = styled(Icon)`
-  transition: 0.15s background-image;
+  will-change: background-image, mask-image;
+  transition: 0.15s background-image, 0.15s mask-image;
 `;
