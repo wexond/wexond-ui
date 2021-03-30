@@ -64,7 +64,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         const btn = menu.buttonRef.current;
 
         let opts = {
-          width: ref.clientWidth,
+          width: ref.clientWidth + 2,
           height: ref.clientHeight,
           maxWidth: menu.maxWidth,
           maxHeight: menu.maxHeight,
