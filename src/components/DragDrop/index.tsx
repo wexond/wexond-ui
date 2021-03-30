@@ -15,8 +15,8 @@ export type DragDropProps = React.PropsWithChildren<{
     context?: any,
   ) => React.ReactElement;
   getThumbOffset?: (thumbRef: HTMLElement, sourceItem: DndItem) => Point;
-  setDataTransfer?: (dataTransfer: DataTransfer, sourceItem: DndItem) => void;
   mode?: DndMode;
+  threshold?: number;
 }>;
 
 export const DragDrop: React.FC<DragDropProps> = ({ children, ...props }) => {

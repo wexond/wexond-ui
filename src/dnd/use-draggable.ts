@@ -9,87 +9,113 @@ export const useDraggable = ({
   draggableId,
   onDragOver: _onDragOver,
   onDragLeave: _onDragLeave,
+  setDataTransfer,
+  isDisabled,
 }: DraggableProps) => {
   const dnd = React.useContext(DndContext);
 
-  const item: DndItem = { index, draggableId };
+  const item: DndItem = React.useMemo(() => ({ index, draggableId }), [
+    index,
+    draggableId,
+  ]);
 
   const onDragStart = React.useCallback(
     (e: React.DragEvent<HTMLElement>) => {
-      if (!dnd) return;
+      if (!dnd || isDisabled) return;
 
       dnd.startPoint.current = [e.pageX, e.pageY];
       dnd.dragItem.current = item;
 
       if (dnd.mode === 'thumb') {
         e.preventDefault();
-      } else if (dnd.mode === 'thumb-native' && dnd.thumbRef.current) {
-        const thumb = dnd.thumbRef.current;
+      } else if (dnd.mode === 'thumb-native') {
+        setDataTransfer?.(e.dataTransfer, dnd.dragItem.current);
 
-        dnd.toggleThumb(true);
+        if (dnd.thumbRef.current) {
+          const thumb = dnd.thumbRef.current;
 
-        const offset = dnd.getThumbOffset?.(thumb, dnd.dragItem.current);
+          dnd.toggleThumb(true);
 
-        e.dataTransfer.setDragImage(thumb, offset?.[0] ?? 0, offset?.[1] ?? 0);
+          const offset = dnd.getThumbOffset?.(thumb, dnd.dragItem.current);
 
-        dnd.setDataTransfer?.(e.dataTransfer, dnd.dragItem.current);
+          e.dataTransfer.setDragImage(
+            thumb,
+            offset?.[0] ?? 0,
+            offset?.[1] ?? 0,
+          );
 
-        requestAnimationFrame(() => {
-          dnd.toggleThumb(false);
-        });
+          requestAnimationFrame(() => {
+            dnd.toggleThumb(false);
+          });
+        }
       }
 
       dnd.onDragStart?.(item, e);
       dnd.setActive(true);
     },
-    [dnd],
+    [dnd, item, setDataTransfer, isDisabled],
   );
 
   const onMouseUp = React.useCallback(
     (e: React.MouseEvent) => {
+      if (isDisabled) return;
       e.stopPropagation();
       dnd?.finishDrag(item);
     },
-    [dnd],
+    [dnd, item, isDisabled],
   );
 
   const onDragEnd = React.useCallback(
     (e: React.DragEvent) => {
+      if (isDisabled) return;
       e.stopPropagation();
       dnd?.finishDrag(item);
     },
-    [dnd],
+    [dnd, item, isDisabled],
   );
 
   const onMouseMove = React.useCallback(() => {
-    if (dnd?.isActive && dnd?.mode === 'thumb' && dnd.dragItem.current) {
+    if (
+      !isDisabled &&
+      dnd?.isActive &&
+      dnd?.mode === 'thumb' &&
+      dnd.dragItem.current
+    ) {
       _onDragOver?.(dnd.dragItem.current);
     }
-  }, [dnd]);
+  }, [dnd, _onDragOver, isDisabled]);
 
   const onDragOver = React.useCallback(
     (e: React.DragEvent<HTMLElement>) => {
       if (
+        !isDisabled &&
         dnd?.isActive &&
         dnd?.mode === 'thumb-native' &&
         dnd.dragItem.current
       ) {
         e.preventDefault();
+        console.log(e);
         _onDragOver?.(dnd.dragItem.current, e);
       }
     },
-    [dnd],
+    [dnd, _onDragOver, isDisabled],
   );
 
   const onMouseLeave = React.useCallback(() => {
-    if (dnd?.isActive && dnd?.mode === 'thumb' && dnd.dragItem.current) {
+    if (
+      !isDisabled &&
+      dnd?.isActive &&
+      dnd?.mode === 'thumb' &&
+      dnd.dragItem.current
+    ) {
       _onDragLeave?.(dnd.dragItem.current);
     }
-  }, [dnd]);
+  }, [dnd, _onDragLeave, isDisabled]);
 
   const onDragLeave = React.useCallback(
     (e: React.DragEvent<HTMLElement>) => {
       if (
+        !isDisabled &&
         dnd?.isActive &&
         dnd?.mode === 'thumb-native' &&
         dnd.dragItem.current
@@ -97,7 +123,7 @@ export const useDraggable = ({
         _onDragLeave?.(dnd.dragItem.current, e);
       }
     },
-    [dnd],
+    [dnd, _onDragLeave, isDisabled],
   );
 
   return {
@@ -109,7 +135,7 @@ export const useDraggable = ({
       onDragEnd,
       onMouseLeave,
       onDragLeave,
-      draggable: true,
+      draggable: !isDisabled,
     },
   };
 };

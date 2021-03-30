@@ -12,7 +12,11 @@ export interface DraggableProps {
   draggableId?: any;
   onDragOver?: (sourceItem: DndItem, e?: React.DragEvent<HTMLElement>) => void;
   onDragLeave?: (sourceItem: DndItem, e?: React.DragEvent<HTMLElement>) => void;
-  children?: (props: React.HTMLAttributes<HTMLElement>) => React.ReactNode;
+  setDataTransfer?: (dataTransfer: DataTransfer, sourceItem: DndItem) => void;
+  isDisabled?: boolean;
+  children?: (
+    props: ReturnType<typeof useDraggable>['props'],
+  ) => React.ReactNode;
 }
 
 export const Draggable: React.FC<DraggableProps> = ({ children, ...props }) => {

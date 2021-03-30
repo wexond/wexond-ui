@@ -19,6 +19,7 @@ export * from './components/Skeleton';
 export * from './popup/popup';
 
 export * from './dnd/use-dnd';
+export * from './dnd/use-draggable';
 
 export * from './utils/dom';
 export * from './utils/colors';

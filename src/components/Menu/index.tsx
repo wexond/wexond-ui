@@ -13,15 +13,27 @@ export interface MenuProps {
   isVisibleByDefault?: boolean;
   maxWidth?: number;
   maxHeight?: number;
+  onMount?: () => void;
+  onUnmount?: () => void;
 }
 
-export const Menu: React.FC<MenuProps> = ({ children, ...props }) => {
+export const Menu: React.FC<MenuProps> = ({
+  onMount,
+  onUnmount,
+  children,
+  ...props
+}) => {
   const ctx = useMenu(props);
 
   const _children =
     typeof children === 'function'
       ? children({ isOpen: ctx.isOpen })
       : children;
+
+  React.useEffect(() => {
+    onMount?.();
+    return () => onUnmount?.();
+  }, [onMount, onUnmount]);
 
   return <MenuContext.Provider value={ctx}>{_children}</MenuContext.Provider>;
 };

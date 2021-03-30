@@ -19,10 +19,10 @@ export type DndMode = 'thumb' | 'thumb-native';
 
 export const useDnd = ({
   mode,
-  setDataTransfer,
   onDragStart: _onDragStart,
   onDragEnd: _onDragEnd,
   getThumbOffset,
+  threshold,
 }: DragDropProps) => {
   const [isActive, setActive] = React.useState(false);
   const [isThumbVisible, toggleThumb] = React.useState(false);
@@ -73,13 +73,13 @@ export const useDnd = ({
             startPoint.current[1],
             e.pageX,
             e.pageY,
-          ) >= 5
+          ) >= (threshold ?? 5)
         ) {
           return toggleThumb(true);
         }
       }
     },
-    [mode, isThumbVisible, updateThumb],
+    [mode, isThumbVisible, updateThumb, threshold],
   );
 
   const finishDrag = React.useCallback(
@@ -144,7 +144,6 @@ export const useDnd = ({
     thumbStyle,
     finishDrag,
     mode,
-    setDataTransfer,
     getThumbOffset,
     onDragStart: _onDragStart,
   };
