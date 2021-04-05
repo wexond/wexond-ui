@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDisableScrollButton } from '../../hooks/use-disable-scroll-button';
 
 import { MenuContext, MenuListContext } from '../../menu/menu-context';
 import { useMenuList } from '../../menu/use-menu-list';
@@ -30,6 +31,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       parentWidth,
       parentHeight,
       onKeyDown,
+      onMouseDown,
       onMouseEnter,
       onBlur,
       onWheel,
@@ -123,6 +125,8 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       }
     }, [menu, list, x, y, parentWidth, parentHeight]);
 
+    const { onMouseDown: _onMouseDown } = useDisableScrollButton();
+
     return (
       <StyledMenuList
         ref={mergeRefs(list.ref, ref)}
@@ -130,6 +134,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
         onWheel={mergeEvents(onWheel, list.props.onWheel)}
         onBlur={mergeEvents(onBlur, list.props.onBlur)}
+        onMouseDown={mergeEvents(onMouseDown, _onMouseDown)}
         isOpen={menu?.isOpen}
         {...props}
       >
