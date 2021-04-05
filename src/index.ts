@@ -34,6 +34,7 @@ export * from './hooks/use-delayed-hover';
 export * from './hooks/use-popup';
 export * from './hooks/use-safe-layout-effect';
 export * from './hooks/use-debounce-input';
+export * from './hooks/use-disable-scroll-button';
 
 export * from './mixins/cursors';
 export * from './mixins/images';
