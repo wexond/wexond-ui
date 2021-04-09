@@ -11,9 +11,9 @@ module.exports = {
 
   output: {
     filename: 'index.js',
-    path: __dirname + '/build',
+    path: resolve(__dirname, 'build'),
     libraryTarget: 'umd',
-    library: '@wexond/react',
+    library: '@wexond/ui',
     globalObject: 'this',
   },
 
