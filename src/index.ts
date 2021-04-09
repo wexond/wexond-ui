@@ -36,6 +36,7 @@ export * from './hooks/use-safe-layout-effect';
 export * from './hooks/use-debounce-input';
 export * from './hooks/use-disable-scroll-button';
 
+export * from './mixins/background';
 export * from './mixins/cursors';
 export * from './mixins/images';
 export * from './mixins/positioning';

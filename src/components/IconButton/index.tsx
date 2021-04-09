@@ -24,7 +24,12 @@ export const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(
         dense={dense}
         {...props}
       >
-        <StyledIcon src={icon} iconSize={iconSize} invert={autoInvert} />
+        <StyledIcon
+          src={icon}
+          boxSize={iconSize}
+          iconSize={iconSize}
+          invert={autoInvert}
+        />
       </StyledIconButton>
     );
   },

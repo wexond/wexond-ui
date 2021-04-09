@@ -63,3 +63,5 @@ Icon.defaultProps = {
   boxSize: '16px',
   iconSize: '16px',
 };
+
+export { StyledIcon } from './style';

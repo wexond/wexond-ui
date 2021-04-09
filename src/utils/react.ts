@@ -48,3 +48,5 @@ export const mergeEventsMaps = (...maps: EventsMap[]) => {
 export const renderUI = (Component: React.ElementType, htmlId = 'app') => {
   render(createElement(Component), document.getElementById(htmlId));
 };
+
+export const isClientWeb = typeof window !== 'undefined';
