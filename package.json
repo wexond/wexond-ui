@@ -14,7 +14,7 @@
   "homepage": "https://github.com/wexond/wexond-ui#readme",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"cross-env dev=1 webpack --watch\"",
-    "build": "webpack",
+    "build": "concurrently \"tsc\" \"webpack\"",
     "test": "mocha -r ts-node/register src/**/*.test.ts --timeout 5000",
     "test-watch": "mocha -r ts-node/register src/**/*.test.ts  --timeout 5000 --watch --watch-files src/**/*.ts",
     "prepublishOnly": "npm run build"
