@@ -29,31 +29,25 @@ export const StyledIconButton = styled.div`
 
   ${({ isDisabled, isActive, dense }: StyledIconButtonProps) =>
     css`
-      ${
-        isDisabled &&
-        css`
-          pointer-events: none;
+      ${isDisabled &&
+      css`
+        pointer-events: none;
 
-          & > * {
-            opacity: 0.24;
-          }
-        `
-      }
+        & > * {
+          opacity: 0.24;
+        }
+      `}
 
-      ${
-        dense &&
-        css`
-          width: 30px;
-          height: 26px;
-        `
-      }
+      ${dense &&
+      css`
+        width: 30px;
+        height: 26px;
+      `}
 
-      ${
-        isActive &&
-        css`
-          background-color: rgba(255, 255, 255, 0.12);
-        `
-      }
+      ${isActive &&
+      css`
+        background-color: rgba(255, 255, 255, 0.12);
+      `}
     `}
 `;
 

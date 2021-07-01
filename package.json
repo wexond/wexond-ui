@@ -17,7 +17,9 @@
     "build": "concurrently \"tsc\" \"webpack\"",
     "test": "mocha -r ts-node/register src/**/*.test.ts --timeout 5000",
     "test-watch": "mocha -r ts-node/register src/**/*.test.ts  --timeout 5000 --watch --watch-files src/**/*.ts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "eslint . **/*.{js,jsx,ts,tsx}",
+    "lint:fix": "npx prettier-eslint **/*.{js,jsx,ts,tsx} --write"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -54,6 +56,7 @@
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "mocha": "^8.2.1",
     "prettier": "^2.2.1",
+    "prettier-eslint-cli": "^5.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "sinon": "^9.2.4",
