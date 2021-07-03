@@ -102,6 +102,8 @@ const colors = {
     A200: '#448AFF',
     A400: '#2979FF',
     A700: '#2962FF',
+    dark: '#6ec6ff',
+    light: '#448aff',
   },
 
   lightBlue: {
