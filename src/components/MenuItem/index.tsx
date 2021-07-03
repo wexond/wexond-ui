@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useMenuItem } from '../../menu/use-menu-item';
-import { mergeEvents, mergeRefs } from '../../utils/react';
+import { mergeEvents, mergeRefs } from '../../utils/merge';
 import {
   IconContainer,
   Label,
@@ -45,10 +45,11 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     return (
       <StyledMenuItem
         ref={mergeRefs(item.ref, ref)}
-        isSelected={item.isHovered}
-        onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
-        onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
-        onMouseUp={mergeEvents(onMouseUp, item.props.onMouseUp)}
+        {...mergeEvents({
+          onMouseEnter: [onMouseEnter, item.props.onMouseEnter],
+          onMouseLeave: [onMouseLeave, item.props.onMouseLeave],
+          onMouseUp: [onMouseUp, item.props.onMouseUp],
+        })}
         isDisabled={isDisabled}
         {...props}
       >

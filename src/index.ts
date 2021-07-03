@@ -27,6 +27,7 @@ export * from './utils/dom';
 export * from './utils/colors';
 export * from './utils/react';
 export * from './utils/box';
+export * from './utils/merge';
 
 export * from './constants/dialog';
 export * from './constants/icons';

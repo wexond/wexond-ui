@@ -1,20 +1,20 @@
 import React from 'react';
 
-import { mergeRefs } from '../../utils/react';
+import { mergeEvents, mergeRefs } from '../../utils/merge';
 
 export interface ScrollableProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
-  ({ children, ...props }, ref) => {
+  ({ children, onWheel, onKeyDown, ...props }, ref) => {
     const _ref = React.useRef<HTMLDivElement | null>(null);
 
-    const onWheel = React.useCallback((e: React.WheelEvent) => {
+    const _onWheel = React.useCallback((e: React.WheelEvent) => {
       if (!_ref.current) return;
 
       _ref.current.scrollTop = _ref.current.scrollTop + e.deltaY;
     }, []);
 
-    const onKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    const _onKeyDown = React.useCallback((e: React.KeyboardEvent) => {
       if (!_ref.current) return;
 
       if (e.key === 'Home') {
@@ -27,8 +27,10 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
     return (
       <div
         ref={mergeRefs(ref, _ref)}
-        onWheel={onWheel}
-        onKeyDown={onKeyDown}
+        {...mergeEvents({
+          onWheel: [onWheel, _onWheel],
+          onKeyDown: [onKeyDown, _onKeyDown],
+        })}
         {...props}
       >
         {children}

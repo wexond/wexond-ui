@@ -5,7 +5,7 @@ import { MenuContext, MenuListContext } from '../../menu/menu-context';
 import { useMenuList } from '../../menu/use-menu-list';
 import { getPopupPosition, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
-import { mergeEvents, mergeRefs } from '../../utils/react';
+import { mergeEvents, mergeRefs } from '../../utils/merge';
 import {
   StyledMenuList,
   BlurEffect,
@@ -131,10 +131,12 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       <StyledMenuList
         ref={mergeRefs(list.ref, ref)}
         tabIndex={-1}
-        onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        onWheel={mergeEvents(onWheel, list.props.onWheel)}
-        onBlur={mergeEvents(onBlur, list.props.onBlur)}
-        onMouseDown={mergeEvents(onMouseDown, _onMouseDown)}
+        {...mergeEvents({
+          onKeyDown: [onKeyDown, item.props.onKeyDown],
+          onWheel: [onWheel, item.props.onWheel],
+          onBlur: [onBlur, item.props.onBlur],
+          onMouseDown: [onMouseDown, _onMouseDown],
+        })}
         isOpen={menu?.isOpen}
         {...props}
       >

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ICON_CHECKED } from '../../constants/icons';
-import { mergeEvents } from '../../utils/react';
+import { mergeEvents } from '../../utils/merge';
 import { Icon, IconProps } from '../Icon';
 import { StyledCheckbox, Box, IconContainer } from './style';
 
@@ -74,9 +74,11 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       <StyledCheckbox
         ref={ref}
         tabIndex={-1}
-        onClick={mergeEvents(onClick, _onClick)}
         isSelected={selected}
-        onKeyDown={mergeEvents(_onKeyDown, onKeyDown)}
+        {...mergeEvents({
+          onClick: [onClick, _onClick],
+          onKeyDown: [onKeyDown, _onKeyDown],
+        })}
         {...props}
       >
         <Box isSelected={selected} />
@@ -85,3 +87,4 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
     );
   },
 );
+//  {...mergeEvents({ onClick }, { onClick: _onClick })}
