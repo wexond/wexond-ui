@@ -1,5 +1,4 @@
 import React from 'react';
-import { MenuContext, MenuListContext } from '../../menu/menu-context';
 
 import { useMenuItem } from '../../menu/use-menu-item';
 import { mergeEvents, mergeRefs } from '../../utils/merge';
@@ -34,25 +33,27 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       children,
       onSelect,
       isDisabled,
+      onMouseEnter,
+      onFocus,
+      onMouseLeave,
+      onMouseUp,
       ...props
     },
-    refx,
+    ref,
   ) => {
-    const {
-      ref,
-      props: { onMouseEnter, onFocus, onMouseLeave, onMouseUp },
-      isSubmenuOpen,
-    } = useMenuItem(!!submenu, onSelect);
+    const item = useMenuItem(!!submenu, onSelect);
 
     return (
       <StyledMenuItem
-        ref={ref as any}
+        ref={mergeRefs(ref, item.ref) as any}
         tabIndex={-1}
         isDisabled={isDisabled}
-        onMouseEnter={onMouseEnter}
-        onFocus={onFocus}
-        onMouseLeave={onMouseLeave}
-        onMouseUp={onMouseUp}
+        {...mergeEvents({
+          onMouseEnter: [onMouseEnter, item.props.onMouseEnter],
+          onFocus: [onFocus, item.props.onFocus],
+          onMouseLeave: [onMouseLeave, item.props.onMouseLeave],
+          onMouseUp: [onMouseUp, item.props.onMouseUp],
+        })}
         {...props}
       >
         {icon && <IconContainer>{icon}</IconContainer>}
@@ -61,7 +62,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
         </Label>
         <Accelerator>{accelerator}</Accelerator>
         {submenu && <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>}
-        {isSubmenuOpen && submenu}
+        {item.isSubmenuOpen && submenu}
       </StyledMenuItem>
     );
   },

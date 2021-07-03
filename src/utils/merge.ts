@@ -21,7 +21,7 @@ export const mergePropsEvents = <T extends Record<string, any>>(
 
   Array.from(map.keys()).forEach((key) => {
     finalObj[key] = (...args: any[]) => {
-      map.get(key)?.forEach((cb) => cb(...args));
+      map.get(key)?.forEach((cb) => cb?.(...args));
     };
   });
 
@@ -33,7 +33,9 @@ export const mergeEvents = <T extends Record<string, any>>(map: T) => {
 
   Object.keys(map).forEach((key) => {
     finalObj[key] = (...args: any[]) => {
-      map[key].forEach((cb) => cb(...args));
+      map[key].forEach((cb) => {
+        cb?.(...args);
+      });
     };
   });
 

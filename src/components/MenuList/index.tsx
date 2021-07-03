@@ -30,8 +30,9 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       y,
       parentWidth,
       parentHeight,
-      onMouseDown,
-      onMouseEnter,
+      onKeyDown,
+      onBlur,
+      onWheel,
       children,
       ...props
     },
@@ -42,7 +43,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       controller,
       containerRef,
       parentController,
-      props: { onBlur },
+      props: listProps,
     } = useMenuList();
 
     const blurRef = React.useRef<HTMLDivElement | null>(null);
@@ -137,7 +138,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       parentHeight,
     ]);
 
-    const onKeyDown = React.useCallback(
+    const _onKeyDown = React.useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (!containerRef.current || !root) return;
 
@@ -177,7 +178,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       [root, containerRef, controller, parentController],
     );
 
-    const onWheel = React.useCallback(
+    const _onWheel = React.useCallback(
       (e: React.WheelEvent) => {
         if (!containerRef.current) return;
 
@@ -197,12 +198,14 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
     return (
       <StyledMenuList
-        ref={controller.ref}
+        ref={mergeRefs(ref, controller.ref) as any}
         tabIndex={-1}
         isOpen={root?.isOpen}
-        onKeyDown={onKeyDown}
-        onBlur={onBlur}
-        onWheel={onWheel}
+        {...mergeEvents({
+          onKeyDown: [onKeyDown, _onKeyDown],
+          onBlur: [onBlur, listProps.onBlur],
+          onWheel: [onWheel, _onWheel],
+        })}
         {...props}
       >
         <BlurEffect ref={blurRef} />
