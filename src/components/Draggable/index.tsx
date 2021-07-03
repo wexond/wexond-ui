@@ -20,7 +20,7 @@ export interface DraggableProps {
 }
 
 export const Draggable: React.FC<DraggableProps> = ({ children, ...props }) => {
-  const draggable = useDraggable(props);
+  const draggable = useDraggable(props as any);
 
   const _children =
     typeof children === 'function' ? children(draggable.props) : children;

@@ -3,7 +3,7 @@ import { useDisableScrollButton } from '../../hooks/use-disable-scroll-button';
 
 import { MenuContext, MenuListContext } from '../../menu/menu-context';
 import { useMenuList } from '../../menu/use-menu-list';
-import { getPopupPosition, PopupOptions } from '../../popup/popup';
+import { getPopupPosition, PopupInfo, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
 import { mergeEvents, mergeRefs } from '../../utils/react';
 import {
@@ -30,118 +30,185 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       y,
       parentWidth,
       parentHeight,
-      onKeyDown,
       onMouseDown,
       onMouseEnter,
-      onBlur,
-      onWheel,
       children,
       ...props
     },
     ref,
   ) => {
-    const menu = React.useContext(MenuContext);
+    const root = React.useContext(MenuContext);
+    const {
+      controller,
+      containerRef,
+      parentController,
+      props: { onBlur },
+    } = useMenuList();
 
-    const parentList = React.useContext(MenuListContext);
-    const list = useMenuList(parentList?.id);
-
-    const setUp = React.useRef(false);
     const blurRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useLayoutEffect(() => {
-      const ref = list.ref.current;
-      const containerRef = list.containerRef.current;
+      const ref = controller.ref.current;
 
-      if (!menu || !menu.isOpen || !ref || !containerRef || !blurRef.current)
-        return;
+      if (!ref || !blurRef.current || !containerRef.current || !root) return;
 
-      const lists = menu.visibleLists.current;
+      // the menu item that is a parent of this menu list
+      const parentRect = ref.parentElement?.getBoundingClientRect();
+      const btn = root.buttonRef.current;
 
-      if (!setUp.current && lists != null) {
-        const root = lists.find((r) => r?.parentId == null);
-        const parent = list.getParentList();
+      let opts: Partial<PopupOptions> = {};
 
-        const parentRect = ref.parentElement?.getBoundingClientRect();
+      if (x != null && y != null) {
+        opts = {
+          parentLeft: x,
+          parentTop: y,
+          parentWidth: parentWidth,
+          parentHeight: parentHeight,
 
-        const btn = menu.buttonRef.current;
+          placement: root.props.placement ?? 'right-start',
 
-        let opts = {
-          width: ref.clientWidth + 2,
-          height: ref.clientHeight,
-          maxWidth: menu.maxWidth,
-          maxHeight: menu.maxHeight,
-          insetY: 24,
-          relative: false,
-        } as PopupOptions;
+          marginX: root.props.marginX,
+          marginY: root.props.marginY,
+        };
+      } else if (parentController == null && btn != null) {
+        opts = {
+          parentLeft: btn.offsetLeft,
+          parentTop: btn.offsetTop,
+          parentWidth: btn.clientWidth,
+          parentHeight: btn.clientHeight,
 
-        if ((parent == null && btn) || (x != null && y != null)) {
-          opts = {
-            ...opts,
+          placement: root.props.placement ?? 'bottom-start',
 
-            parentLeft: btn?.offsetLeft ?? (x as number),
-            parentTop: btn?.offsetTop ?? (y as number),
-            parentWidth: btn?.clientWidth ?? (parentWidth as number),
-            parentHeight: btn?.clientHeight ?? (parentHeight as number),
+          marginX: root.props.marginX,
+          marginY: root.props.marginY,
+        };
+      } else if (parentRect && parentController != null) {
+        // We are sure that it's a submenu
 
-            placement: menu.placement,
+        opts = {
+          parentLeft: parentRect.x,
+          parentTop: parentRect.y,
+          parentWidth: parentRect.width,
+          parentHeight: parentRect.height,
 
-            marginX: menu.marginX,
-            marginY: menu.marginY,
-          };
-        } else if (parentRect) {
-          opts = {
-            ...opts,
+          marginX: SUBMENU_MARGIN,
+          marginY: -MENU_ITEM_MARGIN,
 
-            parentLeft: parentRect.x,
-            parentTop: parentRect.y,
-            parentWidth: parentRect.width,
-            parentHeight: parentRect.height,
+          placement:
+            parentController.getParent() != null
+              ? parentController.popupInfo.current!.placement
+              : 'right-start',
+        };
+      }
 
-            marginX: SUBMENU_MARGIN,
-            marginY: -MENU_ITEM_MARGIN,
+      const BORDER_SIZE = 2;
 
-            placement:
-              parent !== root && parent?.popup?.current
-                ? parent.popup.current.placement
-                : 'right-start',
-          };
+      opts = {
+        ...opts,
+        width: ref.clientWidth + BORDER_SIZE,
+        height: ref.clientHeight,
+        maxWidth: root.props.maxWidth,
+        maxHeight: root.props.maxHeight,
+        insetY: 24,
+        relative: false,
+      };
+
+      const popup = (controller.popupInfo.current = getPopupPosition(
+        opts as any,
+      ));
+
+      ref.style.maxWidth = popup.maxWidth + 'px';
+      ref.style.maxHeight = popup.maxHeight - MENU_LIST_PADDING_Y + 'px';
+      containerRef.current.style.maxHeight = popup.maxHeight + 'px';
+
+      blurRef.current.style.height =
+        containerRef.current.clientHeight + MENU_LIST_PADDING_Y * 2 + 'px';
+
+      setPosition(ref, popup.x, popup.y);
+    }, [
+      parentController,
+      controller.popupInfo,
+      containerRef,
+      root,
+      controller.ref,
+      x,
+      y,
+      parentWidth,
+      parentHeight,
+    ]);
+
+    const onKeyDown = React.useCallback(
+      (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (!containerRef.current || !root) return;
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.key === 'Home') {
+          containerRef.current.scrollTop = 0;
+          return;
+        } else if (e.key === 'End') {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          return;
         }
 
-        list.popup.current = getPopupPosition(opts);
-        setUp.current = true;
+        const index = controller.getFocusedIndex();
+        const item = controller.itemsList.current[index];
+
+        if (e.key === 'ArrowUp') {
+          controller.focusPrevious();
+        } else if (e.key === 'ArrowDown') {
+          controller.focusNext();
+        } else if (!item?.hasSubmenu && e.key === 'Enter') {
+          item.onSelect?.(false);
+          root.toggle(false);
+        } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
+          controller.requestSubmenu(controller.getFocusedIndex());
+        } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
+          if (parentController) {
+            parentController.hideSubmenu();
+          } else if (e.key === 'Escape') {
+            root.toggle(false);
+          }
+        } else {
+          controller.focusUsingText(e.key);
+        }
+      },
+      [root, containerRef, controller, parentController],
+    );
+
+    const onWheel = React.useCallback(
+      (e: React.WheelEvent) => {
+        if (!containerRef.current) return;
+
+        e.stopPropagation();
+
+        containerRef.current.scrollTop =
+          containerRef.current.scrollTop + e.deltaY;
+      },
+      [containerRef],
+    );
+
+    React.useEffect(() => {
+      if (parentController) {
+        controller.ref.current?.focus();
       }
-
-      const popup = list.popup.current;
-
-      if (popup) {
-        ref.style.maxWidth = popup.maxWidth + 'px';
-        ref.style.maxHeight = popup.maxHeight - MENU_LIST_PADDING_Y + 'px';
-        containerRef.style.maxHeight = popup.maxHeight + 'px';
-
-        blurRef.current.style.height =
-          containerRef.clientHeight + MENU_LIST_PADDING_Y * 2 + 'px';
-
-        setPosition(list.ref.current, popup.x, popup.y);
-      }
-    }, [menu, list, x, y, parentWidth, parentHeight]);
-
-    const { onMouseDown: _onMouseDown } = useDisableScrollButton();
+    }, [parentController, controller?.ref]);
 
     return (
       <StyledMenuList
-        ref={mergeRefs(list.ref, ref)}
+        ref={controller.ref}
         tabIndex={-1}
-        onKeyDown={mergeEvents(onKeyDown, list.props.onKeyDown)}
-        onWheel={mergeEvents(onWheel, list.props.onWheel)}
-        onBlur={mergeEvents(onBlur, list.props.onBlur)}
-        onMouseDown={mergeEvents(onMouseDown, _onMouseDown)}
-        isOpen={menu?.isOpen}
+        isOpen={root?.isOpen}
+        onKeyDown={onKeyDown}
+        onBlur={onBlur}
+        onWheel={onWheel}
         {...props}
       >
         <BlurEffect ref={blurRef} />
-        {menu?.isOpen && (
-          <Container ref={list.containerRef}>
-            <MenuListContext.Provider value={list}>
+        {root?.isOpen && (
+          <Container ref={containerRef}>
+            <MenuListContext.Provider value={controller}>
               {children}
             </MenuListContext.Provider>
           </Container>
