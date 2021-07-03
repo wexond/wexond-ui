@@ -2,6 +2,7 @@ import React from 'react';
 
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemController } from './use-menu';
+import { useMenuItemController } from './use-menu-item-controller';
 
 export const useMenuItem = (
   hasSubmenu: boolean,
@@ -9,44 +10,23 @@ export const useMenuItem = (
 ) => {
   const root = React.useContext(MenuContext);
   const listController = React.useContext(MenuListContext);
-  const ref = React.useRef<HTMLLIElement | null>(null);
 
-  const globalIndex = React.useRef<number>(-1);
-
-  const controller = React.useMemo<MenuItemController>(
-    () => ({
-      ref,
-      hasSubmenu,
-      onSelect,
-    }),
-    [hasSubmenu, onSelect],
-  );
-
-  React.useEffect(() => {
-    const itemsList = listController?.itemsList;
-
-    if (!itemsList) {
-      throw new Error('Menu item must be a child of Menu List');
-    }
-
-    if (globalIndex.current === -1) {
-      globalIndex.current = itemsList.current.push(controller) - 1;
-    } else {
-      itemsList.current[globalIndex.current] = controller;
-    }
-  }, [controller, listController]);
+  const {
+    ref,
+    controller,
+    globalIndex,
+    props: { onFocus },
+  } = useMenuItemController({
+    hasSubmenu,
+    onSelect,
+  });
 
   const isSubmenuOpen = hasSubmenu && listController?.submenu === controller;
 
   const onMouseEnter = React.useCallback(() => {
     ref.current?.focus();
     listController?.requestSubmenu(globalIndex.current, true);
-  }, [listController]);
-
-  const onFocus = React.useCallback(() => {
-    if (!listController) return;
-    listController.focusedItem.current = controller;
-  }, [listController, controller]);
+  }, [ref, listController, globalIndex]);
 
   const onMouseLeave = React.useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
@@ -87,7 +67,7 @@ export const useMenuItem = (
       onSelect?.(e.button === 1);
       root.toggle(false);
     },
-    [onSelect, root, listController, hasSubmenu],
+    [onSelect, root, listController, hasSubmenu, globalIndex],
   );
 
   return {

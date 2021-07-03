@@ -38,8 +38,6 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     },
     refx,
   ) => {
-    const root = React.useContext(MenuContext);
-
     const {
       ref,
       props: { onMouseEnter, onFocus, onMouseLeave, onMouseUp },
@@ -48,7 +46,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
 
     return (
       <StyledMenuItem
-        ref={ref}
+        ref={ref as any}
         tabIndex={-1}
         isDisabled={isDisabled}
         onMouseEnter={onMouseEnter}
