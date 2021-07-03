@@ -12,7 +12,7 @@ export interface ComponentProps<
   T extends {
     variants?: Record<string, unknown>;
     sizes?: Record<string, unknown>;
-  }
+  },
 > {
   variant?: keyof T['variants'];
   size?: keyof T['sizes'];
@@ -22,13 +22,11 @@ export type ComponentVariantProps = {
   theme: { colors: ThemeColors };
 };
 
-export const createComponent = <
-  T extends keyof JSX.IntrinsicElements | React.ComponentType<any>
->(
+export const createComponent = <T extends keyof any | React.ComponentType<any>>(
   type: T,
   name: string,
 ) => {
-  return styled(type)`
+  return styled(type as any)`
     ${(props: {
       theme?: Theme;
       _size: string | undefined;

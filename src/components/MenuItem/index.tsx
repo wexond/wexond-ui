@@ -1,4 +1,5 @@
 import React from 'react';
+import { MenuContext, MenuListContext } from '../../menu/menu-context';
 
 import { useMenuItem } from '../../menu/use-menu-item';
 import { mergeEvents, mergeRefs } from '../../utils/react';
@@ -32,24 +33,33 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       submenu,
       children,
       onSelect,
-      onMouseUp,
-      onMouseEnter,
-      onMouseLeave,
       isDisabled,
       ...props
     },
-    ref,
+    refx,
   ) => {
-    const item = useMenuItem(!!submenu, onSelect, isDisabled);
+    const root = React.useContext(MenuContext);
+    const listController = React.useContext(MenuListContext);
+
+    const {
+      ref,
+      props: { onMouseEnter, onFocus, onMouseLeave },
+      isSubmenuOpen,
+    } = useMenuItem(!!submenu);
+
+    const onClick = () => {
+      console.log(root);
+    };
 
     return (
       <StyledMenuItem
-        ref={mergeRefs(item.ref, ref)}
-        isSelected={item.isHovered}
-        onMouseEnter={mergeEvents(onMouseEnter, item.props.onMouseEnter)}
-        onMouseLeave={mergeEvents(onMouseLeave, item.props.onMouseLeave)}
-        onMouseUp={mergeEvents(onMouseUp, item.props.onMouseUp)}
+        ref={ref}
+        tabIndex={-1}
+        onClick={onClick}
         isDisabled={isDisabled}
+        onMouseEnter={onMouseEnter}
+        onFocus={onFocus}
+        onMouseLeave={onMouseLeave}
         {...props}
       >
         {icon && <IconContainer>{icon}</IconContainer>}
@@ -58,7 +68,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
         </Label>
         <Accelerator>{accelerator}</Accelerator>
         {submenu && <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>}
-        {item.isSubmenuOpen && submenu}
+        {isSubmenuOpen && submenu}
       </StyledMenuItem>
     );
   },

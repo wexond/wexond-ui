@@ -18,7 +18,7 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
 
     return (
       <ButtonComponent
-        ref={mergeRefs(ref, menu?.buttonRef)}
+        // ref={mergeRefs(ref, menu?.buttonRef)}
         onMouseDown={mergeEvents(onMouseDown, btn.props.onMouseDown)}
         onKeyDown={mergeEvents(onKeyDown, btn.props.onKeyDown)}
         {...props}

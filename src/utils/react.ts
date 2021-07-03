@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import React, { createElement } from 'react';
 import { render } from 'react-dom';
 
 export type RefsArray<T> = Array<
@@ -17,8 +17,10 @@ export const setRefs = <T>(instance: T | null, ...refs: RefsArray<T>) => {
   });
 };
 
-export const mergeRefs = <T>(...refs: RefsArray<T>) => (instance: T) =>
-  setRefs(instance, ...refs);
+export const mergeRefs =
+  <T>(...refs: RefsArray<T>) =>
+  (instance: T) =>
+    setRefs(instance, ...refs);
 
 export const mergeEvents = (...events: any[]) => {
   return (...args: unknown[]) => events.forEach((cb) => cb?.(...args));

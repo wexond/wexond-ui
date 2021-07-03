@@ -4,92 +4,47 @@ import { MenuProps } from '../components/Menu';
 import { useItems } from '../hooks/use-items';
 import { PopupInfo } from '../popup/popup';
 
-export interface MenuListData {
-  id: number;
-  parentId?: number;
-  ref?: React.MutableRefObject<HTMLDivElement | null>;
-  popup?: React.MutableRefObject<PopupInfo | null>;
-  setSelectedItem?: React.Dispatch<
-    React.SetStateAction<MenuItemData | null | undefined>
-  >;
-  unselect?: () => void;
+export interface MenuListController {
+  ref: React.MutableRefObject<HTMLDivElement | null>;
+  itemsList: React.MutableRefObject<MenuItemController[]>;
+  popupInfo: React.MutableRefObject<PopupInfo | null>;
+  focusNext: () => void;
+  focusPrevious: () => void;
+  focusItem: (index: number) => void;
+  focusUsingText: (text: string) => void;
+  focusedItem: React.MutableRefObject<MenuItemController | null>;
+  getFocusedIndex: () => number;
+  activeItem: React.MutableRefObject<MenuItemController | null>;
+  requestSubmenu: (index: number, delay?: boolean) => void;
+  hideSubmenu: () => void;
+  parentItem: React.MutableRefObject<PopupInfo | null>;
+  getParent: () => MenuListController | null;
+  submenu: MenuItemController | null;
 }
 
-export interface MenuItemData {
-  id: number;
-  listId?: number;
-  ref?: React.MutableRefObject<HTMLLIElement | null>;
-  hasSubmenu?: boolean;
-  onSelect?: () => void;
+export interface MenuItemController {
+  ref: React.MutableRefObject<HTMLLIElement | null>;
+  hasSubmenu: boolean;
 }
 
-export const useMenu = ({
-  onOpen,
-  onClose,
-  placement,
-  marginX,
-  marginY,
-  isVisibleByDefault,
-  maxWidth,
-  maxHeight,
-}: MenuProps) => {
-  const [isOpen, _toggle] = React.useState(isVisibleByDefault);
+export const useMenu = (props: MenuProps) => {
+  const controllers = React.useRef<MenuListController[]>([]);
 
-  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-  const itemMouseTimer = React.useRef<NodeJS.Timeout | null>(null);
+  const menuRequest = React.useRef<NodeJS.Timeout | null>(null);
 
-  const {
-    items: visibleLists,
-    addItem: addVisibleList,
-    removeItem: removeVisibleList,
-  } = useItems<MenuListData>();
-
-  const clearItemMouseTimer = React.useCallback(() => {
-    if (itemMouseTimer.current != null) {
-      clearTimeout(itemMouseTimer.current);
+  const clearMenuRequest = React.useCallback(() => {
+    if (menuRequest.current != null) {
+      clearTimeout(menuRequest.current);
     }
   }, []);
 
-  const setItemMouseTimer = React.useCallback(
-    (cb: (...args: any[]) => any) => {
-      clearItemMouseTimer();
-      itemMouseTimer.current = setTimeout(cb, 300);
+  const requestMenu = React.useCallback(
+    (cb: (...args: any) => any, delay = false) => {
+      clearMenuRequest();
+      menuRequest.current = setTimeout(cb, delay ? 300 : 0);
     },
-    [clearItemMouseTimer],
+    [clearMenuRequest],
   );
 
-  const toggle = React.useCallback(
-    (visible: boolean) => {
-      if (visible) {
-        onOpen?.();
-      } else {
-        clearItemMouseTimer();
-        onClose?.();
-      }
-
-      if (buttonRef.current) {
-        _toggle(visible);
-      }
-    },
-    [onOpen, onClose, clearItemMouseTimer],
-  );
-
-  return {
-    visibleLists,
-    addVisibleList,
-    removeVisibleList,
-    itemMouseTimer,
-    clearItemMouseTimer,
-    setItemMouseTimer,
-    onOpen,
-    onClose,
-    isOpen,
-    toggle,
-    buttonRef,
-    placement,
-    marginX,
-    marginY,
-    maxWidth,
-    maxHeight,
-  };
+  return { controllers, props, menuRequest, requestMenu, clearMenuRequest };
 };

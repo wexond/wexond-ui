@@ -25,10 +25,7 @@ export const Menu: React.FC<MenuProps> = ({
 }) => {
   const ctx = useMenu(props);
 
-  const _children =
-    typeof children === 'function'
-      ? children({ isOpen: ctx.isOpen })
-      : children;
+  const _children = typeof children === 'function' ? children({}) : children;
 
   React.useEffect(() => {
     onMount?.();
@@ -39,7 +36,7 @@ export const Menu: React.FC<MenuProps> = ({
 };
 
 Menu.defaultProps = {
-  placement: 'bottom-start',
+  placement: 'right-start',
   marginY: 2,
   isVisibleByDefault: false,
 };

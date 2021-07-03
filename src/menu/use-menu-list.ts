@@ -2,185 +2,161 @@ import React from 'react';
 
 import { useId } from '../hooks/use-id';
 import { useItems } from '../hooks/use-items';
-import { PopupInfo } from '../popup/popup';
-import { MenuContext } from './menu-context';
-import { MenuItemData, MenuListData } from './use-menu';
+import { PopupInfo, PopupOptions } from '../popup/popup';
+import { MenuContext, MenuListContext } from './menu-context';
+import { MenuItemController, MenuListController } from './use-menu';
 
 export const useMenuList = (parentId?: number) => {
-  const menu = React.useContext(MenuContext);
+  const root = React.useContext(MenuContext);
+  const parentController = React.useContext(MenuListContext);
 
-  const id = useId();
   const ref = React.useRef<HTMLDivElement | null>(null);
+
   const containerRef = React.useRef<HTMLUListElement | null>(null);
-  const popup = React.useRef<PopupInfo | null>(null);
+  const globalIndex = React.useRef<number>(-1);
 
-  const [hoveredItem, setHoveredItem] = React.useState<MenuItemData | null>();
-  const [selectedItem, setSelectedItem] = React.useState<MenuItemData | null>();
+  const popupInfo = React.useRef<PopupInfo | null>(null);
 
-  const { items, addItem, removeItem } = useItems<MenuItemData>();
+  const [submenu, setSubmenu] = React.useState<MenuItemController | null>(null);
 
-  const getParentList = React.useCallback(() => {
-    if (!menu?.visibleLists) return;
-    return menu.visibleLists.current.find((r) => r?.id === parentId);
-  }, [menu?.visibleLists, parentId]);
+  const itemsList = React.useRef<MenuItemController[]>([]);
+  const focusedItem = React.useRef<MenuItemController | null>(null);
+  const activeItem = React.useRef<MenuItemController | null>(null);
 
-  const unselect = React.useCallback(() => {
-    if (hoveredItem != null) {
-      setHoveredItem(null);
+  const requestSubmenu = React.useCallback(
+    (index: number, delay = false) => {
+      if (!root) return;
 
-      const childList = menu?.visibleLists.current.find(
-        (r) => r?.parentId === id,
-      );
+      root.requestMenu(() => {
+        if (index != null) {
+          const item = itemsList.current[index];
 
-      childList?.unselect?.();
-    }
-  }, [id, hoveredItem, menu?.visibleLists]);
+          root.menuRequest.current = null;
 
-  const data = React.useMemo<MenuListData>(
-    () => ({
-      id,
-      parentId,
-      ref,
-      popup,
-      unselect,
-      setSelectedItem,
-    }),
-    [id, parentId, unselect],
-  );
+          if (item?.hasSubmenu) {
+            const item = itemsList.current[index];
 
-  React.useEffect(() => {
-    if (menu) {
-      menu.addVisibleList(data);
-    }
-
-    return () => {
-      menu?.removeVisibleList(id);
-    };
-  }, [id, menu, data]);
-
-  React.useEffect(() => {
-    if (ref.current && menu?.isOpen) {
-      ref.current.focus();
-    }
-  }, [menu]);
-
-  const onKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLUListElement>) => {
-      const list = ref.current;
-      if (
-        !list ||
-        !menu?.visibleLists.current ||
-        !menu ||
-        !containerRef.current
-      )
-        return;
-
-      e.stopPropagation();
-
-      if (e.key === 'Home') {
-        containerRef.current.scrollTop = 0;
-        return;
-      } else if (e.key === 'End') {
-        containerRef.current.scrollTop = containerRef.current.scrollHeight;
-        return;
-      }
-
-      const itemsLength = items.current.length;
-
-      const hoveredIndex =
-        hoveredItem == null ? -1 : items.current.indexOf(hoveredItem);
-      let _hoveredIndex = hoveredIndex;
-
-      if (e.key === 'ArrowUp' && --_hoveredIndex < 0) {
-        _hoveredIndex = itemsLength - 1;
-      } else if (e.key === 'ArrowDown' && ++_hoveredIndex >= itemsLength) {
-        _hoveredIndex = 0;
-      } else if (!hoveredItem?.hasSubmenu && e.key === 'Enter') {
-        hoveredItem?.onSelect?.();
-        menu.toggle(false);
-        menu.buttonRef.current?.focus();
-      } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
-        if (_hoveredIndex === -1) {
-          _hoveredIndex = 0;
-        } else {
-          setSelectedItem(items.current[_hoveredIndex]);
+            activeItem.current = item;
+            return setSubmenu(item);
+          }
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
-        const lists = menu.visibleLists.current;
-        const list = lists[lists.length - 2];
 
-        if (list) {
-          list.setSelectedItem?.(null);
-          list.ref?.current?.focus();
-
-          _hoveredIndex = -1;
-        } else if (e.key !== 'ArrowLeft') {
-          menu.toggle(false);
-          menu.onClose?.();
-          menu.buttonRef?.current?.focus();
-        }
-      } else {
-        const rest = items.current
-          .slice(_hoveredIndex + 1)
-          .concat(items.current.slice(0, _hoveredIndex));
-
-        const match = rest.find((r) =>
-          r?.ref?.current?.textContent?.toLowerCase()?.startsWith(e.key),
-        );
-        if (match) {
-          _hoveredIndex = items.current.indexOf(match);
-        }
-      }
-
-      if (hoveredIndex !== _hoveredIndex) {
-        setHoveredItem(items.current[_hoveredIndex]);
-
-        items.current[_hoveredIndex]?.ref?.current?.scrollIntoView({
-          block: 'nearest',
-        });
-      }
+        setSubmenu(null);
+        activeItem.current = null;
+      }, delay);
     },
-    [hoveredItem, items, menu],
+    [root],
   );
 
-  const onBlur = React.useCallback(
-    (e: React.FocusEvent<HTMLElement>) => {
-      const target = e.relatedTarget as Node;
+  const hideSubmenu = React.useCallback(() => {
+    root?.clearMenuRequest();
 
-      if (
-        menu &&
-        menu.isOpen &&
-        ref.current &&
-        getParentList() == null &&
-        !ref.current.contains(target)
-      ) {
-        menu.toggle(false);
-      }
-    },
-    [getParentList, menu],
-  );
+    setSubmenu(null);
+    activeItem.current = null;
 
-  const onWheel = React.useCallback((e: React.WheelEvent) => {
-    if (!containerRef.current) return;
+    focusedItem.current?.ref?.current?.focus();
+  }, [root]);
 
-    e.stopPropagation();
+  const getFocusedIndex = React.useCallback(() => {
+    const focused = focusedItem.current;
+    const items = itemsList.current;
 
-    containerRef.current.scrollTop = containerRef.current.scrollTop + e.deltaY;
+    return !focused ? -1 : items.indexOf(focused);
+  }, [itemsList]);
+
+  const focusItem = React.useCallback((index: number) => {
+    itemsList.current[index]?.ref?.current?.focus();
   }, []);
 
-  return {
-    id,
-    ref,
-    containerRef,
-    items,
-    addItem,
-    removeItem,
-    hoveredItem,
-    setHoveredItem,
-    selectedItem,
-    setSelectedItem,
-    popup,
-    props: { onKeyDown, onBlur, onWheel },
-    getParentList,
-  };
+  const focusNext = React.useCallback(() => {
+    let index = getFocusedIndex();
+
+    if (++index >= itemsList.current.length) {
+      index = 0;
+    }
+
+    focusItem(index);
+  }, [getFocusedIndex, focusItem]);
+
+  const focusPrevious = React.useCallback(() => {
+    let index = getFocusedIndex();
+
+    if (--index < 0) {
+      index = itemsList.current.length - 1;
+    }
+
+    focusItem(index);
+  }, [getFocusedIndex, focusItem]);
+
+  const focusUsingText = React.useCallback(
+    (text: string) => {
+      const index = getFocusedIndex();
+
+      const rest = itemsList.current
+        .slice(index + 1)
+        .concat(itemsList.current.slice(0, index));
+
+      const match = rest.find((r) =>
+        r?.ref?.current?.textContent?.toLowerCase()?.startsWith(text),
+      );
+
+      if (match) {
+        focusItem(itemsList.current.indexOf(match));
+      }
+    },
+    [focusItem, getFocusedIndex],
+  );
+
+  const getParent = React.useCallback(() => {
+    if (!root) return null;
+
+    return root.controllers.current[globalIndex.current - 1];
+  }, [root]);
+
+  const controller = React.useMemo<MenuListController>(
+    () => ({
+      ref,
+      itemsList,
+      focusedItem,
+      focusNext,
+      focusPrevious,
+      getFocusedIndex,
+      focusUsingText,
+      focusItem,
+      activeItem,
+      popupInfo,
+      requestSubmenu,
+      getParent,
+      hideSubmenu,
+      submenu,
+    }),
+    [
+      focusNext,
+      focusPrevious,
+      focusItem,
+      getFocusedIndex,
+      focusUsingText,
+      requestSubmenu,
+      activeItem,
+      getParent,
+      hideSubmenu,
+      submenu,
+    ],
+  );
+
+  React.useEffect(() => {
+    const controllers = root?.controllers;
+
+    if (!controllers) {
+      throw new Error('Menu list must be a child of Menu');
+    }
+
+    if (globalIndex.current === -1) {
+      globalIndex.current = controllers.current.push(controller) - 1;
+    } else {
+      controllers.current[globalIndex.current] = controller;
+    }
+  }, [root?.controllers, controller]);
+
+  return { containerRef, parentController, controller };
 };

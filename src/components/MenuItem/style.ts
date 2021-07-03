@@ -13,22 +13,16 @@ export const StyledMenuItem = styled.li`
   border-radius: 4px;
   margin: 0 ${MENU_ITEM_MARGIN}px;
 
-  ${({
-    isSelected,
-    isDisabled,
-  }: {
-    isSelected?: boolean;
-    isDisabled?: boolean;
-  }) =>
-    css`
-      pointer-events: ${isDisabled ? 'none' : 'inherit'};
+  &:focus,
+  &:focus-within {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
 
-      ${isSelected &&
-      css`
-        &&& {
-          background-color: rgba(255, 255, 255, 0.12);
-        }
-      `}
+  ${({ isDisabled }: { isDisabled?: boolean }) =>
+    isDisabled &&
+    css`
+      pointer-events: 'none';
     `}
 `;
 
