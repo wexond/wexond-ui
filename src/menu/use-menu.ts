@@ -17,7 +17,6 @@ export interface MenuListController {
   activeItem: React.MutableRefObject<MenuItemController | null>;
   requestSubmenu: (index: number, delay?: boolean) => void;
   hideSubmenu: () => void;
-  parentItem: React.MutableRefObject<PopupInfo | null>;
   getParent: () => MenuListController | null;
   submenu: MenuItemController | null;
 }
@@ -28,8 +27,10 @@ export interface MenuItemController {
 }
 
 export const useMenu = (props: MenuProps) => {
-  const controllers = React.useRef<MenuListController[]>([]);
+  const [isOpen, _toggle] = React.useState(props.isVisibleByDefault);
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
+  const controllers = React.useRef<MenuListController[]>([]);
   const menuRequest = React.useRef<NodeJS.Timeout | null>(null);
 
   const clearMenuRequest = React.useCallback(() => {
@@ -46,5 +47,30 @@ export const useMenu = (props: MenuProps) => {
     [clearMenuRequest],
   );
 
-  return { controllers, props, menuRequest, requestMenu, clearMenuRequest };
+  const toggle = React.useCallback(
+    (visible: boolean) => {
+      if (visible) {
+        // onOpen?.();
+      } else {
+        clearMenuRequest();
+        // onClose?.();
+      }
+
+      if (buttonRef.current) {
+        _toggle(visible);
+      }
+    },
+    [/*onOpen, onClose, clearItemMouseTimer*/ clearMenuRequest],
+  );
+
+  return {
+    controllers,
+    props,
+    menuRequest,
+    requestMenu,
+    clearMenuRequest,
+    isOpen,
+    toggle,
+    buttonRef,
+  };
 };

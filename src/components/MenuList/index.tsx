@@ -52,6 +52,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
       // the menu item that is a parent of this menu list
       const parentRect = ref.parentElement?.getBoundingClientRect();
+      const btn = root.buttonRef.current;
 
       let opts: Partial<PopupOptions> = {};
 
@@ -62,7 +63,19 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
           parentWidth: parentWidth,
           parentHeight: parentHeight,
 
-          placement: root.props.placement,
+          placement: root.props.placement ?? 'right-start',
+
+          marginX: root.props.marginX,
+          marginY: root.props.marginY,
+        };
+      } else if (parentController == null && btn != null) {
+        opts = {
+          parentLeft: btn.offsetLeft,
+          parentTop: btn.offsetTop,
+          parentWidth: btn.clientWidth,
+          parentHeight: btn.clientHeight,
+
+          placement: root.props.placement ?? 'bottom-start',
 
           marginX: root.props.marginX,
           marginY: root.props.marginY,
@@ -79,7 +92,10 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
           marginX: SUBMENU_MARGIN,
           marginY: -MENU_ITEM_MARGIN,
 
-          placement: parentController.popupInfo.current!.placement,
+          placement:
+            parentController.getParent() != null
+              ? parentController.popupInfo.current!.placement
+              : 'right-start',
         };
       }
 
@@ -169,12 +185,12 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       <StyledMenuList
         ref={controller.ref}
         tabIndex={-1}
-        isOpen={true}
+        isOpen={root?.isOpen}
         onKeyDown={onKeyDown}
         {...props}
       >
         <BlurEffect ref={blurRef} />
-        {true && (
+        {root?.isOpen && (
           <Container ref={containerRef}>
             <MenuListContext.Provider value={controller}>
               {children}

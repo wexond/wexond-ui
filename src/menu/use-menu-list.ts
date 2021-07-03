@@ -6,7 +6,7 @@ import { PopupInfo, PopupOptions } from '../popup/popup';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemController, MenuListController } from './use-menu';
 
-export const useMenuList = (parentId?: number) => {
+export const useMenuList = () => {
   const root = React.useContext(MenuContext);
   const parentController = React.useContext(MenuListContext);
 

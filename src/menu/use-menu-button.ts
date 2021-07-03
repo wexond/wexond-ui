@@ -9,7 +9,7 @@ export const useMenuButton = () => {
     (e: React.MouseEvent<HTMLElement>) => {
       if (menu) {
         e.preventDefault();
-        // menu.toggle(!menu.isOpen);
+        menu.toggle(!menu.isOpen);
       }
     },
     [menu],
@@ -17,9 +17,9 @@ export const useMenuButton = () => {
 
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLElement>) => {
-      // if (e.key === 'Enter' && !menu?.isOpen) {
-      //   menu?.toggle(true);
-      // }
+      if (e.key === 'Enter' && !menu?.isOpen) {
+        menu?.toggle(true);
+      }
     },
     [menu],
   );
