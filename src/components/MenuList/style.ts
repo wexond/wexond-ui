@@ -10,7 +10,6 @@ export const MENU_LIST_PADDING_Y = 4;
 export const StyledMenuList = styled.div`
   width: fit-content;
   color: #fff;
-  position: absolute;
   position: fixed;
   margin: 0px;
   border: none;

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { MenuProps } from '../components/Menu';
-import { useItems } from '../hooks/use-items';
 import { PopupInfo } from '../popup/popup';
 
 export interface MenuListController {
@@ -27,6 +26,8 @@ export interface MenuItemController {
 }
 
 export const useMenu = (props: MenuProps) => {
+  const { onOpen, onClose } = props;
+
   const [isOpen, _toggle] = React.useState(props.isVisibleByDefault);
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -50,17 +51,21 @@ export const useMenu = (props: MenuProps) => {
   const toggle = React.useCallback(
     (visible: boolean) => {
       if (visible) {
-        // onOpen?.();
+        if (buttonRef.current) {
+          controllers.current?.[0].ref?.current?.focus();
+        }
+
+        onOpen?.();
       } else {
         clearMenuRequest();
-        // onClose?.();
+        buttonRef.current?.focus();
+
+        onClose?.();
       }
 
-      if (buttonRef.current) {
-        _toggle(visible);
-      }
+      _toggle(visible);
     },
-    [/*onOpen, onClose, clearItemMouseTimer*/ clearMenuRequest],
+    [onOpen, onClose, clearMenuRequest],
   );
 
   return {

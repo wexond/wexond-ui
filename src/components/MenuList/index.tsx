@@ -33,7 +33,6 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       parentHeight,
       onMouseDown,
       onMouseEnter,
-      onBlur,
       onWheel,
       children,
       ...props
@@ -41,7 +40,12 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
     ref,
   ) => {
     const root = React.useContext(MenuContext);
-    const { controller, containerRef, parentController } = useMenuList();
+    const {
+      controller,
+      containerRef,
+      parentController,
+      props: { onBlur },
+    } = useMenuList();
 
     const blurRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -137,9 +141,10 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
 
     const onKeyDown = React.useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (!containerRef.current) return;
+        if (!containerRef.current || !root) return;
 
         e.stopPropagation();
+        e.preventDefault();
 
         if (e.key === 'Home') {
           containerRef.current.scrollTop = 0;
@@ -166,20 +171,21 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
           if (parentController) {
             parentController.hideSubmenu();
           } else if (e.key === 'Escape') {
-            // menu.toggle(false);
+            root.toggle(false);
             // menu.onClose?.();
-            // menu.buttonRef?.current?.focus();
           }
         } else {
           controller.focusUsingText(e.key);
         }
       },
-      [containerRef, controller, parentController],
+      [root, containerRef, controller, parentController],
     );
 
     React.useEffect(() => {
-      controller.ref.current?.focus();
-    }, [controller?.ref]);
+      if (parentController) {
+        controller.ref.current?.focus();
+      }
+    }, [parentController, controller?.ref]);
 
     const el = (
       <StyledMenuList
@@ -187,6 +193,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         tabIndex={-1}
         isOpen={root?.isOpen}
         onKeyDown={onKeyDown}
+        onBlur={onBlur}
         {...props}
       >
         <BlurEffect ref={blurRef} />

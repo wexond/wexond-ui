@@ -37,7 +37,9 @@ export const useMenuList = () => {
             const item = itemsList.current[index];
 
             activeItem.current = item;
-            return setSubmenu(item);
+            setSubmenu(item);
+
+            return;
           }
         }
 
@@ -158,5 +160,26 @@ export const useMenuList = () => {
     }
   }, [root?.controllers, controller]);
 
-  return { containerRef, parentController, controller };
+  const onBlur = React.useCallback(
+    (e: React.FocusEvent<HTMLElement>) => {
+      const target = e.relatedTarget as Node;
+
+      if (
+        root &&
+        root.isOpen &&
+        ref.current &&
+        !parentController &&
+        !ref.current.contains(target)
+      ) {
+        activeItem.current = null;
+        focusedItem.current = null;
+        itemsList.current = [];
+
+        root.toggle(false);
+      }
+    },
+    [parentController, root],
+  );
+
+  return { containerRef, parentController, controller, props: { onBlur } };
 };
