@@ -33,7 +33,6 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       parentHeight,
       onMouseDown,
       onMouseEnter,
-      onWheel,
       children,
       ...props
     },
@@ -162,9 +161,8 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         } else if (e.key === 'ArrowDown') {
           controller.focusNext();
         } else if (!item?.hasSubmenu && e.key === 'Enter') {
-          //   // hoveredItem?.onSelect?.();
-          //   // menu.toggle(false);
-          //   // menu.buttonRef.current?.focus();
+          item.onSelect?.(false);
+          root.toggle(false);
         } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
           controller.requestSubmenu(controller.getFocusedIndex());
         } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
@@ -172,13 +170,24 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
             parentController.hideSubmenu();
           } else if (e.key === 'Escape') {
             root.toggle(false);
-            // menu.onClose?.();
           }
         } else {
           controller.focusUsingText(e.key);
         }
       },
       [root, containerRef, controller, parentController],
+    );
+
+    const onWheel = React.useCallback(
+      (e: React.WheelEvent) => {
+        if (!containerRef.current) return;
+
+        e.stopPropagation();
+
+        containerRef.current.scrollTop =
+          containerRef.current.scrollTop + e.deltaY;
+      },
+      [containerRef],
     );
 
     React.useEffect(() => {
@@ -194,6 +203,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         isOpen={root?.isOpen}
         onKeyDown={onKeyDown}
         onBlur={onBlur}
+        onWheel={onWheel}
         {...props}
       >
         <BlurEffect ref={blurRef} />

@@ -3,7 +3,10 @@ import React from 'react';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemController } from './use-menu';
 
-export const useMenuItem = (hasSubmenu: boolean) => {
+export const useMenuItem = (
+  hasSubmenu: boolean,
+  onSelect?: (middleButton?: boolean) => void,
+) => {
   const root = React.useContext(MenuContext);
   const listController = React.useContext(MenuListContext);
   const ref = React.useRef<HTMLLIElement | null>(null);
@@ -14,8 +17,9 @@ export const useMenuItem = (hasSubmenu: boolean) => {
     () => ({
       ref,
       hasSubmenu,
+      onSelect,
     }),
-    [hasSubmenu],
+    [hasSubmenu, onSelect],
   );
 
   React.useEffect(() => {
@@ -68,9 +72,27 @@ export const useMenuItem = (hasSubmenu: boolean) => {
     [root, controller, listController],
   );
 
+  const onMouseUp = React.useCallback(
+    (e: React.MouseEvent) => {
+      if (!listController || !root) return;
+
+      e.stopPropagation();
+
+      if (hasSubmenu) {
+        listController?.focusItem(globalIndex.current);
+
+        return;
+      }
+
+      onSelect?.(e.button === 1);
+      root.toggle(false);
+    },
+    [onSelect, root, listController, hasSubmenu],
+  );
+
   return {
     ref,
-    props: { onMouseEnter, onFocus, onMouseLeave },
+    props: { onMouseEnter, onFocus, onMouseLeave, onMouseUp },
     isSubmenuOpen,
   };
 };

@@ -23,6 +23,7 @@ export interface MenuListController {
 export interface MenuItemController {
   ref: React.MutableRefObject<HTMLLIElement | null>;
   hasSubmenu: boolean;
+  onSelect?: (middleButton?: boolean) => void;
 }
 
 export const useMenu = (props: MenuProps) => {

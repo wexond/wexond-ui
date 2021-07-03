@@ -39,27 +39,22 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     refx,
   ) => {
     const root = React.useContext(MenuContext);
-    const listController = React.useContext(MenuListContext);
 
     const {
       ref,
-      props: { onMouseEnter, onFocus, onMouseLeave },
+      props: { onMouseEnter, onFocus, onMouseLeave, onMouseUp },
       isSubmenuOpen,
-    } = useMenuItem(!!submenu);
-
-    const onClick = () => {
-      console.log(root);
-    };
+    } = useMenuItem(!!submenu, onSelect);
 
     return (
       <StyledMenuItem
         ref={ref}
         tabIndex={-1}
-        onClick={onClick}
         isDisabled={isDisabled}
         onMouseEnter={onMouseEnter}
         onFocus={onFocus}
         onMouseLeave={onMouseLeave}
+        onMouseUp={onMouseUp}
         {...props}
       >
         {icon && <IconContainer>{icon}</IconContainer>}
