@@ -1,5 +1,4 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
 import { useDisableScrollButton } from '../../hooks/use-disable-scroll-button';
 
 import { MenuContext, MenuListContext } from '../../menu/menu-context';
@@ -196,7 +195,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       }
     }, [parentController, controller?.ref]);
 
-    const el = (
+    return (
       <StyledMenuList
         ref={controller.ref}
         tabIndex={-1}
@@ -216,10 +215,6 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
         )}
       </StyledMenuList>
     );
-
-    return parentController == null
-      ? createPortal(el, document.getElementById('wexond-ui-menu-portal')!)
-      : el;
   },
 );
 
