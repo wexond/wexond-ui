@@ -15,18 +15,14 @@ export const useMenuItem = (
     ref,
     controller,
     globalIndex,
-    props: { onFocus },
+    props: { onFocus, onMouseEnter },
   } = useMenuItemController({
     hasSubmenu,
     onSelect,
   });
 
-  const isSubmenuOpen = hasSubmenu && listController?.submenu === controller;
-
-  const onMouseEnter = React.useCallback(() => {
-    ref.current?.focus();
-    listController?.requestSubmenu(globalIndex.current, true);
-  }, [ref, listController, globalIndex]);
+  const isSubmenuOpen =
+    hasSubmenu && listController?.submenu?.id === controller.id;
 
   const onMouseLeave = React.useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
@@ -42,7 +38,7 @@ export const useMenuItem = (
           ?.ref?.current?.contains(e.relatedTarget as Node)
       ) {
         root.requestMenu(() => {
-          if (listController.activeItem.current === controller) return;
+          if (listController.activeItem.current?.id === controller.id) return;
 
           listController.hideSubmenu();
           listController.ref.current?.focus();
