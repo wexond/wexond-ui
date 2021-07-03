@@ -39,7 +39,6 @@ export const Menu: React.FC<MenuProps> = ({
 };
 
 Menu.defaultProps = {
-  placement: 'bottom-start',
   marginY: 2,
   isVisibleByDefault: false,
 };

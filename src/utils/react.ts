@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import React, { createElement } from 'react';
 import { render } from 'react-dom';
 
 export const renderUI = (Component: React.ElementType, htmlId = 'app') => {

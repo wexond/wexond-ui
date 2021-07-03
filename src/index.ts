@@ -49,6 +49,8 @@ export * from './mixins/typography';
 export * from './mixins/user-selection';
 export * from './mixins/default-styles';
 
+export * from './menu/use-menu-item-controller';
+
 export * from './theme/theme';
 export * from './theme/theme-provider';
 
