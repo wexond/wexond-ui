@@ -65,3 +65,5 @@ export const IconContainer = styled.div`
       : 'unset'};
   `}
 `;
+
+export * from './style';

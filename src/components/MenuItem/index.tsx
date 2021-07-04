@@ -77,3 +77,5 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
 MenuItem.defaultProps = {
   leftSpacing: '32px',
 };
+
+export * from './style';

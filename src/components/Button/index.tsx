@@ -80,4 +80,4 @@ Button.defaultProps = {
   variant: 'contained',
 };
 
-export { DEFAULT_BUTTON_COLOR, DEFAULT_BUTTON_HOVER_COLOR } from './style';
+export * from './style';

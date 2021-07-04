@@ -178,3 +178,5 @@ Slider.defaultProps = {
   step: 1,
   arrowStep: 5,
 };
+
+export * from './style';

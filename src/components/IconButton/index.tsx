@@ -43,3 +43,5 @@ export const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(
 IconButton.defaultProps = {
   autoInvert: true,
 };
+
+export * from './style';

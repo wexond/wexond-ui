@@ -230,3 +230,5 @@ MenuList.defaultProps = {
   parentWidth: 0,
   parentHeight: 0,
 };
+
+export * from './style';
