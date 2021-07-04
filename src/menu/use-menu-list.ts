@@ -172,10 +172,10 @@ export const useMenuList = () => {
         !parentController &&
         !ref.current.contains(target)
       ) {
-        // activeItem.current = null;
-        // focusedItem.current = null;
-        // itemsList.current = [];
-        // root.toggle(false);
+        activeItem.current = null;
+        focusedItem.current = null;
+        itemsList.current = [];
+        root.toggle(false);
       }
     },
     [parentController, root],

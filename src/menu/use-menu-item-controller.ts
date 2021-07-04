@@ -12,13 +12,18 @@ export const useMenuItemController = (base?: Partial<MenuItemController>) => {
   const ref = React.useRef<HTMLElement | null>(null);
   const globalIndex = React.useRef<number>(-1);
 
+  const focusParent = React.useCallback(() => {
+    listController?.ref?.current?.focus();
+  }, [listController?.ref]);
+
   const controller = React.useMemo<MenuItemController>(
     () => ({
       ...(base as any),
       id,
       ref,
+      focusParent,
     }),
-    [id, base],
+    [id, base, focusParent],
   );
 
   React.useEffect(() => {

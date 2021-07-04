@@ -24,6 +24,7 @@ export interface MenuItemController {
   ref: React.MutableRefObject<HTMLElement | null>;
   hasSubmenu: boolean;
   isDisabled?: boolean;
+  focusParent: () => void;
   onSelect?: (middleButton?: boolean) => void;
 }
 
