@@ -75,9 +75,10 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
           marginY: root.props.marginY,
         };
       } else if (parentController == null && btn != null) {
+        const btnRect = btn.getBoundingClientRect();
         opts = {
-          parentLeft: btn.offsetLeft,
-          parentTop: btn.offsetTop,
+          parentLeft: btnRect.left,
+          parentTop: btnRect.top,
           parentWidth: btn.clientWidth,
           parentHeight: btn.clientHeight,
 
@@ -122,7 +123,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       ));
 
       ref.style.maxWidth = popup.maxWidth + 'px';
-      ref.style.maxHeight = popup.maxHeight - MENU_LIST_PADDING_Y + 'px';
+      // ref.style.maxHeight = popup.maxHeight - MENU_LIST_PADDING_Y + 'px';
       containerRef.current.style.maxHeight = popup.maxHeight + 'px';
 
       blurRef.current.style.height =

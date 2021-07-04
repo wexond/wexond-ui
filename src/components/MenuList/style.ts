@@ -13,7 +13,7 @@ export const StyledMenuList = styled.div`
   position: fixed;
   margin: 0px;
   border: none;
-  z-index: 99999;
+  z-index: 999999;
   ${noUserSelect};
   font-size: 13px;
   border-radius: ${MENU_LIST_BORDER_RADIUS}px;
