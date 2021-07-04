@@ -18,6 +18,7 @@ export * from './components/Skeleton';
 export * from './components/Query';
 export * from './components/Slider';
 export * from './components/Scrollable';
+export * from './components/Scrollbar';
 
 export * from './popup/popup';
 
@@ -29,6 +30,7 @@ export * from './utils/colors';
 export * from './utils/react';
 export * from './utils/box';
 export * from './utils/merge';
+export * from './utils/style';
 
 export * from './constants/icons';
 export * from './constants/dialog';
