@@ -23,7 +23,7 @@ export const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
           onKeyDown: [onKeyDown, btn.props.onKeyDown],
         })}
         {...props}
-      ></ButtonComponent>
+      />
     );
   },
 );
