@@ -10,7 +10,7 @@ export const StyledCheckbox = styled.div`
   position: relative;
   will-change: background-color;
 
-  ${({ isSelected }: { isSelected: boolean }) => css`
+  ${({ isSelected }: { isSelected?: boolean }) => css`
     &:after {
       transition: 0.15s background-color;
       content: '';
@@ -57,7 +57,7 @@ export const Box = styled.div`
   align-items: center;
   justify-content: center;
 
-  ${({ isSelected }: { isSelected: boolean }) =>
+  ${({ isSelected }: { isSelected?: boolean }) =>
     isSelected &&
     css`
       border-color: ${DEFAULT_BUTTON_COLOR};
@@ -69,7 +69,7 @@ export const IconContainer = styled.div`
   position: absolute;
   will-change: clip-path;
 
-  ${({ isSelected }: { isSelected: boolean }) => css`
+  ${({ isSelected }: { isSelected?: boolean }) => css`
     clip-path: ${isSelected ? 'inset(0 0 0 0)' : 'inset(100% 50% 0 50%)'};
     transition: ${isSelected
       ? '1s clip-path cubic-bezier(0.19, 1, 0.22, 1)'

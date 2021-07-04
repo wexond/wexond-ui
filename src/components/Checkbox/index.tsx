@@ -7,49 +7,29 @@ import { Icon } from '../Icon';
 import { StyledCheckbox, Box, IconContainer } from './style';
 
 export interface CheckboxProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'value'>,
     ComponentProps {
-  isSelected?: boolean;
-  value?: any;
-  onChange?: (selected: boolean, value: any) => void;
-  customClickHandler?: boolean;
-  icon?: any;
+  value?: boolean;
+  onChange?: (value: boolean) => void;
+  icon?: React.ElementType;
 }
 
 export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
-  (
-    {
-      icon,
-      isSelected,
-      onChange,
-      value,
-      onClick,
-      onKeyDown,
-      customClickHandler,
-      as,
-      ...props
-    },
-    ref,
-  ) => {
-    const [_isSelected, _toggle] = React.useState(isSelected || false);
-    const selected = isSelected == null ? _isSelected : isSelected;
-
+  ({ icon, value, onChange, onClick, onKeyDown, as, ...props }, ref) => {
     const toggle = React.useCallback(() => {
-      onChange?.(!selected, value);
+      const newValue = !value;
 
-      if (isSelected == null) {
-        _toggle(!selected);
+      if (value !== newValue) {
+        onChange?.(newValue);
       }
-    }, [selected, isSelected, onChange, value]);
+    }, [onChange, value]);
 
     const _onClick = React.useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!customClickHandler) {
-          e.stopPropagation();
-          toggle();
-        }
+        e.stopPropagation();
+        toggle();
       },
-      [toggle, customClickHandler],
+      [toggle],
     );
 
     const _onKeyDown = React.useCallback(
@@ -61,17 +41,9 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       [toggle],
     );
 
-    const _icon =
-      typeof icon === 'function'
-        ? icon(selected)
-        : icon || (
-            <Icon
-              src={ICON_CHECKED}
-              boxSize="18px"
-              iconSize="20px"
-              {...props}
-            />
-          );
+    const _icon = icon || (
+      <Icon src={ICON_CHECKED} boxSize="18px" iconSize="20px" {...props} />
+    );
 
     const Root = as || StyledCheckbox;
 
@@ -79,16 +51,20 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       <Root
         ref={ref}
         tabIndex={-1}
-        isSelected={selected}
+        isSelected={value}
         {...mergeEvents({
-          onClick: [onClick, _onClick],
+          onClick: [onClick || _onClick],
           onKeyDown: [onKeyDown, _onKeyDown],
         })}
         {...props}
       >
-        <Box isSelected={selected} />
-        <IconContainer isSelected={selected}>{_icon}</IconContainer>
+        <Box isSelected={value} />
+        <IconContainer isSelected={value}>{_icon}</IconContainer>
       </Root>
     );
   },
 );
+
+Checkbox.defaultProps = {
+  value: false,
+};
