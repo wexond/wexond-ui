@@ -1,0 +1,4 @@
+node_modules
+build
+packages/**/build
+packages/**/node_modules

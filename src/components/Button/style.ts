@@ -1,73 +1,123 @@
 import styled, { css } from 'styled-components';
 
-import { ITheme } from '~/interfaces';
-import { centerBothFlex } from '~/mixins/positioning';
+import { robotoRegular } from '../../mixins/typography';
+import { noUserSelect } from '../../mixins/user-selection';
 
-interface Props {
-  background: string;
-  foreground: string;
-  outlined: boolean;
-  theme?: ITheme;
-}
+export const DEFAULT_BUTTON_COLOR = '#6ec6ff';
+export const DEFAULT_BUTTON_HOVER_COLOR = '#63a4ff';
 
-export const StyledButton = styled.div`
-  min-width: 80px;
-  width: fit-content;
+export const BUTTON_TRANSITION = '0.1s background-color, 0.15s box-shadow';
+
+export const StyledButton = styled.button`
+  min-width: 64px;
   height: 32px;
-  padding: 0px 12px;
-  overflow: hidden;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  outline: none;
+  border: none;
+  text-align: center;
+  white-space: nowrap;
   border-radius: 4px;
+  transition: ${BUTTON_TRANSITION};
   position: relative;
-  cursor: pointer;
-  will-change: transform;
-  transition: 0.1s transform;
-  ${centerBothFlex()};
+  ${robotoRegular};
+  ${noUserSelect};
 
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0;
-    position: absolute;
-    will-change: background-color;
-    transition: 0.2s background-color;
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
   }
-
-  &:hover::before {
-    opacity: 0.12;
-  }
-
-  ${({ background, foreground, outlined, theme }: Props) => {
-    const _background = background || theme['control.background'];
-    const _foreground = foreground || theme['control.foreground'];
-
-    return css`
-      color: ${_foreground};
-      background: ${outlined ? 'transparent' : _background};
-
-      ${outlined &&
-      css`
-        border: 1px solid ${_background};
-      `}
-
-      ${theme.animations &&
-      css`
-        &:active {
-          transform: scale(0.95);
-        }
-      `}
-
-      &::before {
-        background-color: ${_foreground};
-      }
-    `;
-  }};
 `;
 
-export const Container = styled.div`
-  z-index: 1;
-  font-size: 12px;
-  pointer-events: none;
+export const StyledButtonContained = styled(StyledButton)`
+  padding: 0px 12px;
+  background-color: rgb(50, 50, 50);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  justify-content: flex-start;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.48);
+  }
+
+  &:focus {
+    border-color: rgba(100, 181, 246, 0.54);
+    box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+  }
+`;
+
+export const StyledButtonOutlined = styled(StyledButton)`
+  color: #fff;
+  padding: 0px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background-color: unset;
+  transition: ${BUTTON_TRANSITION}, 0.1s border-color;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.48);
+    background-color: unset;
+  }
+
+  &:focus {
+    border-color: rgba(100, 181, 246, 0.54);
+    box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+  }
+`;
+
+export const StyledButtonPrimary = styled(StyledButton)`
+  padding: 0px 16px;
+  color: #000;
+  background-color: ${DEFAULT_BUTTON_COLOR};
+
+  &:hover {
+    background-color: ${DEFAULT_BUTTON_HOVER_COLOR};
+  }
+`;
+
+export default {
+  contained: StyledButtonContained,
+  outlined: StyledButtonOutlined,
+  primary: StyledButtonPrimary,
+};
+
+interface ButtonIconProps {
+  iconSpacing?: string;
+  left?: boolean;
+  disabledIconEvents?: boolean;
+}
+
+export const ButtonIcon = styled.span<ButtonIconProps>`
+  ${({ iconSpacing, left, disabledIconEvents }) => css`
+    ${
+      disabledIconEvents &&
+      css`
+        pointer-events: none;
+      `
+    }
+
+    ${
+      left
+        ? css`
+            margin-right: auto;
+            padding-right: ${iconSpacing};
+          `
+        : css`
+            margin-left: auto;
+            padding-left: ${iconSpacing};
+          `
+    }}
+  `}
+`;
+
+interface ButtonSpinnerProps {
+  iconSpacing?: string;
+}
+
+export const ButtonSpinner = styled.div<ButtonSpinnerProps>`
+  ${({ iconSpacing }) => css`
+    margin-right: ${iconSpacing};
+  `};
 `;

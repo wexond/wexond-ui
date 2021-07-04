@@ -1,19 +1,14 @@
 import { css } from 'styled-components';
 
-export const centerIcon = (
-  size: number | 'contain' = 'contain',
-  useMask = false,
-) => {
+export const centerIcon = (size: number | 'contain' = 'contain') => {
   let s: string = size.toString();
 
   if (typeof size === 'number') s += 'px';
 
-  const prefix = !useMask ? 'background' : 'mask';
-
   return css`
-    ${prefix}-size: ${s} ${size === 'contain' ? '' : 'auto'};
-    ${prefix}-position: center;
-    ${prefix}-repeat: no-repeat;
+    background-size: ${s};
+    background-position: center;
+    background-repeat: no-repeat;
   `;
 };
 
@@ -28,7 +23,7 @@ export const customImage = (
   background-repeat: no-repeat;
 `;
 
-export const coverImage = () => css`
+export const coverImage = css`
   background-size: cover;
   background-repeat: no-repeat;
 `;

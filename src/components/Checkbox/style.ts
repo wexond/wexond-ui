@@ -1,70 +1,69 @@
 import styled, { css } from 'styled-components';
-
-import { ITheme } from '~/interfaces';
-import { centerBothFlex } from '~/mixins/positioning';
-import { ICON_CHECKED } from '~/constants/icons';
-import { centerIcon } from '~/mixins/images';
+import { DEFAULT_BUTTON_COLOR } from '../Button';
 
 export const StyledCheckbox = styled.div`
+  width: 40px;
   height: 40px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  border-radius: 32px;
   cursor: pointer;
+  outline: none;
+  position: relative;
+  will-change: background-color;
+  transition: 0.15s background-color;
 
-  &:active > .checkbox-box {
-    transform: scale(0.9);
-  }
+  ${({ isSelected }: { isSelected: boolean }) => css`
+    &:hover,
+    &:focus {
+      background-color: ${isSelected
+        ? `rgba(110, 198, 255, 0.08)`
+        : `rgba(255, 255, 255, 0.08)`};
+    }
+
+    &:active {
+      background-color: ${isSelected
+        ? `rgba(110, 198, 255, 0.12)`
+        : `rgba(255, 255, 255, 0.12)`};
+    }
+  `}
 `;
 
 export const Box = styled.div`
   width: 18px;
   height: 18px;
-  position: relative;
   border-radius: 4px;
-  overflow: hidden;
-  will-change: transform;
-  transition: 0.1s transform;
-  ${centerBothFlex()};
+  outline: none;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  will-change: background-color, border-color;
+  transition: 0.2s background-color, 0.2s border-color;
+  pointer-events: none;
+  border: 2px solid rgba(255, 255, 255, 0.56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  ${({ selected, theme }: { selected: boolean; theme?: ITheme }) => css`
-    background: ${selected
-      ? theme['accentColor']
-      : theme['radiobutton.backgroundColor']};
-
-    &::before {
-      transform: ${selected ? `scale(0)` : 'scale(1)'};
-    }
-
-    &::after {
-      clip-path: ${selected ? 'inset(0 0 0 0)' : 'inset(100% 50% 0 50%)'};
-      transition: ${selected
-        ? '1s clip-path cubic-bezier(0.19, 1, 0.22, 1)'
-        : 'unset'};
-    }
-  `}
-
-  &::before, &::after {
-    content: '';
-    position: absolute;
-  }
-
-  &::before {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    border-radius: 2px;
-    background-color: #fff;
-    will-change: transform;
-    transition: 0.2s transform;
-  }
-
-  &::after {
-    width: 100%;
-    height: 100%;
-    -webkit-font-smoothing: antialiased;
-    background-image: url(${ICON_CHECKED});
-    filter: invert(100%);
-    will-change: clip-path;
-    transition-delay: 0.1s;
-    ${centerIcon(18)};
-  }
+  ${({ isSelected }: { isSelected: boolean }) =>
+    isSelected &&
+    css`
+      border-color: ${DEFAULT_BUTTON_COLOR};
+      background-color: ${DEFAULT_BUTTON_COLOR};
+    `}
 `;
+
+export const IconContainer = styled.div`
+  position: absolute;
+  will-change: clip-path;
+
+  ${({ isSelected }: { isSelected: boolean }) => css`
+    clip-path: ${isSelected ? 'inset(0 0 0 0)' : 'inset(100% 50% 0 50%)'};
+    transition: ${isSelected
+      ? '1s clip-path cubic-bezier(0.19, 1, 0.22, 1)'
+      : 'unset'};
+  `}
+`;
+
+export * from './style';

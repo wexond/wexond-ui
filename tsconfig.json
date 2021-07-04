@@ -1,31 +1,31 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
     "noImplicitAny": false,
-
     "noImplicitReturns": true,
     "noImplicitThis": true,
+    "strictNullChecks": true,
     "alwaysStrict": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+
     "experimentalDecorators": true,
-    "declaration": true,
-
-    "module": "esnext",
-    "target": "es2017",
-
-    "jsx": "react",
-    "allowJs": true,
     "sourceMap": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+
+    "preserveWatchOutput": true,
+
+    "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["dom", "esnext"],
+    "target": "es5",
+    "jsx": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
 
-    "baseUrl": "./",
-
-    "paths": {
-      "~/*": ["./src/*"]
-    }
+    "rootDir": "src",
+    "outDir": "build"
   },
-  "include": ["./src", "./stories"],
-  "exclude": ["./node_modules"]
+  "include": ["./src/"],
+  "exclude": ["./src/**/*.test.ts"]
 }

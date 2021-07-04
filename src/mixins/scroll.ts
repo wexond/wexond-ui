@@ -1,21 +1,32 @@
 import { css } from 'styled-components';
 
-interface IOptions {
-  size?: number;
+export interface ScrollOptions {
+  size?: string;
+  borderRadius?: string;
   color?: string;
   hoverColor?: string;
   alwaysVisible?: boolean;
+  activeColor?: string;
 }
 
-const defaultOptions: IOptions = {
-  size: 6,
+const defaultOptions: ScrollOptions = {
+  size: '6px',
+  borderRadius: '0px',
   alwaysVisible: true,
   color: 'rgba(0, 0, 0, 0.16)',
   hoverColor: 'rgba(0, 0, 0, 0.38)',
+  activeColor: 'rgba(0, 0, 0, 0.52)',
 };
 
-export const noButtons = (options?: IOptions) => {
-  const { color, hoverColor, size, alwaysVisible } = {
+export const customScroll = (options?: ScrollOptions) => {
+  const {
+    color,
+    hoverColor,
+    size,
+    alwaysVisible,
+    borderRadius,
+    activeColor,
+  } = {
     ...defaultOptions,
     ...options,
   };
@@ -26,8 +37,8 @@ export const noButtons = (options?: IOptions) => {
     }
 
     &::-webkit-scrollbar {
-      width: ${size}px;
-      height: ${size}px;
+      width: ${size};
+      height: ${size};
     }
 
     &::-webkit-scrollbar-button {
@@ -38,13 +49,18 @@ export const noButtons = (options?: IOptions) => {
     &::-webkit-scrollbar-thumb {
       background-color: ${alwaysVisible ? color : 'inherit'};
       border: none;
-      border-radius: 0px;
+      border-radius: ${borderRadius};
       opacity: 0 !important;
-      transition: 2s background-color;
+      will-change: background-color;
+      transition: 0.3s background-color;
     }
 
     &::-webkit-scrollbar-thumb:hover {
       background-color: ${hoverColor};
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background-color: ${activeColor};
     }
 
     &::-webkit-scrollbar-corner {
@@ -52,3 +68,14 @@ export const noButtons = (options?: IOptions) => {
     }
   `;
 };
+
+export const hiddenScroll = css`
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+`;

@@ -1,5 +1,3 @@
-import { css } from 'styled-components';
-
 const umbraOpacity = 0.2;
 const penumbraOpacity = 0.14;
 const ambientOpacity = 0.12;
@@ -97,8 +95,9 @@ export const shadows = (z: number, color = '0, 0, 0', opacity = 1) => {
   const penumbraColor = `rgba(${color}, ${penumbraOpacity * opacity})`;
   const ambientColor = `rgba(${color}, ${ambientOpacity * opacity})`;
 
-  return css`
-    box-shadow: ${umbraZ} ${umbraColor}, ${penumbraZ} ${penumbraColor},
-      ${ambientZ} ${ambientColor};
+  return `
+    ${umbraZ} ${umbraColor},
+    ${penumbraZ} ${penumbraColor},
+    ${ambientZ} ${ambientColor}
   `;
 };
