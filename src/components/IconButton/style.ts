@@ -8,7 +8,7 @@ interface StyledIconButtonProps {
   dense?: boolean;
 }
 
-export const StyledIconButton = styled.div`
+export const StyledIconButton = styled.div<StyledIconButtonProps>`
   width: 30px;
   height: 30px;
   display: flex;
@@ -27,7 +27,7 @@ export const StyledIconButton = styled.div`
     background-color: rgba(255, 255, 255, 0.12);
   }
 
-  ${({ isDisabled, isActive, dense }: StyledIconButtonProps) =>
+  ${({ isDisabled, isActive, dense }) =>
     css`
       ${isDisabled &&
       css`

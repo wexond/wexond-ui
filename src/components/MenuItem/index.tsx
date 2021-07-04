@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ComponentProps } from '../../core/component';
 import { useMenuItem } from '../../menu/use-menu-item';
 import { mergeEvents, mergeRefs } from '../../utils/merge';
 import {
@@ -10,7 +11,9 @@ import {
   SubmenuIconContainer,
 } from './style';
 
-export interface MenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps
+  extends React.HTMLAttributes<HTMLLIElement>,
+    ComponentProps {
   icon?: React.ReactNode;
   submenuIcon?: React.ReactNode;
   accelerator?: string;
@@ -37,14 +40,17 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       onFocus,
       onMouseLeave,
       onMouseUp,
+      as,
       ...props
     },
     ref,
   ) => {
     const item = useMenuItem(!!submenu, onSelect);
 
+    const Root = as || StyledMenuItem;
+
     return (
-      <StyledMenuItem
+      <Root
         ref={mergeRefs(ref, item.ref) as any}
         tabIndex={-1}
         isDisabled={isDisabled}
@@ -63,7 +69,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
         <Accelerator>{accelerator}</Accelerator>
         {submenu && <SubmenuIconContainer>{submenuIcon}</SubmenuIconContainer>}
         {item.isSubmenuOpen && submenu}
-      </StyledMenuItem>
+      </Root>
     );
   },
 );

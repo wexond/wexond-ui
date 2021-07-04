@@ -1,19 +1,16 @@
 import React from 'react';
 
 import colors from '../../theme/colors';
-import { ComponentProps } from '../../theme/create-component';
-import SpinnerTheme, { Path, StyledSpinner, SpinnerContainer } from './style';
+import { Path, StyledSpinner, SpinnerContainer } from './style';
 
-export interface SpinnerProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    ComponentProps<typeof SpinnerTheme> {
+export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   thickness?: string;
 }
 
 export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ size, variant, color, thickness, ...props }, ref) => {
+  ({ color, thickness, ...props }, ref) => {
     return (
-      <SpinnerContainer ref={ref} _size={size} _variant={variant} {...props}>
+      <SpinnerContainer ref={ref} {...props}>
         <StyledSpinner stroke={color} viewBox="0 0 66 66">
           <Path
             fill="none"
@@ -32,5 +29,4 @@ export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
 Spinner.defaultProps = {
   thickness: '4px',
   color: colors.blue['500'],
-  size: 'md',
 };

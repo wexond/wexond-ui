@@ -1,9 +1,9 @@
 import React from 'react';
-import { useDisableScrollButton } from '../../hooks/use-disable-scroll-button';
 
+import { ComponentProps } from '../../core/component';
 import { MenuContext, MenuListContext } from '../../menu/menu-context';
 import { useMenuList } from '../../menu/use-menu-list';
-import { getPopupPosition, PopupInfo, PopupOptions } from '../../popup/popup';
+import { getPopupPosition, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
 import { mergeEvents, mergeRefs } from '../../utils/merge';
 import {
@@ -13,7 +13,9 @@ import {
   MENU_LIST_PADDING_Y,
 } from './style';
 
-export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MenuListProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    ComponentProps {
   x?: number;
   y?: number;
   parentWidth?: number;
@@ -34,6 +36,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       onBlur,
       onWheel,
       children,
+      as,
       ...props
     },
     ref,
@@ -196,8 +199,10 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       }
     }, [parentController, controller?.ref]);
 
+    const Root = as || StyledMenuList;
+
     return (
-      <StyledMenuList
+      <Root
         ref={mergeRefs(ref, controller.ref) as any}
         tabIndex={-1}
         isOpen={root?.isOpen}
@@ -216,7 +221,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
             </MenuListContext.Provider>
           </Container>
         )}
-      </StyledMenuList>
+      </Root>
     );
   },
 );

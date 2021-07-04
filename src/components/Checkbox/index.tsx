@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { ICON_CHECKED } from '../../constants/icons';
+import { ComponentProps } from '../../core/component';
 import { mergeEvents } from '../../utils/merge';
-import { Icon, IconProps } from '../Icon';
+import { Icon } from '../Icon';
 import { StyledCheckbox, Box, IconContainer } from './style';
 
 export interface CheckboxProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
+    ComponentProps {
   isSelected?: boolean;
   value?: any;
   onChange?: (selected: boolean, value: any) => void;
@@ -24,6 +26,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       onClick,
       onKeyDown,
       customClickHandler,
+      as,
       ...props
     },
     ref,
@@ -70,8 +73,10 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
             />
           );
 
+    const Root = as || StyledCheckbox;
+
     return (
-      <StyledCheckbox
+      <Root
         ref={ref}
         tabIndex={-1}
         isSelected={selected}
@@ -83,8 +88,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       >
         <Box isSelected={selected} />
         <IconContainer isSelected={selected}>{_icon}</IconContainer>
-      </StyledCheckbox>
+      </Root>
     );
   },
 );
-//  {...mergeEvents({ onClick }, { onClick: _onClick })}

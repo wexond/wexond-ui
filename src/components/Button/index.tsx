@@ -1,11 +1,15 @@
 import React from 'react';
 
-import { ComponentProps } from '../../theme/create-component';
-import ButtonTheme, { StyledButton, ButtonIcon, ButtonSpinner } from './style';
+import { ComponentProps } from '../../core/component';
+import { useVariant } from '../../core/use-variant';
+import { VariantTypes } from '../../core/variants';
+import BUTTON_VARIANTS, { ButtonIcon, ButtonSpinner } from './style';
+
+export type ButtonVariants = VariantTypes<typeof BUTTON_VARIANTS>;
 
 export interface ButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
-    ComponentProps<typeof ButtonTheme> {
+    ComponentProps {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   spinner?: React.ReactElement;
@@ -14,13 +18,12 @@ export interface ButtonProps
   iconSpacing?: string;
   disabledIconEvents?: boolean;
   isDisabled?: boolean;
+  variant?: ButtonVariants;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant,
-      size,
       leftIcon,
       rightIcon,
       isLoading,
@@ -30,18 +33,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabledIconEvents,
       children,
       isDisabled,
+      variant,
+      as,
       ...props
     },
     ref,
   ) => {
+    const Root = useVariant(variant, BUTTON_VARIANTS, as);
+
     return (
-      <StyledButton
-        ref={ref}
-        _variant={variant}
-        _size={size}
-        disabled={isDisabled}
-        {...props}
-      >
+      <Root ref={ref} disabled={isDisabled} {...props}>
         {leftIcon && !isLoading && (
           <ButtonIcon
             iconSpacing={iconSpacing}
@@ -68,16 +69,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {rightIcon}
           </ButtonIcon>
         )}
-      </StyledButton>
+      </Root>
     );
   },
 );
 
 Button.defaultProps = {
-  variant: 'primary',
-  size: 'md',
   iconSpacing: '8px',
   disabledIconEvents: true,
+  variant: 'contained',
 };
 
 export { DEFAULT_BUTTON_COLOR, DEFAULT_BUTTON_HOVER_COLOR } from './style';

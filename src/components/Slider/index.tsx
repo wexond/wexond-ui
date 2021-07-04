@@ -1,4 +1,5 @@
 import React from 'react';
+import { mergeEvents } from '../../utils/merge';
 
 import {
   SLIDER_HANDLE_SIZE,
@@ -19,7 +20,22 @@ export interface SliderProps
 }
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
-  ({ value, min, max, step, arrowStep, onChange, ...props }, ref) => {
+  (
+    {
+      value,
+      min,
+      max,
+      step,
+      arrowStep,
+      onChange,
+      onKeyDown,
+      onBlur,
+      onWheel,
+      onMouseDown,
+      ...props
+    },
+    ref,
+  ) => {
     const [isActive, setActive] = React.useState(false);
     const [isMoveActive, setMoveActive] = React.useState(false);
 
@@ -55,14 +71,14 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       [max, step, update],
     );
 
-    const onMouseMove = React.useCallback(
+    const _onMouseMove = React.useCallback(
       (e: MouseEvent) => {
         updateFromClient(e.pageX);
       },
       [updateFromClient],
     );
 
-    const onMouseDown = React.useCallback(
+    const _onMouseDown = React.useCallback(
       (e: React.MouseEvent) => {
         if (!trackRef.current) return;
 
@@ -76,18 +92,18 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       [updateFromClient],
     );
 
-    const onMouseUp = React.useCallback(() => {
+    const _onMouseUp = React.useCallback(() => {
       setMoveActive(false);
     }, []);
 
-    const onWheel = React.useCallback(
+    const _onWheel = React.useCallback(
       (e: WheelEvent | React.WheelEvent) => {
         update(_value - arrowStep! * Math.sign(e.deltaY));
       },
       [update, _value, arrowStep],
     );
 
-    const onKeyDown = React.useCallback(
+    const _onKeyDown = React.useCallback(
       (e: React.KeyboardEvent) => {
         if (e.key === 'ArrowRight') {
           update(_value + arrowStep!);
@@ -101,32 +117,32 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       [update, _value, arrowStep],
     );
 
-    const onBlur = React.useCallback(() => {
+    const _onBlur = React.useCallback(() => {
       setActive(false);
       setMoveActive(false);
     }, []);
 
     React.useEffect(() => {
       if (isActive) {
-        window.addEventListener('wheel', onWheel);
-        window.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('wheel', _onWheel);
+        window.addEventListener('mouseup', _onMouseUp);
       }
 
       return () => {
-        window.removeEventListener('wheel', onWheel);
-        window.removeEventListener('mouseup', onMouseUp);
+        window.removeEventListener('wheel', _onWheel);
+        window.removeEventListener('mouseup', _onMouseUp);
       };
-    }, [onChange, onWheel, onMouseUp, isActive]);
+    }, [onChange, _onWheel, _onMouseUp, isActive]);
 
     React.useEffect(() => {
       if (isMoveActive) {
-        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mousemove', _onMouseMove);
       }
 
       return () => {
-        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mousemove', _onMouseMove);
       };
-    }, [onChange, isMoveActive, onMouseMove]);
+    }, [onChange, isMoveActive, _onMouseMove]);
 
     const percent = Math.round((_value / max!) * 100);
 
@@ -134,12 +150,19 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       <StyledSlider
         ref={ref}
         tabIndex={-1}
-        onKeyDown={onKeyDown}
-        onBlur={onBlur}
-        onWheel={onWheel}
+        {...mergeEvents({
+          onKeyDown: [onKeyDown, _onKeyDown],
+          onBlur: [onBlur, _onBlur],
+          onWheel: [onWheel, _onWheel],
+        })}
         {...props}
       >
-        <SliderBackgroundTrack ref={trackRef} onMouseDown={onMouseDown}>
+        <SliderBackgroundTrack
+          ref={trackRef}
+          {...mergeEvents({
+            onMouseDown: [onMouseDown, _onMouseDown],
+          })}
+        >
           <SliderTrack style={{ width: `${percent}%` }} />
           <SliderHandle style={{ left: `${percent}%` }} />
         </SliderBackgroundTrack>
