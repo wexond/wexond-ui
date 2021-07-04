@@ -2,37 +2,48 @@ import styled, { css } from 'styled-components';
 import { DEFAULT_BUTTON_COLOR } from '../Button';
 
 export const StyledCheckbox = styled.div`
-  width: 40px;
-  height: 40px;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 32px;
-  cursor: pointer;
   outline: none;
   position: relative;
   will-change: background-color;
-  transition: 0.15s background-color;
 
   ${({ isSelected }: { isSelected: boolean }) => css`
+    &:after {
+      transition: 0.15s background-color;
+      content: '';
+      position: absolute;
+      border-radius: 32px;
+      inset: -9px;
+      pointer-events: none;
+    }
+
     &:hover,
     &:focus {
-      background-color: ${isSelected
-        ? `rgba(110, 198, 255, 0.08)`
-        : `rgba(255, 255, 255, 0.08)`};
+      &:after {
+        content: '';
+        position: absolute;
+        background-color: ${isSelected
+          ? `rgba(110, 198, 255, 0.08)`
+          : `rgba(255, 255, 255, 0.08)`};
+      }
     }
 
     &:active {
-      background-color: ${isSelected
-        ? `rgba(110, 198, 255, 0.12)`
-        : `rgba(255, 255, 255, 0.12)`};
+      &:after {
+        background-color: ${isSelected
+          ? `rgba(110, 198, 255, 0.12)`
+          : `rgba(255, 255, 255, 0.12)`};
+      }
     }
   `}
 `;
 
 export const Box = styled.div`
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 4px;
   outline: none;
   border: none;
