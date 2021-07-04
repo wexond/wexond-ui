@@ -29,9 +29,9 @@ export * from './utils/react';
 export * from './utils/box';
 export * from './utils/merge';
 
-export * from './constants/dialog';
 export * from './constants/icons';
-export * from './constants/menu';
+export * from './constants/dialog';
+export * from './constants/colors';
 
 export * from './hooks/use-delayed-hover';
 export * from './hooks/use-popup';
@@ -48,6 +48,7 @@ export * from './mixins/shadows';
 export * from './mixins/typography';
 export * from './mixins/user-selection';
 export * from './mixins/default-styles';
+export * from './mixins/size';
 
 export * from './menu/use-menu-item-controller';
 

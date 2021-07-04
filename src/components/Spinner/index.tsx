@@ -1,6 +1,6 @@
 import React from 'react';
 
-import colors from '../../theme/colors';
+import { COLOR_BLUE_PRIMARY } from '../../constants/colors';
 import { Path, StyledSpinner, SpinnerContainer } from './style';
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,5 +28,5 @@ export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
 
 Spinner.defaultProps = {
   thickness: '4px',
-  color: colors.blue['500'],
+  color: COLOR_BLUE_PRIMARY,
 };

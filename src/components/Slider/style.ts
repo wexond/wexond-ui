@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { centerBoth } from '../../mixins/positioning';
 import { noUserSelect } from '../../mixins/user-selection';
-import colors from '../../theme/colors';
+import { COLOR_BLUE_PRIMARY } from '../../constants/colors';
 
 export const SLIDER_HEIGHT = 4;
 export const SLIDER_HANDLE_SIZE = 10;
@@ -12,7 +12,7 @@ export const SliderHandle = styled.div`
   width: ${SLIDER_HANDLE_SIZE}px;
   height: ${SLIDER_HANDLE_SIZE}px;
   border-radius: 100%;
-  background-color: ${colors.blue.dark};
+  background-color: ${COLOR_BLUE_PRIMARY};
 
   &::before {
     content: '';
@@ -35,7 +35,7 @@ export const SliderTrack = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: ${colors.blue.dark};
+  background-color: ${COLOR_BLUE_PRIMARY};
   will-change: width;
   border-radius: 32px;
 `;
