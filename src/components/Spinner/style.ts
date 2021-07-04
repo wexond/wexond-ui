@@ -1,22 +1,6 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import { createComponent } from '../../theme/create-component';
-
-export default {
-  sizes: {
-    small: css`
-      width: 16px;
-      height: 16px;
-    `,
-    md: css`
-      width: 48px;
-      height: 48px;
-    `,
-  },
-  variants: {},
-};
-
-export const SpinnerContainer = createComponent('div', 'Spinner');
+export const SpinnerContainer = styled.div``;
 
 const turnAnimation = keyframes`
   0% {

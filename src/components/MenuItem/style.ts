@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-
-import { MENU_LIST_ITEM_HEIGHT } from '../../constants/menu';
 import { MENU_ITEM_MARGIN } from '../MenuList';
+
+export const MENU_LIST_ITEM_HEIGHT = 32;
 
 export const StyledMenuItem = styled.li`
   height: ${MENU_LIST_ITEM_HEIGHT}px;

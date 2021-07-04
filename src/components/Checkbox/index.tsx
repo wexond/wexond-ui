@@ -1,12 +1,14 @@
 import React from 'react';
 
 import { ICON_CHECKED } from '../../constants/icons';
-import { mergeEvents } from '../../utils/react';
-import { Icon, IconProps } from '../Icon';
+import { ComponentProps } from '../../core/component';
+import { mergeEvents } from '../../utils/merge';
+import { Icon } from '../Icon';
 import { StyledCheckbox, Box, IconContainer } from './style';
 
 export interface CheckboxProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
+    ComponentProps {
   isSelected?: boolean;
   value?: any;
   onChange?: (selected: boolean, value: any) => void;
@@ -24,6 +26,7 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
       onClick,
       onKeyDown,
       customClickHandler,
+      as,
       ...props
     },
     ref,
@@ -70,18 +73,22 @@ export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
             />
           );
 
+    const Root = as || StyledCheckbox;
+
     return (
-      <StyledCheckbox
+      <Root
         ref={ref}
         tabIndex={-1}
-        onClick={mergeEvents(onClick, _onClick)}
         isSelected={selected}
-        onKeyDown={mergeEvents(_onKeyDown, onKeyDown)}
+        {...mergeEvents({
+          onClick: [onClick, _onClick],
+          onKeyDown: [onKeyDown, _onKeyDown],
+        })}
         {...props}
       >
         <Box isSelected={selected} />
         <IconContainer isSelected={selected}>{_icon}</IconContainer>
-      </StyledCheckbox>
+      </Root>
     );
   },
 );

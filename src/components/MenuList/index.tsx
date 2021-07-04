@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDisableScrollButton } from '../../hooks/use-disable-scroll-button';
 
+import { ComponentProps } from '../../core/component';
 import { MenuContext, MenuListContext } from '../../menu/menu-context';
 import { useMenuList } from '../../menu/use-menu-list';
-import { getPopupPosition, PopupInfo, PopupOptions } from '../../popup/popup';
+import { getPopupPosition, PopupOptions } from '../../popup/popup';
 import { setPosition } from '../../utils/dom';
-import { mergeEvents, mergeRefs } from '../../utils/react';
+import { mergeEvents, mergeRefs } from '../../utils/merge';
 import {
   StyledMenuList,
   BlurEffect,
@@ -13,7 +13,9 @@ import {
   MENU_LIST_PADDING_Y,
 } from './style';
 
-export interface MenuListProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MenuListProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    ComponentProps {
   x?: number;
   y?: number;
   parentWidth?: number;
@@ -30,9 +32,11 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       y,
       parentWidth,
       parentHeight,
-      onMouseDown,
-      onMouseEnter,
+      onKeyDown,
+      onBlur,
+      onWheel,
       children,
+      as,
       ...props
     },
     ref,
@@ -42,7 +46,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       controller,
       containerRef,
       parentController,
-      props: { onBlur },
+      props: listProps,
     } = useMenuList();
 
     const blurRef = React.useRef<HTMLDivElement | null>(null);
@@ -137,7 +141,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       parentHeight,
     ]);
 
-    const onKeyDown = React.useCallback(
+    const _onKeyDown = React.useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (!containerRef.current || !root) return;
 
@@ -177,7 +181,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       [root, containerRef, controller, parentController],
     );
 
-    const onWheel = React.useCallback(
+    const _onWheel = React.useCallback(
       (e: React.WheelEvent) => {
         if (!containerRef.current) return;
 
@@ -195,14 +199,18 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       }
     }, [parentController, controller?.ref]);
 
+    const Root = as || StyledMenuList;
+
     return (
-      <StyledMenuList
-        ref={controller.ref}
+      <Root
+        ref={mergeRefs(ref, controller.ref) as any}
         tabIndex={-1}
         isOpen={root?.isOpen}
-        onKeyDown={onKeyDown}
-        onBlur={onBlur}
-        onWheel={onWheel}
+        {...mergeEvents({
+          onKeyDown: [onKeyDown, _onKeyDown],
+          onBlur: [onBlur, listProps.onBlur],
+          onWheel: [onWheel, _onWheel],
+        })}
         {...props}
       >
         <BlurEffect ref={blurRef} />
@@ -213,7 +221,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
             </MenuListContext.Provider>
           </Container>
         )}
-      </StyledMenuList>
+      </Root>
     );
   },
 );
@@ -222,3 +230,5 @@ MenuList.defaultProps = {
   parentWidth: 0,
   parentHeight: 0,
 };
+
+export * from './style';
