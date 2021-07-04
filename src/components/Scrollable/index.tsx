@@ -9,7 +9,7 @@ export interface ScrollableProps
     ComponentProps {}
 
 export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
-  ({ as, children, onWheel, onKeyDown, ...props }, ref) => {
+  ({ as, onWheel, onKeyDown, ...props }, ref) => {
     const _ref = React.useRef<HTMLDivElement | null>(null);
 
     const _onWheel = React.useCallback((e: React.WheelEvent) => {
@@ -38,9 +38,7 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
           onKeyDown: [onKeyDown, _onKeyDown],
         })}
         {...props}
-      >
-        {children}
-      </Root>
+      />
     );
   },
 );

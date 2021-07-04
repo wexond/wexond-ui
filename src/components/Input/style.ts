@@ -9,31 +9,34 @@ export const StyledInput = styled.input`
   border: none;
   outline: none;
   cursor: text;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 0px 12px;
   will-change: box-shadow;
-  transition: 0.15s box-shadow;
+  transition: 0.15s box-shadow, 0.1s background-color, 0.1s border-color;
   ${robotoRegular};
 
-  &:hover {
-    border-color: rgba(255, 255, 255, 0.48);
-  }
-
   &:focus {
-    border-color: rgba(100, 181, 246, 0.54);
-    box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+    border-color: transparent;
+    box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
   }
 `;
 
 export const StyledInputFilled = styled(StyledInput)`
-  background-color: rgb(50, 50, 50);
+  background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
 `;
 
 export const StyledInputOutlined = styled(StyledInput)`
   border: 1px solid rgba(255, 255, 255, 0.24);
   background-color: transparent;
+
+  &:hover:not(:focus) {
+    border-color: rgba(255, 255, 255, 0.56);
+  }
 `;
 
 export default {
