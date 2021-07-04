@@ -63,7 +63,7 @@ export const useMenuList = () => {
     const focused = focusedItem.current;
     const items = itemsList.current;
 
-    return !focused ? -1 : items.indexOf(focused);
+    return !focused ? -1 : items.findIndex((r) => r.id === focused.id);
   }, [itemsList]);
 
   const focusItem = React.useCallback((index: number) => {
@@ -174,7 +174,6 @@ export const useMenuList = () => {
         activeItem.current = null;
         focusedItem.current = null;
         itemsList.current = [];
-
         root.toggle(false);
       }
     },
