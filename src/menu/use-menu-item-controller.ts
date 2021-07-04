@@ -41,9 +41,11 @@ export const useMenuItemController = (base?: Partial<MenuItemController>) => {
   }, [listController, controller]);
 
   const onMouseEnter = React.useCallback(() => {
+    if (controller.isDisabled) return;
+
     ref.current?.focus();
-    listController?.requestSubmenu(globalIndex.current, true);
-  }, [ref, listController, globalIndex]);
+    listController?.requestSubmenu(id, true);
+  }, [id, listController, controller]);
 
   return {
     controller,

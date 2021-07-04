@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { MenuContext, MenuListContext } from './menu-context';
-import { MenuItemController } from './use-menu';
 import { useMenuItemController } from './use-menu-item-controller';
 
 export const useMenuItem = (
   hasSubmenu: boolean,
   onSelect?: (middleButton?: boolean) => void,
+  isDisabled?: boolean,
 ) => {
   const root = React.useContext(MenuContext);
   const listController = React.useContext(MenuListContext);
@@ -14,11 +14,11 @@ export const useMenuItem = (
   const {
     ref,
     controller,
-    globalIndex,
     props: { onFocus, onMouseEnter },
   } = useMenuItemController({
     hasSubmenu,
     onSelect,
+    isDisabled,
   });
 
   const isSubmenuOpen =
@@ -55,7 +55,7 @@ export const useMenuItem = (
       e.stopPropagation();
 
       if (hasSubmenu) {
-        listController?.focusItem(globalIndex.current);
+        listController?.focusItem(controller.id);
 
         return;
       }
@@ -63,7 +63,7 @@ export const useMenuItem = (
       onSelect?.(e.button === 1);
       root.toggle(false);
     },
-    [onSelect, root, listController, hasSubmenu, globalIndex],
+    [onSelect, root, listController, hasSubmenu, controller.id],
   );
 
   return {

@@ -31,7 +31,6 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
       submenuIcon,
       accelerator,
       leftSpacing,
-      rightSpacing,
       submenu,
       children,
       onSelect,
@@ -45,7 +44,7 @@ export const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
     },
     ref,
   ) => {
-    const item = useMenuItem(!!submenu, onSelect);
+    const item = useMenuItem(!!submenu, onSelect, isDisabled);
 
     const Root = as || StyledMenuItem;
 
