@@ -12,9 +12,8 @@ export interface MenuListController {
   focusItem: (index: number) => void;
   focusUsingText: (text: string) => void;
   focusedItem: React.MutableRefObject<MenuItemController | null>;
-  getFocusedIndex: () => number;
   activeItem: React.MutableRefObject<MenuItemController | null>;
-  requestSubmenu: (index: number, delay?: boolean) => void;
+  requestSubmenu: (id: number, delay?: boolean) => void;
   hideSubmenu: () => void;
   getParent: () => MenuListController | null;
   submenu: MenuItemController | null;
@@ -24,6 +23,7 @@ export interface MenuItemController {
   id: number;
   ref: React.MutableRefObject<HTMLElement | null>;
   hasSubmenu: boolean;
+  isDisabled?: boolean;
   onSelect?: (middleButton?: boolean) => void;
 }
 

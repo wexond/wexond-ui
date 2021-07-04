@@ -22,7 +22,7 @@ export const StyledMenuItem = styled.li`
   ${({ isDisabled }: { isDisabled?: boolean }) =>
     isDisabled &&
     css`
-      pointer-events: 'none';
+      pointer-events: none;
     `}
 `;
 

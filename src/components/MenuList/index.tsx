@@ -156,18 +156,17 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
           return;
         }
 
-        const index = controller.getFocusedIndex();
-        const item = controller.itemsList.current[index];
+        const item = controller.focusedItem.current;
 
         if (e.key === 'ArrowUp') {
           controller.focusPrevious();
         } else if (e.key === 'ArrowDown') {
           controller.focusNext();
         } else if (!item?.hasSubmenu && e.key === 'Enter') {
-          item.onSelect?.(false);
+          item?.onSelect?.(false);
           root.toggle(false);
         } else if (e.key === 'ArrowRight' || e.key === 'Enter') {
-          controller.requestSubmenu(controller.getFocusedIndex());
+          if (item) controller.requestSubmenu(item.id);
         } else if (e.key === 'ArrowLeft' || e.key === 'Escape') {
           if (parentController) {
             parentController.hideSubmenu();

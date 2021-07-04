@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { useId } from '../hooks/use-id';
-import { useItems } from '../hooks/use-items';
-import { PopupInfo, PopupOptions } from '../popup/popup';
+import { PopupInfo } from '../popup/popup';
 import { MenuContext, MenuListContext } from './menu-context';
 import { MenuItemController, MenuListController } from './use-menu';
 
@@ -24,23 +22,21 @@ export const useMenuList = () => {
   const activeItem = React.useRef<MenuItemController | null>(null);
 
   const requestSubmenu = React.useCallback(
-    (index: number, delay = false) => {
+    (id: number, delay = false) => {
       if (!root) return;
 
       root.requestMenu(() => {
-        if (index != null) {
-          const item = itemsList.current[index];
+        const item = itemsList.current.find((r) => r.id === id);
 
-          root.menuRequest.current = null;
+        if (!item) return;
 
-          if (item?.hasSubmenu) {
-            const item = itemsList.current[index];
+        root.menuRequest.current = null;
 
-            activeItem.current = item;
-            setSubmenu(item);
+        if (item?.hasSubmenu) {
+          activeItem.current = item;
+          setSubmenu(item);
 
-            return;
-          }
+          return;
         }
 
         setSubmenu(null);
@@ -59,54 +55,61 @@ export const useMenuList = () => {
     focusedItem.current?.ref?.current?.focus();
   }, [root]);
 
+  const getEnabledItems = React.useCallback(() => {
+    return itemsList.current.filter((r) => !r.isDisabled);
+  }, []);
+
   const getFocusedIndex = React.useCallback(() => {
     const focused = focusedItem.current;
-    const items = itemsList.current;
+    const items = getEnabledItems();
 
     return !focused ? -1 : items.findIndex((r) => r.id === focused.id);
-  }, [itemsList]);
+  }, [getEnabledItems]);
 
-  const focusItem = React.useCallback((index: number) => {
-    itemsList.current[index]?.ref?.current?.focus();
+  const focusItem = React.useCallback((id: number) => {
+    const item = itemsList.current?.find((r) => r.id === id);
+
+    item?.ref?.current?.focus();
   }, []);
 
   const focusNext = React.useCallback(() => {
     let index = getFocusedIndex();
+    const items = getEnabledItems();
 
-    if (++index >= itemsList.current.length) {
+    if (++index >= items.length) {
       index = 0;
     }
 
-    focusItem(index);
-  }, [getFocusedIndex, focusItem]);
+    focusItem(items[index]?.id);
+  }, [getFocusedIndex, focusItem, getEnabledItems]);
 
   const focusPrevious = React.useCallback(() => {
     let index = getFocusedIndex();
+    const items = getEnabledItems();
 
     if (--index < 0) {
-      index = itemsList.current.length - 1;
+      index = getEnabledItems().length - 1;
     }
 
-    focusItem(index);
-  }, [getFocusedIndex, focusItem]);
+    focusItem(items[index]?.id);
+  }, [getFocusedIndex, focusItem, getEnabledItems]);
 
   const focusUsingText = React.useCallback(
     (text: string) => {
       const index = getFocusedIndex();
+      const items = getEnabledItems();
 
-      const rest = itemsList.current
-        .slice(index + 1)
-        .concat(itemsList.current.slice(0, index));
+      const rest = items.slice(index + 1).concat(items.slice(0, index));
 
       const match = rest.find((r) =>
         r?.ref?.current?.textContent?.toLowerCase()?.startsWith(text),
       );
 
       if (match) {
-        focusItem(itemsList.current.indexOf(match));
+        focusItem(match.id);
       }
     },
-    [focusItem, getFocusedIndex],
+    [focusItem, getFocusedIndex, getEnabledItems],
   );
 
   const getParent = React.useCallback(() => {
@@ -122,7 +125,6 @@ export const useMenuList = () => {
       focusedItem,
       focusNext,
       focusPrevious,
-      getFocusedIndex,
       focusUsingText,
       focusItem,
       activeItem,
@@ -136,7 +138,6 @@ export const useMenuList = () => {
       focusNext,
       focusPrevious,
       focusItem,
-      getFocusedIndex,
       focusUsingText,
       requestSubmenu,
       activeItem,
@@ -171,10 +172,10 @@ export const useMenuList = () => {
         !parentController &&
         !ref.current.contains(target)
       ) {
-        activeItem.current = null;
-        focusedItem.current = null;
-        itemsList.current = [];
-        root.toggle(false);
+        // activeItem.current = null;
+        // focusedItem.current = null;
+        // itemsList.current = [];
+        // root.toggle(false);
       }
     },
     [parentController, root],
