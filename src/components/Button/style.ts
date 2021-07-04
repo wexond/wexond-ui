@@ -6,8 +6,6 @@ import { noUserSelect } from '../../mixins/user-selection';
 export const DEFAULT_BUTTON_COLOR = '#6ec6ff';
 export const DEFAULT_BUTTON_HOVER_COLOR = '#63a4ff';
 
-export const BUTTON_TRANSITION = '0.1s background-color, 0.15s box-shadow';
-
 export const StyledButton = styled.button`
   min-width: 64px;
   height: 32px;
@@ -20,8 +18,8 @@ export const StyledButton = styled.button`
   border: none;
   text-align: center;
   white-space: nowrap;
-  border-radius: 4px;
-  transition: ${BUTTON_TRANSITION};
+  border-radius: 6px;
+  transition: 0.1s background-color, 0.15s box-shadow, 0.1s border-color;
   position: relative;
   ${robotoRegular};
   ${noUserSelect};
@@ -33,7 +31,7 @@ export const StyledButton = styled.button`
 
 export const StyledButtonContained = styled(StyledButton)`
   padding: 0px 12px;
-  background-color: rgb(50, 50, 50);
+  background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
@@ -41,6 +39,7 @@ export const StyledButtonContained = styled(StyledButton)`
 
   &:hover {
     border-color: rgba(255, 255, 255, 0.48);
+    background-color: rgba(255, 255, 255, 0.14);
   }
 
   &:focus {
@@ -54,7 +53,6 @@ export const StyledButtonOutlined = styled(StyledButton)`
   padding: 0px 12px;
   border: 1px solid rgba(255, 255, 255, 0.24);
   background-color: unset;
-  transition: ${BUTTON_TRANSITION}, 0.1s border-color;
 
   &:hover {
     border-color: rgba(255, 255, 255, 0.48);

@@ -16,7 +16,6 @@ export const StyledInput = styled.input`
   ${robotoRegular};
 
   &:focus {
-    border-color: transparent;
     box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
   }
 `;
@@ -33,6 +32,10 @@ export const StyledInputFilled = styled(StyledInput)`
 export const StyledInputOutlined = styled(StyledInput)`
   border: 1px solid rgba(255, 255, 255, 0.24);
   background-color: transparent;
+
+  &:focus {
+    border-color: transparent;
+  }
 
   &:hover:not(:focus) {
     border-color: rgba(255, 255, 255, 0.56);
