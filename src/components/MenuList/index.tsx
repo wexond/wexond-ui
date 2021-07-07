@@ -194,10 +194,9 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
     );
 
     React.useEffect(() => {
-      if (parentController) {
-        controller.ref.current?.focus();
-      }
-    }, [parentController, controller?.ref]);
+      // console.log(parentController);
+      controller.ref.current?.focus();
+    }, [controller?.ref]);
 
     const Root = as || StyledMenuList;
 

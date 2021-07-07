@@ -22,6 +22,11 @@ export const StyledMenuList = styled.div`
     outline: none;
   }
 
+  /* &:focus,
+  &:focus-within {
+    outline: 1px solid red;
+  } */
+
   ${({ isOpen }: { isOpen?: boolean }) => css`
     opacity: ${isOpen ? 1 : 0};
     pointer-events: ${isOpen ? 'inherit' : 'none'};
