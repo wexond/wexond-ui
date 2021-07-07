@@ -194,7 +194,6 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
     );
 
     React.useEffect(() => {
-      // console.log(parentController);
       controller.ref.current?.focus();
     }, [controller?.ref]);
 
