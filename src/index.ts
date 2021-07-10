@@ -41,6 +41,7 @@ export * from './hooks/use-popup';
 export * from './hooks/use-safe-layout-effect';
 export * from './hooks/use-debounce-input';
 export * from './hooks/use-disable-scroll-button';
+export * from './hooks/use-query';
 
 export * from './mixins/background';
 export * from './mixins/cursors';
