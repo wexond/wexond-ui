@@ -16,7 +16,7 @@ export interface MenuItemProps
     ComponentProps {
   icon?: React.ReactNode;
   submenuIcon?: React.ReactNode;
-  accelerator?: string;
+  accelerator?: string | null;
   leftSpacing?: string;
   rightSpacing?: string;
   submenu?: React.ReactNode;
