@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import { centerBoth } from '../../mixins/positioning';
 import { noUserSelect } from '../../mixins/user-selection';
-import { COLOR_BLUE_PRIMARY } from '../../constants/colors';
 
 export const SLIDER_HEIGHT = 4;
 export const SLIDER_HANDLE_SIZE = 10;
@@ -12,14 +11,14 @@ export const SliderHandle = styled.div`
   width: ${SLIDER_HANDLE_SIZE}px;
   height: ${SLIDER_HANDLE_SIZE}px;
   border-radius: 100%;
-  background-color: ${COLOR_BLUE_PRIMARY};
+  background-color: var(--ui-slider-color);
 
   &::before {
     content: '';
     display: block;
     width: 0px;
     height: 0px;
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: var(--ui-slider-handle-background);
     border-radius: 100%;
     z-index: -1;
     position: relative;
@@ -35,7 +34,7 @@ export const SliderTrack = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: ${COLOR_BLUE_PRIMARY};
+  background-color: var(--ui-slider-color);
   will-change: width;
   border-radius: 32px;
 `;
@@ -52,7 +51,7 @@ export const StyledSlider = styled.div`
     display: block;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--ui-slider-track-background);
     border-radius: 32px;
     transition: 0.15s background-color;
   }
@@ -69,7 +68,7 @@ export const StyledSlider = styled.div`
   &:hover {
     &::before,
     & ${SliderHandle}::before {
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: var(--ui-slider-hover-background);
     }
   }
 `;

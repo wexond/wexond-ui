@@ -22,6 +22,12 @@ export const defaultWexondUITheme = {
   '--ui-button-primary-hover-background': '#63a4ff',
   '--ui-button-primary-hover-color': '#000',
   '--ui-button-primary-hover-border': '',
+
+  // SLIDER
+  '--ui-slider-color': '#6ec6ff',
+  '--ui-slider-track-background': 'rgba(255, 255, 255, 0.08)',
+  '--ui-slider-handle-background': 'rgba(255, 255, 255, 0.12)',
+  '--ui-slider-hover-background': 'rgba(255, 255, 255, 0.2)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
