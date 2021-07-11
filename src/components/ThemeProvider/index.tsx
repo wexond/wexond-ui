@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTheme } from '../../hooks/use-theme';
+import { useThemeVars } from '../../hooks/use-theme-vars';
 import { defaultWexondUITheme, WexondUITheme } from '../../theme/theme';
 
 export interface ThemeProviderProps
@@ -14,7 +14,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   ...props
 }) => {
-  const themeStyle = useTheme(theme!);
+  const themeStyle = useThemeVars(theme!);
 
   return (
     <div {...props} style={{ ...style, ...themeStyle }}>

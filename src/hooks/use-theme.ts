@@ -1,8 +1,9 @@
 import { WexondUITheme } from '../theme/theme';
 
-export const useTheme = (theme: WexondUITheme) => {
-  const { primaryColor, ...vars } = theme;
-  const style = { ...vars };
+export const useTheme = (theme: WexondUITheme, element: HTMLElement) => {
+  const { primaryColor, ...styles } = theme;
 
-  return style;
+  for (const name in styles) {
+    element.style.setProperty(name, styles[name]);
+  }
 };
