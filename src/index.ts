@@ -15,7 +15,6 @@ export * from './components/DragDrop';
 export * from './components/Droppable';
 export * from './components/Draggable';
 export * from './components/Skeleton';
-export * from './components/Query';
 export * from './components/Slider';
 export * from './components/Scrollable';
 export * from './components/Scrollbar';
@@ -41,6 +40,7 @@ export * from './hooks/use-popup';
 export * from './hooks/use-safe-layout-effect';
 export * from './hooks/use-debounce-input';
 export * from './hooks/use-disable-scroll-button';
+export * from './hooks/use-query';
 
 export * from './mixins/background';
 export * from './mixins/cursors';
