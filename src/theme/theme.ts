@@ -1,5 +1,5 @@
 export const defaultWexondUITheme = {
-  primaryColor: '',
+  '--ui-accent-color': '#6ec6ff',
 
   // BUTTON CONTAINED
   '--ui-button-contained-background': 'rgba(255, 255, 255, 0.08)',
@@ -16,7 +16,7 @@ export const defaultWexondUITheme = {
   '--ui-button-outlined-hover-border': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON PRIMARY
-  '--ui-button-primary-background': '#6ec6ff',
+  '--ui-button-primary-background': 'var(--ui-accent-color)',
   '--ui-button-primary-color': '#000',
   '--ui-button-primary-border': '',
   '--ui-button-primary-hover-background': '#63a4ff',
@@ -24,10 +24,51 @@ export const defaultWexondUITheme = {
   '--ui-button-primary-hover-border': '',
 
   // SLIDER
-  '--ui-slider-color': '#6ec6ff',
+  '--ui-slider-color': 'var(--ui-accent-color)',
   '--ui-slider-track-background': 'rgba(255, 255, 255, 0.08)',
   '--ui-slider-handle-background': 'rgba(255, 255, 255, 0.12)',
   '--ui-slider-hover-background': 'rgba(255, 255, 255, 0.2)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
+
+export type ThemePropertySelectors = 'selected' | 'focused' | 'hovered';
+
+export type ThemePropertySelectorMap = Partial<
+  Record<ThemePropertySelectors, boolean>
+>;
+
+const formatVar = (property: string) => {
+  return `var(${property})`;
+};
+
+const buildSelectors = (property: string, map?: ThemePropertySelectorMap) => {
+  if (!map) return property;
+
+  const selectors: ThemePropertySelectors[] = [];
+
+  // We need that hardcoded, because the order is essential
+  if (map.selected) selectors.push('selected');
+  if (map.focused) selectors.push('focused');
+  if (map.hovered) selectors.push('hovered');
+
+  if (selectors.length !== 0) {
+    return property + '-' + selectors.join('-');
+  }
+
+  return property;
+};
+
+export const useSelectors =
+  (map: ThemePropertySelectorMap) =>
+  (property: string, autoVar = true) => {
+    const selectors = buildSelectors(property, map);
+    return autoVar ? formatVar(selectors) : selectors;
+  };
+
+export const useProperty =
+  (property: string) =>
+  (map?: ThemePropertySelectorMap, autoVar = true) => {
+    const selectors = buildSelectors(property, map);
+    return autoVar ? formatVar(selectors) : selectors;
+  };
