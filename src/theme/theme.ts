@@ -42,7 +42,10 @@ const formatVar = (property: string) => {
   return `var(${property})`;
 };
 
-const buildSelectors = (property: string, map?: ThemePropertySelectorMap) => {
+export const buildSelectors = (
+  property: string,
+  map?: ThemePropertySelectorMap,
+) => {
   if (!map) return property;
 
   const selectors: ThemePropertySelectors[] = [];
@@ -72,3 +75,14 @@ export const useProperty =
     const selectors = buildSelectors(property, map);
     return autoVar ? formatVar(selectors) : selectors;
   };
+
+export const applyTheme = (
+  theme: Record<string, string>,
+  element: HTMLElement,
+) => {
+  const _theme = { ...defaultWexondUITheme, ...theme };
+
+  for (const name in _theme) {
+    element.style.setProperty(name, _theme[name]);
+  }
+};
