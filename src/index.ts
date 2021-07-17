@@ -19,6 +19,7 @@ export * from './components/Slider';
 export * from './components/Scrollable';
 export * from './components/Scrollbar';
 export * from './components/ThemeProvider';
+export * from './components/Textarea';
 
 export * from './popup/popup';
 
