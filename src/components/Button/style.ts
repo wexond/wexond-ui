@@ -31,47 +31,46 @@ export const StyledButton = styled.button`
 
 export const StyledButtonContained = styled(StyledButton)`
   padding: 0px 12px;
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--ui-button-contained-background);
+  color: var(--ui-button-contained-color);
   text-align: left;
   justify-content: flex-start;
+  box-shadow: 0 0 0 1px var(--ui-button-contained-border);
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.48);
-    background-color: rgba(255, 255, 255, 0.14);
+    color: var(--ui-button-contained-hover-color);
+    background-color: var(--ui-button-contained-hover-background);
   }
 
-  &:focus {
-    border-color: rgba(100, 181, 246, 0.54);
-    box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+  &:hover:not(:focus) {
+    box-shadow: 0 0 0 1px var(--ui-button-contained-hover-border);
   }
 `;
 
 export const StyledButtonOutlined = styled(StyledButton)`
-  color: #fff;
+  color: var(--ui-button-outlined-color);
   padding: 0px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
   background-color: unset;
+  box-shadow: 0 0 0 1px var(--ui-button-outlined-border);
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.48);
     background-color: unset;
+    color: var(--ui-button-outlined-hover-color);
   }
 
-  &:focus {
-    border-color: rgba(100, 181, 246, 0.54);
-    box-shadow: 0 0 0 1px rgba(100, 181, 246, 0.54);
+  &:hover:not(:focus) {
+    box-shadow: 0 0 0 1px var(--ui-button-outlined-hover-border);
   }
 `;
 
 export const StyledButtonPrimary = styled(StyledButton)`
   padding: 0px 16px;
-  color: #000;
-  background-color: ${DEFAULT_BUTTON_COLOR};
+  color: var(--ui-button-primary-color);
+  background-color: var(--ui-button-primary-background);
 
   &:hover {
-    background-color: ${DEFAULT_BUTTON_HOVER_COLOR};
+    background-color: var(--ui-button-primary-hover-background);
+    color: var(--ui-button-primary-hover-color);
   }
 `;
 

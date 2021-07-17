@@ -18,6 +18,7 @@ export * from './components/Skeleton';
 export * from './components/Slider';
 export * from './components/Scrollable';
 export * from './components/Scrollbar';
+export * from './components/ThemeProvider';
 
 export * from './popup/popup';
 
@@ -56,3 +57,5 @@ export * from './mixins/size';
 export * from './menu/use-menu-item-controller';
 
 export * from './interfaces';
+
+export * from './theme/theme';
