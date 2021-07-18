@@ -46,6 +46,10 @@ export const defaultWexondUITheme = {
   '--ui-menu-item-color': '#fff',
   '--ui-menu-item-selected': 'rgba(255, 255, 255, 0.12)',
   '--ui-menu-item-color-selected': '#fff',
+
+  // ICON BUTTON
+  '--ui-icon-button-background-hovered': 'rgba(255, 255, 255, 0.08)',
+  '--ui-icon-button-background-selected': 'rgba(255, 255, 255, 0.12)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;

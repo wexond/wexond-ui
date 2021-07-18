@@ -27,6 +27,7 @@ export const IconButton = React.forwardRef<HTMLDivElement, IconButtonProps>(
         isActive={isActive}
         isDisabled={isDisabled}
         dense={dense}
+        autoInvert={autoInvert}
         {...props}
       >
         <StyledIcon
