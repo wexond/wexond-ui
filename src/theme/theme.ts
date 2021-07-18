@@ -5,23 +5,23 @@ export const defaultWexondUITheme = {
   '--ui-button-contained-background': 'rgba(255, 255, 255, 0.08)',
   '--ui-button-contained-color': '#fff',
   '--ui-button-contained-border': 'rgba(255, 255, 255, 0.1)',
-  '--ui-button-contained-hover-background': 'rgba(255, 255, 255, 0.14)',
-  '--ui-button-contained-hover-color': '#fff',
-  '--ui-button-contained-hover-border': 'rgba(255, 255, 255, 0.48)',
+  '--ui-button-contained-background-hovered': 'rgba(255, 255, 255, 0.14)',
+  '--ui-button-contained-color-hovered': '#fff',
+  '--ui-button-contained-border-hovered': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON OUTLINED
   '--ui-button-outlined-color': '#fff',
   '--ui-button-outlined-border': 'rgba(255, 255, 255, 0.24)',
-  '--ui-button-outlined-hover-color': '#fff',
-  '--ui-button-outlined-hover-border': 'rgba(255, 255, 255, 0.48)',
+  '--ui-button-outlined-color-hovered': '#fff',
+  '--ui-button-outlined-border-hovered': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON PRIMARY
   '--ui-button-primary-background': 'var(--ui-accent-color)',
   '--ui-button-primary-color': '#000',
   '--ui-button-primary-border': '',
-  '--ui-button-primary-hover-background': '#63a4ff',
-  '--ui-button-primary-hover-color': '#000',
-  '--ui-button-primary-hover-border': '',
+  '--ui-button-primary-background-hovered': '#63a4ff',
+  '--ui-button-primary-color-hovered': '#000',
+  '--ui-button-primary-border-hovered': '',
 
   // SLIDER
   '--ui-slider-color': 'var(--ui-accent-color)',
