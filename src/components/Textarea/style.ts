@@ -14,6 +14,7 @@ export const StyledTextarea = styled.textarea`
   will-change: box-shadow;
   transition: 0.15s box-shadow, 0.1s background-color, 0.1s border-color;
   resize: none;
+  color: inherit;
   ${robotoRegular};
 
   &:focus {
@@ -21,14 +22,13 @@ export const StyledTextarea = styled.textarea`
   }
 
   &::placeholder {
-    color: #fff;
+    color: inherit;
     opacity: 0.5;
   }
 `;
 
 export const StyledTextareaFilled = styled(StyledTextarea)`
   background-color: rgba(255, 255, 255, 0.08);
-  color: #fff;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.14);

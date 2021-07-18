@@ -34,8 +34,6 @@ export const StyledButtonContained = styled(StyledButton)`
   padding: 0px 12px;
   background-color: var(--ui-button-contained-background);
   color: var(--ui-button-contained-color);
-  text-align: left;
-  justify-content: flex-start;
   ${borderShadow('var(--ui-button-contained-border)')};
 
   &:hover {

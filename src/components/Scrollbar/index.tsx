@@ -12,11 +12,12 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   hoveredThumbSize?: string | number;
   size?: string | number;
   container?: HTMLElement;
+  invert?: boolean;
 }
 
 export const Scrollbar = React.forwardRef<HTMLDivElement, Props>(
   (props, ref) => {
-    const { horizontal, size, hoveredThumbSize, container } = props;
+    const { horizontal, size, hoveredThumbSize, container, invert } = props;
 
     const thumbContainer = React.useRef<HTMLDivElement>(null);
     const thumbRef = React.useRef<HTMLDivElement>(null);
@@ -183,7 +184,8 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, Props>(
               horizontal={horizontal}
               onMouseDown={onMouseDown}
               onMouseMove={onMouseMove}
-            ></ScrollbarThumb>
+              invert={invert}
+            />
           </ScrollThumbContainer>
         </ScrollTrack>
       </StyledScrollbar>

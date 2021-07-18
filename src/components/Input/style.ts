@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { borderShadow } from '../../mixins/border';
 
 import { robotoRegular } from '../../mixins/typography';
 
@@ -12,7 +13,8 @@ export const StyledInput = styled.input`
   border-radius: 6px;
   padding: 0px 12px;
   will-change: box-shadow;
-  transition: 0.15s box-shadow, 0.1s background-color, 0.1s border-color;
+  transition: 0.15s box-shadow, 0.1s background-color;
+  color: inherit;
   ${robotoRegular};
 
   &:focus {
@@ -20,17 +22,23 @@ export const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: #fff;
+    color: inherit;
     opacity: 0.5;
   }
 `;
 
 export const StyledInputFilled = styled(StyledInput)`
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background-color: var(--ui-input-filled-background);
+  color: var(--ui-input-filled-color);
+  ${borderShadow('var(--ui-input-filled-border)')};
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.14);
+    background-color: var(--ui-input-filled-background-hovered);
+    color: var(--ui-input-filled-color-hovered);
+  }
+
+  &:hover:not(:focus) {
+    ${borderShadow('var(--ui-input-filled-border-hovered)')};
   }
 `;
 
