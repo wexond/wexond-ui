@@ -62,19 +62,22 @@ export const buildSelectors = (
   return property;
 };
 
-export const useSelectors =
-  (map: ThemePropertySelectorMap) =>
-  (property: string, autoVar = true) => {
-    const selectors = buildSelectors(property, map);
-    return autoVar ? formatVar(selectors) : selectors;
-  };
+export const useSelectors = (map: ThemePropertySelectorMap) => (
+  property: string,
+  mapOverrides?: ThemePropertySelectorMap,
+  autoVar = true,
+) => {
+  const selectors = buildSelectors(property, { ...map, ...mapOverrides });
+  return autoVar ? formatVar(selectors) : selectors;
+};
 
-export const useProperty =
-  (property: string) =>
-  (map?: ThemePropertySelectorMap, autoVar = true) => {
-    const selectors = buildSelectors(property, map);
-    return autoVar ? formatVar(selectors) : selectors;
-  };
+export const useProperty = (property: string) => (
+  map?: ThemePropertySelectorMap,
+  autoVar = true,
+) => {
+  const selectors = buildSelectors(property, map);
+  return autoVar ? formatVar(selectors) : selectors;
+};
 
 export const applyTheme = (
   theme: Record<string, string>,
