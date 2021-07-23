@@ -35,7 +35,7 @@ export const StyledMenuList = styled.div`
 
 export const BlurEffect = styled.div`
   background-color: rgba(25, 25, 25, 0.56);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(48px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: absolute;
   box-sizing: border-box;
