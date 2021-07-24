@@ -3,6 +3,7 @@ import React from 'react';
 export type UsePopupOptions<T extends (...args: any[]) => void> = {
   ref: React.MutableRefObject<HTMLElement | null>;
   visible: boolean;
+  focusOnShow?: boolean;
   onHide?: T;
 };
 
@@ -10,16 +11,17 @@ export const usePopup = <T extends (...args: any[]) => void>({
   ref,
   visible,
   onHide,
+  focusOnShow,
 }: UsePopupOptions<T>) => {
   const timeout = React.useRef<number>();
 
   React.useEffect(() => {
-    if (visible) {
+    if (visible && (focusOnShow || focusOnShow === undefined)) {
       requestAnimationFrame(() => {
         ref.current?.focus();
       });
     }
-  }, [visible, ref]);
+  }, [visible, ref, focusOnShow]);
 
   const hide = React.useCallback(
     (...args: any[]) => {
