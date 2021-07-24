@@ -16,21 +16,37 @@ const getSize = (
 
 interface ScrollbarThumbProps {
   horizontal?: boolean;
+  invert?: boolean;
 }
 
 export const ScrollbarThumb = styled.div<ScrollbarThumbProps>`
   transition: 0.1s width, 0.1s height, 0.1s opacity;
   border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.16);
   position: absolute;
+
   &:hover {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.24);
   }
+
   &:active {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgba(0, 0, 0, 0.32);
   }
+
   ${(props) => css`
     ${getSize(props, '1px')};
+
+    ${props.invert &&
+    css`
+      background-color: rgba(255, 255, 255, 0.5);
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+      &:active {
+        background-color: rgba(255, 255, 255, 1);
+      }
+    `}
   `};
 `;
 

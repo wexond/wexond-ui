@@ -1,38 +1,64 @@
 export const defaultWexondUITheme = {
   '--ui-accent-color': '#6ec6ff',
+  '--ui-accent-color-hovered': '#448aff',
 
   // BUTTON CONTAINED
   '--ui-button-contained-background': 'rgba(255, 255, 255, 0.08)',
   '--ui-button-contained-color': '#fff',
   '--ui-button-contained-border': 'rgba(255, 255, 255, 0.1)',
-  '--ui-button-contained-hover-background': 'rgba(255, 255, 255, 0.14)',
-  '--ui-button-contained-hover-color': '#fff',
-  '--ui-button-contained-hover-border': 'rgba(255, 255, 255, 0.48)',
+  '--ui-button-contained-background-hovered': 'rgba(255, 255, 255, 0.14)',
+  '--ui-button-contained-color-hovered': '#fff',
+  '--ui-button-contained-border-hovered': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON OUTLINED
   '--ui-button-outlined-color': '#fff',
   '--ui-button-outlined-border': 'rgba(255, 255, 255, 0.24)',
-  '--ui-button-outlined-hover-color': '#fff',
-  '--ui-button-outlined-hover-border': 'rgba(255, 255, 255, 0.48)',
+  '--ui-button-outlined-color-hovered': '#fff',
+  '--ui-button-outlined-border-hovered': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON PRIMARY
   '--ui-button-primary-background': 'var(--ui-accent-color)',
   '--ui-button-primary-color': '#000',
   '--ui-button-primary-border': '',
-  '--ui-button-primary-hover-background': '#63a4ff',
-  '--ui-button-primary-hover-color': '#000',
-  '--ui-button-primary-hover-border': '',
+  '--ui-button-primary-background-hovered': 'var(--ui-accent-color-hovered)',
+  '--ui-button-primary-color-hovered': '#000',
+  '--ui-button-primary-border-hovered': '',
+
+  // INPUT
+  '--ui-input-filled-background': 'var(--ui-button-contained-background)',
+  '--ui-input-filled-color': 'var(--ui-button-contained-color)',
+  '--ui-input-filled-border': 'var(--ui-button-contained-border)',
+  '--ui-input-filled-background-hovered':
+    'var(--ui-button-contained-background-hovered)',
+  '--ui-input-filled-color-hovered': 'var(--ui-button-contained-color-hovered)',
+  '--ui-input-filled-border-hovered':
+    'var(--ui-button-contained-border-hovered)',
 
   // SLIDER
-  '--ui-slider-color': 'var(--ui-accent-color)',
+  '--ui-slider-track-background-selected': 'var(--ui-accent-color)',
   '--ui-slider-track-background': 'rgba(255, 255, 255, 0.08)',
+  '--ui-slider-track-background-hovered': 'rgba(255, 255, 255, 0.2)',
   '--ui-slider-handle-background': 'rgba(255, 255, 255, 0.12)',
-  '--ui-slider-hover-background': 'rgba(255, 255, 255, 0.2)',
+
+  // CONTEXT MENU
+  '--ui-menu-background': 'rgba(25, 25, 25, 0.56)',
+  '--ui-menu-border': 'rgba(255, 255, 255, 0.1)',
+  '--ui-menu-item-color': '#fff',
+  '--ui-menu-item-selected': 'rgba(255, 255, 255, 0.12)',
+  '--ui-menu-item-color-selected': '#fff',
+
+  // ICON BUTTON
+  '--ui-icon-button-background-hovered': 'rgba(255, 255, 255, 0.08)',
+  '--ui-icon-button-background-selected': 'rgba(255, 255, 255, 0.12)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
 
-export type ThemePropertySelectors = 'selected' | 'focused' | 'hovered';
+export type ThemePropertySelectors =
+  | 'selected'
+  | 'focused'
+  | 'hovered'
+  | 'disabled';
 
 export type ThemePropertySelectorMap = Partial<
   Record<ThemePropertySelectors, boolean>
@@ -54,6 +80,7 @@ export const buildSelectors = (
   if (map.selected) selectors.push('selected');
   if (map.focused) selectors.push('focused');
   if (map.hovered) selectors.push('hovered');
+  if (map.disabled) selectors.push('disabled');
 
   if (selectors.length !== 0) {
     return property + '-' + selectors.join('-');
@@ -62,22 +89,23 @@ export const buildSelectors = (
   return property;
 };
 
-export const useSelectors = (map: ThemePropertySelectorMap) => (
-  property: string,
-  mapOverrides?: ThemePropertySelectorMap,
-  autoVar = true,
-) => {
-  const selectors = buildSelectors(property, { ...map, ...mapOverrides });
-  return autoVar ? formatVar(selectors) : selectors;
-};
+export const useSelectors =
+  (map: ThemePropertySelectorMap) =>
+  (property: string, overrides?: ThemePropertySelectorMap, autoVar = true) => {
+    const selectors = buildSelectors(property, { ...map, ...overrides });
+    return autoVar ? formatVar(selectors) : selectors;
+  };
 
-export const useProperty = (property: string) => (
-  map?: ThemePropertySelectorMap,
-  autoVar = true,
-) => {
-  const selectors = buildSelectors(property, map);
-  return autoVar ? formatVar(selectors) : selectors;
-};
+export const useProperty =
+  (property: string) =>
+  (
+    map?: ThemePropertySelectorMap,
+    overrides?: ThemePropertySelectorMap,
+    autoVar = true,
+  ) => {
+    const selectors = buildSelectors(property, { ...map, ...overrides });
+    return autoVar ? formatVar(selectors) : selectors;
+  };
 
 export const applyTheme = (
   theme: Record<string, string>,

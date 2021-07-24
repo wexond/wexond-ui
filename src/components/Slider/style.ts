@@ -11,7 +11,7 @@ export const SliderHandle = styled.div`
   width: ${SLIDER_HANDLE_SIZE}px;
   height: ${SLIDER_HANDLE_SIZE}px;
   border-radius: 100%;
-  background-color: var(--ui-slider-color);
+  background-color: var(--ui-slider-track-background-selected);
 
   &::before {
     content: '';
@@ -23,7 +23,7 @@ export const SliderHandle = styled.div`
     z-index: -1;
     position: relative;
     will-change: width, height;
-    transition-property: width, height;
+    transition-property: width, height, background-color;
     transition-duration: 0.15s;
     ${centerBoth};
   }
@@ -34,7 +34,7 @@ export const SliderTrack = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  background-color: var(--ui-slider-color);
+  background-color: var(--ui-slider-track-background-selected);
   will-change: width;
   border-radius: 32px;
 `;
@@ -68,7 +68,7 @@ export const StyledSlider = styled.div`
   &:hover {
     &::before,
     & ${SliderHandle}::before {
-      background-color: var(--ui-slider-hover-background);
+      background-color: var(--ui-slider-track-background-hovered);
     }
   }
 `;

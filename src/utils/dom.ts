@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const setPosition = (el: HTMLElement | null, x: number, y: number) => {
   if (!el) return;
 
@@ -13,4 +15,14 @@ export const setSize = (
 
   if (width) el.style.width = `${width}px`;
   if (height) el.style.height = `${height}px`;
+};
+
+export const clearFields = (
+  ...refs: React.MutableRefObject<
+    HTMLInputElement | HTMLTextAreaElement | null
+  >[]
+) => {
+  refs.forEach((r) => {
+    if (r.current) r.current.value = '';
+  });
 };

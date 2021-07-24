@@ -6,6 +6,7 @@ interface StyledIconButtonProps {
   isDisabled?: boolean;
   isActive?: boolean;
   dense?: boolean;
+  autoInvert?: boolean;
 }
 
 export const StyledIconButton = styled.div<StyledIconButtonProps>`
@@ -20,34 +21,34 @@ export const StyledIconButton = styled.div<StyledIconButtonProps>`
   transition: 0.2s background-color, 0.05s max-width, 0.15s opacity;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--ui-icon-button-background-hovered);
   }
 
   &:active {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: var(--ui-icon-button-background-selected);
   }
 
-  ${({ isDisabled, isActive, dense }) =>
+  ${({ isDisabled }) =>
+    isDisabled &&
     css`
-      ${isDisabled &&
-      css`
-        pointer-events: none;
+      pointer-events: none;
 
-        & > * {
-          opacity: 0.24;
-        }
-      `}
+      & > * {
+        opacity: 0.24;
+      }
+    `}
 
-      ${dense &&
-      css`
-        width: 30px;
-        height: 26px;
-      `}
+  ${({ dense }) =>
+    dense &&
+    css`
+      width: 30px;
+      height: 26px;
+    `}
 
-      ${isActive &&
-      css`
-        background-color: rgba(255, 255, 255, 0.12);
-      `}
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background-color: var(--ui-icon-button-background-selected);
     `}
 `;
 

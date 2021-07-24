@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 
+import { borderShadow } from '../../mixins/border';
 import { robotoRegular } from '../../mixins/typography';
 import { noUserSelect } from '../../mixins/user-selection';
 
@@ -25,7 +26,7 @@ export const StyledButton = styled.button`
   ${noUserSelect};
 
   &:focus {
-    box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.54);
+    ${borderShadow(`rgba(100, 181, 246, 0.54)`, '2px')};
   }
 `;
 
@@ -33,17 +34,15 @@ export const StyledButtonContained = styled(StyledButton)`
   padding: 0px 12px;
   background-color: var(--ui-button-contained-background);
   color: var(--ui-button-contained-color);
-  text-align: left;
-  justify-content: flex-start;
-  box-shadow: 0 0 0 1px var(--ui-button-contained-border);
+  ${borderShadow('var(--ui-button-contained-border)')};
 
   &:hover {
-    color: var(--ui-button-contained-hover-color);
-    background-color: var(--ui-button-contained-hover-background);
+    color: var(--ui-button-contained-color-hovered);
+    background-color: var(--ui-button-contained-background-hovered);
   }
 
   &:hover:not(:focus) {
-    box-shadow: 0 0 0 1px var(--ui-button-contained-hover-border);
+    ${borderShadow('var(--ui-button-contained-border-hovered)')};
   }
 `;
 
@@ -51,15 +50,15 @@ export const StyledButtonOutlined = styled(StyledButton)`
   color: var(--ui-button-outlined-color);
   padding: 0px 12px;
   background-color: unset;
-  box-shadow: 0 0 0 1px var(--ui-button-outlined-border);
+  ${borderShadow(`var(--ui-button-outlined-border)`)};
 
   &:hover {
     background-color: unset;
-    color: var(--ui-button-outlined-hover-color);
+    color: var(--ui-button-outlined-color-hovered);
   }
 
   &:hover:not(:focus) {
-    box-shadow: 0 0 0 1px var(--ui-button-outlined-hover-border);
+    ${borderShadow(`var(--ui-button-outlined-border-hovered)`)};
   }
 `;
 
@@ -69,8 +68,8 @@ export const StyledButtonPrimary = styled(StyledButton)`
   background-color: var(--ui-button-primary-background);
 
   &:hover {
-    background-color: var(--ui-button-primary-hover-background);
-    color: var(--ui-button-primary-hover-color);
+    background-color: var(--ui-button-primary-background-hovered);
+    color: var(--ui-button-primary-color-hovered);
   }
 `;
 
