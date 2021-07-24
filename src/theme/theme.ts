@@ -35,10 +35,10 @@ export const defaultWexondUITheme = {
     'var(--ui-button-contained-border-hovered)',
 
   // SLIDER
-  '--ui-slider-color': 'var(--ui-accent-color)',
+  '--ui-slider-track-background-selected': 'var(--ui-accent-color)',
   '--ui-slider-track-background': 'rgba(255, 255, 255, 0.08)',
+  '--ui-slider-track-background-hovered': 'rgba(255, 255, 255, 0.2)',
   '--ui-slider-handle-background': 'rgba(255, 255, 255, 0.12)',
-  '--ui-slider-hover-background': 'rgba(255, 255, 255, 0.2)',
 
   // CONTEXT MENU
   '--ui-menu-background': 'rgba(25, 25, 25, 0.56)',
