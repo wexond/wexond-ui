@@ -28,6 +28,13 @@ export const StyledButton = styled.button`
   &:focus {
     ${borderShadow(`rgba(100, 181, 246, 0.54)`, '2px')};
   }
+
+  ${({ isDisabled }: { isDisabled: boolean }) =>
+    isDisabled &&
+    css`
+      opacity: 0.54;
+      pointer-events: none;
+    `}
 `;
 
 export const StyledButtonContained = styled(StyledButton)`

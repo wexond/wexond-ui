@@ -3,6 +3,7 @@ import React from 'react';
 import { ComponentProps } from '../../core/component';
 import { useVariant } from '../../core/use-variant';
 import { VariantTypes } from '../../core/variants';
+import { mergeRefs } from '../../utils/merge';
 import BUTTON_VARIANTS, { ButtonIcon, ButtonSpinner } from './style';
 
 export type ButtonVariants = VariantTypes<typeof BUTTON_VARIANTS>;
@@ -39,10 +40,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
+    const _ref = React.useRef<HTMLElement | null>(null);
+
     const Root = useVariant(variant, BUTTON_VARIANTS, as);
 
+    React.useEffect(() => {
+      if (isDisabled) _ref.current?.blur();
+    }, [isDisabled]);
+
     return (
-      <Root ref={ref} disabled={isDisabled} {...props}>
+      <Root ref={mergeRefs(_ref, ref)} isDisabled={isDisabled} {...props}>
         {leftIcon && !isLoading && (
           <ButtonIcon
             iconSpacing={iconSpacing}
