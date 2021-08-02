@@ -190,11 +190,14 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
           attributeFilter: ['style', 'class', 'id'],
         });
       }
+
+      return () => {
+        mutationObserver.current?.disconnect();
+      };
     }, [updateInfo, updateThumb]);
 
     React.useEffect(() => {
       return () => {
-        mutationObserver.current?.disconnect();
         window.removeEventListener('mousemove', onWindowMouseMove);
         window.removeEventListener('mouseup', onWindowMouseUp);
       };
