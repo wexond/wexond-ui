@@ -50,6 +50,13 @@ export const defaultWexondUITheme = {
   // ICON BUTTON
   '--ui-icon-button-background-hovered': 'rgba(255, 255, 255, 0.08)',
   '--ui-icon-button-background-selected': 'rgba(255, 255, 255, 0.12)',
+
+  // SCROLLABLE
+  '--ui-scrollable-track-background': 'unset',
+  '--ui-scrollable-track-background-hovered': 'rgba(255, 255, 255, 0.08)',
+  '--ui-scrollable-thumb-background': 'rgba(255, 255, 255, 0.5)',
+  '--ui-scrollable-thumb-background-hovered': 'rgba(255, 255, 255, 0.8)',
+  '--ui-scrollable-thumb-background-selected': 'rgba(255, 255, 255, 1)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
