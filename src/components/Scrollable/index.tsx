@@ -192,6 +192,14 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
       }
     }, [updateInfo, updateThumb]);
 
+    React.useEffect(() => {
+      return () => {
+        mutationObserver.current?.disconnect();
+        window.removeEventListener('mousemove', onWindowMouseMove);
+        window.removeEventListener('mouseup', onWindowMouseUp);
+      };
+    }, [onWindowMouseMove, onWindowMouseUp]);
+
     return (
       <StyledScrollable isHorizontal={isHorizontal}>
         <Container
