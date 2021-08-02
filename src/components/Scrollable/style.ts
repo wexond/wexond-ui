@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { centerHorizontal, centerVertical } from '../../mixins/positioning';
 import { noUserSelect } from '../../mixins/user-selection';
 
 export const SCROLLBAR_THUMB_MARGIN = 3;
@@ -22,32 +21,28 @@ export const ScrollThumb = styled.div`
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
   overflow: hidden;
+  position: relative;
+  margin: auto 0px;
   will-change: transform;
   transition: 0.1s background-color, 0.1s width, 0.1s height;
-
-  &:active {
-    background-color: red;
-  }
 `;
 
 export const ScrollTrack = styled.div`
   height: 12px;
-  width: 100%;
-  /* width: calc(100% - ${SCROLLBAR_THUMB_MARGIN * 2}px); */
-  /* margin: ${SCROLLBAR_THUMB_MARGIN}px; */
-  /* padding: 0px ${SCROLLBAR_THUMB_MARGIN}px; */
+  width: calc(100% - 6px);
+  margin: 3px;
+  padding: 3px;
   flex-shrink: 0;
   position: relative;
   border-radius: 8px;
-  display: flex;
   overflow: hidden;
-  align-items: center;
+  display: flex;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.24);
   }
 
-  &:hover > ${ScrollThumb} {
+  &:hover > ${ScrollThumb}, ${ScrollThumb}:active {
     height: 6px;
   }
 `;
