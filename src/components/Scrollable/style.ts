@@ -18,13 +18,20 @@ export const Container = styled.div`
 
 export const ScrollThumb = styled.div`
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
   margin: auto 0px;
   will-change: transform;
   transition: 0.1s background-color, 0.1s width, 0.1s height;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 1);
+  }
 `;
 
 export const ScrollTrack = styled.div`
@@ -39,7 +46,7 @@ export const ScrollTrack = styled.div`
   display: flex;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.24);
+    background-color: rgba(255, 255, 255, 0.08);
   }
 
   &:hover > ${ScrollThumb}, ${ScrollThumb}:active {
