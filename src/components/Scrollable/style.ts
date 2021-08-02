@@ -59,6 +59,7 @@ export const ScrollTrack = styled.div`
   overflow: hidden;
   display: flex;
   background-color: var(--ui-scrollable-track-background);
+  transition: 0.1s background-color;
 
   &:hover {
     background-color: var(--ui-scrollable-track-background-hovered);
