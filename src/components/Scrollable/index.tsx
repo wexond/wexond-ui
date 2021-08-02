@@ -115,6 +115,8 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
       (e: React.MouseEvent) => {
         if (!containerRef.current) return;
 
+        e.stopPropagation();
+
         startThumbPos.current = e.pageX;
         startScrollPos.current = containerRef.current.scrollLeft;
 
@@ -123,6 +125,19 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
       },
       [onWindowMouseMove, onWindowMouseUp],
     );
+
+    const onTrackMouseDown = React.useCallback((e: React.MouseEvent) => {
+      if (!trackRef.current || !containerRef.current || !thumbRef.current)
+        return;
+
+      const rect = trackRef.current.getBoundingClientRect();
+      const delta = e.pageX - rect.left;
+
+      const percent = delta / trackRef.current.clientWidth;
+
+      containerRef.current.scrollLeft =
+        containerRef.current.scrollWidth * percent;
+    }, []);
 
     React.useEffect(() => {
       requestAnimationFrame(() => {
@@ -156,7 +171,11 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
         >
           {children}
         </Container>
-        <ScrollTrack ref={trackRef} onWheel={_onWheel}>
+        <ScrollTrack
+          ref={trackRef}
+          onWheel={_onWheel}
+          onMouseDown={onTrackMouseDown}
+        >
           <ScrollThumb ref={thumbRef} onMouseDown={onThumbMouseDown} />
         </ScrollTrack>
       </StyledScrollable>
