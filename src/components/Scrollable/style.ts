@@ -1,14 +1,21 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { noUserSelect } from '../../mixins/user-selection';
 
-export const SCROLLBAR_THUMB_MARGIN = 3;
+export const TRACK_MARGIN = 3;
+const TRACK_SIZE = 12;
 
 export const StyledScrollable = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  flex-direction: column;
+  flex-direction: row;
+
+  ${({ isHorizontal }: { isHorizontal?: boolean }) =>
+    isHorizontal &&
+    css`
+      flex-direction: column;
+    `}
 `;
 
 export const Container = styled.div`
@@ -17,12 +24,12 @@ export const Container = styled.div`
 `;
 
 export const ScrollThumb = styled.div`
-  height: 1px;
+  width: 1px;
   background-color: var(--ui-scrollable-thumb-background);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  margin: auto 0px;
+  margin: 0px auto;
   will-change: transform;
   transition: 0.1s background-color, 0.1s width, 0.1s height;
 
@@ -33,11 +40,17 @@ export const ScrollThumb = styled.div`
   &:active {
     background-color: var(--ui-scrollable-thumb-background-selected);
   }
+
+  ${({ isHorizontal }: { isHorizontal?: boolean }) =>
+    isHorizontal &&
+    css`
+      height: 1px;
+      width: unset;
+      margin: auto 0px;
+    `}
 `;
 
 export const ScrollTrack = styled.div`
-  height: 12px;
-  width: calc(100% - 6px);
   margin: 3px;
   padding: 3px;
   flex-shrink: 0;
@@ -51,7 +64,12 @@ export const ScrollTrack = styled.div`
     background-color: var(--ui-scrollable-track-background-hovered);
   }
 
-  &:hover > ${ScrollThumb}, ${ScrollThumb}:active {
-    height: 6px;
-  }
+  ${({ isHorizontal }: { isHorizontal?: boolean }) =>
+    css`
+      ${isHorizontal ? 'height' : 'width'}: ${TRACK_SIZE}px;
+
+      &:hover > ${ScrollThumb}, ${ScrollThumb}:active {
+        ${isHorizontal ? 'height' : 'width'}: ${TRACK_MARGIN * 2}px;
+      }
+    `}
 `;
