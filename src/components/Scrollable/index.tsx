@@ -171,18 +171,19 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
       [axisSizeProperty, axisProperty, isHorizontal],
     );
 
-    React.useEffect(() => {
+    const updateAll = React.useCallback(() => {
       requestAnimationFrame(() => {
         updateInfo();
         updateThumb();
       });
+    }, [updateInfo, updateThumb]);
+
+    React.useEffect(() => {
+      updateAll();
 
       if (containerRef.current) {
         mutationObserver.current = new MutationObserver(() => {
-          requestAnimationFrame(() => {
-            updateInfo();
-            updateThumb();
-          });
+          updateAll();
         });
         mutationObserver.current.observe(containerRef.current, {
           attributes: true,
@@ -194,7 +195,11 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
       return () => {
         mutationObserver.current?.disconnect();
       };
-    }, [updateInfo, updateThumb]);
+    }, [updateAll]);
+
+    const onWindowResize = React.useCallback(() => {
+      updateAll();
+    }, [updateAll]);
 
     React.useEffect(() => {
       return () => {
@@ -202,6 +207,14 @@ export const Scrollable = React.forwardRef<HTMLDivElement, ScrollableProps>(
         window.removeEventListener('mouseup', onWindowMouseUp);
       };
     }, [onWindowMouseMove, onWindowMouseUp]);
+
+    React.useEffect(() => {
+      window.addEventListener('resize', onWindowResize);
+
+      return () => {
+        window.removeEventListener('resize', onWindowResize);
+      };
+    }, [onWindowResize]);
 
     return (
       <StyledScrollable isHorizontal={isHorizontal}>
