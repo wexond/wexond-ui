@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/wexond/wexond-ui.git"
   },
+  "publishConfig": {
+    "@wexond:registry": "https://npm.pkg.github.com"
+  },
   "homepage": "https://github.com/wexond/wexond-ui#readme",
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"cross-env dev=1 webpack --watch\"",
