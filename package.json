@@ -12,7 +12,7 @@
     "url": "git+https://github.com/wexond/wexond-ui.git"
   },
   "publishConfig": {
-    "@wexond:registry": "https://npm.pkg.github.com"
+    "@wexond:registry": "https://registry.npmjs.org"
   },
   "homepage": "https://github.com/wexond/wexond-ui#readme",
   "scripts": {
