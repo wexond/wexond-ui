@@ -1,9 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
 import { borderShadow } from '../../mixins/border';
+import { robotoMedium, robotoRegular } from '../../mixins/typography';
 
-import { robotoRegular } from '../../mixins/typography';
+export interface StyledInputProps {
+  isError?: boolean;
+}
 
-export const StyledInput = styled.input`
+export const InputContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StyledInput = styled.input<StyledInputProps>`
+  width: 100%;
   min-width: 64px;
   height: 32px;
   font-size: 13px;
@@ -40,6 +51,12 @@ export const StyledInputFilled = styled(StyledInput)`
   &:hover:not(:focus) {
     ${borderShadow('var(--ui-input-filled-border-hovered)')};
   }
+
+  ${({ isError }: StyledInputProps) =>
+    isError &&
+    css`
+      ${borderShadow('var(--ui-error-color) !important')};
+    `}
 `;
 
 export const StyledInputOutlined = styled(StyledInput)`
@@ -53,6 +70,25 @@ export const StyledInputOutlined = styled(StyledInput)`
   &:hover:not(:focus) {
     border-color: rgba(255, 255, 255, 0.56);
   }
+`;
+
+export interface HelperText {
+  isError?: boolean;
+}
+
+export const HelperText = styled.div`
+  color: inherit;
+  font-size: 12px;
+  padding: 0px 12px;
+  margin-top: 4px;
+  opacity: 0.5;
+
+  ${({ isError }: HelperText) =>
+    isError &&
+    css`
+      opacity: 1;
+      color: var(--ui-error-color);
+    `}
 `;
 
 export default {

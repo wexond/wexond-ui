@@ -54,7 +54,7 @@ export const useDnd = ({
           _y = viewportHeight - thumbHeight;
         }
 
-        setPosition(thumbRef.current, _x, _y);
+        setPosition(_x, _y, thumbRef.current);
       }
     },
     [mode, getThumbOffset],

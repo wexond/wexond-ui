@@ -1,10 +1,16 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+import { borderShadow } from '../../mixins/border';
 import { robotoRegular } from '../../mixins/typography';
 
-export const StyledTextarea = styled.textarea`
+export interface StyledTextareaProps {
+  isError?: boolean;
+}
+
+export const StyledTextarea = styled.textarea<StyledTextareaProps>`
+  width: 100%;
   min-width: 64px;
-  height: 32px;
+  height: inherit;
   font-size: 13px;
   border: none;
   outline: none;
@@ -33,6 +39,12 @@ export const StyledTextareaFilled = styled(StyledTextarea)`
   &:hover {
     background-color: rgba(255, 255, 255, 0.14);
   }
+
+  ${({ isError }: StyledTextareaProps) =>
+    isError &&
+    css`
+      ${borderShadow('var(--ui-error-color) !important')};
+    `}
 `;
 
 export const StyledTextareaOutlined = styled(StyledTextarea)`

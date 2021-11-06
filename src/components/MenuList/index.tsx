@@ -129,7 +129,7 @@ export const MenuList = React.forwardRef<HTMLDivElement, MenuListProps>(
       blurRef.current.style.height =
         containerRef.current.clientHeight + MENU_LIST_PADDING_Y * 2 + 'px';
 
-      setPosition(ref, popup.x, popup.y);
+      setPosition(popup.x, popup.y, ref);
     }, [
       parentController,
       controller.popupInfo,

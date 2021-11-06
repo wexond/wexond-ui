@@ -2,6 +2,8 @@ export const defaultWexondUITheme = {
   '--ui-accent-color': '#6ec6ff',
   '--ui-accent-color-hovered': '#448aff',
 
+  '--ui-error-color': '#ff616f',
+
   // BUTTON CONTAINED
   '--ui-button-contained-background': 'rgba(255, 255, 255, 0.08)',
   '--ui-button-contained-color': '#fff',

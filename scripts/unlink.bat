@@ -1,0 +1,3 @@
+@echo Ununlinking modules...
+
+yarn unlink && cd ./node_modules && cd react && yarn unlink && cd ../react-dom && yarn unlink && cd ../styled-components && yarn unlink && cd ../@types/react && yarn unlink && cd ../react-dom && yarn unlink && cd ../styled-components && yarn unlink

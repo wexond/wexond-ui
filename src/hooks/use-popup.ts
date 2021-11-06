@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type UsePopupOptions<T extends (...args: any[]) => void> = {
-  ref: React.MutableRefObject<HTMLElement | null>;
+  ref: React.MutableRefObject<HTMLDivElement | null>;
   visible: boolean;
   focusOnShow?: boolean;
   onHide?: T;
@@ -31,7 +31,7 @@ export const usePopup = <T extends (...args: any[]) => void>({
   );
 
   const onBlur = React.useCallback(
-    (e: React.FocusEvent<HTMLElement>) => {
+    (e: React.FocusEvent<HTMLDivElement>) => {
       const target = e.relatedTarget as Node;
 
       if (ref.current && hide && !ref.current.contains(target)) {
@@ -46,7 +46,7 @@ export const usePopup = <T extends (...args: any[]) => void>({
   }, []);
 
   const onKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLElement>) => {
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === 'Escape') {
         hide();
       }

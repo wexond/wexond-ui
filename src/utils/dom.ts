@@ -1,20 +1,54 @@
 import React from 'react';
 
-export const setPosition = (el: HTMLElement | null, x: number, y: number) => {
-  if (!el) return;
+import { getMeasurement } from './style';
 
-  el.style.left = `${x}px`;
-  el.style.top = `${y}px`;
+export const setPosition = (
+  x: number | string,
+  y: number | string,
+  ...items: Array<HTMLElement | null>
+) => {
+  const _x = getMeasurement(x);
+  const _y = getMeasurement(y);
+
+  items.forEach((el) => {
+    if (!el) return;
+    el.style.left = _x;
+    el.style.top = _y;
+  });
 };
 
 export const setSize = (
-  el: HTMLElement,
-  { width, height }: { width?: number; height?: number },
+  width: number | string,
+  height: number | string,
+  ...items: Array<HTMLElement | null>
 ) => {
-  if (!el) return;
+  const _width = getMeasurement(width);
+  const _height = getMeasurement(height);
 
-  if (width) el.style.width = `${width}px`;
-  if (height) el.style.height = `${height}px`;
+  items.forEach((el) => {
+    if (!el) return;
+    el.style.width = _width;
+    el.style.height = _height;
+  });
+};
+
+export const setTranslate = (
+  x: number | string | null | undefined,
+  y: number | string | null | undefined,
+  ...items: Array<HTMLElement | null>
+) => {
+  const _x = getMeasurement(x);
+  const _y = getMeasurement(y);
+
+  items.forEach((el) => {
+    if (!el) return;
+    const fragments: string[] = [];
+
+    if (x != null) fragments.push(`translateX(${_x})`);
+    if (y != null) fragments.push(`translateY(${_y})`);
+
+    el.style.transform = fragments.join(' ');
+  });
 };
 
 export const clearFields = (
@@ -25,4 +59,14 @@ export const clearFields = (
   refs.forEach((r) => {
     if (r.current) r.current.value = '';
   });
+};
+
+export const openFilePicker = (input?: HTMLInputElement) => {
+  if (!input) return;
+
+  if (input.type !== 'file') {
+    throw new Error('Input does not accept files');
+  }
+
+  input.click();
 };
