@@ -35,7 +35,7 @@ export const StyledMenuList = styled.div`
 
 export const BlurEffect = styled.div`
   background-color: var(--ui-menu-background);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(64px);
   border: 1px solid var(--ui-menu-border);
   position: absolute;
   box-sizing: border-box;

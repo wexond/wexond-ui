@@ -1,3 +1,3 @@
 @echo Linking modules...
 
-yarn link && cd ./node_modules && cd react && yarn link && cd ../react-dom && yarn link && cd ../styled-components && yarn link && cd ../@types/react && yarn link && cd ../react-dom && yarn link && cd ../styled-components && yarn link
+yarn unlink && yarn link && cd ./node_modules && cd react && yarn unlink && yarn link && cd ../react-dom && yarn unlink && yarn link && cd ../styled-components && yarn unlink && yarn link && cd ../@types/react && yarn unlink && yarn link && cd ../react-dom && yarn unlink && yarn link && cd ../styled-components && yarn unlink && yarn link

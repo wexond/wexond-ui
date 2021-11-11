@@ -5,13 +5,14 @@ const getSize = (
   { horizontal }: any,
   size: string | number,
   variant: 'thickness' | 'length' = 'thickness',
+  max = false,
 ) => {
   if (
     (horizontal && variant === 'thickness') ||
     (!horizontal && variant === 'length')
   )
-    return `height: ${getMeasurement(size)};`;
-  return `width: ${getMeasurement(size)};`;
+    return `${max ? 'max-' : ''}height: ${getMeasurement(size)};`;
+  return `${max ? 'max-' : ''}width: ${getMeasurement(size)};`;
 };
 
 interface ScrollbarThumbProps {
@@ -53,6 +54,7 @@ export const ScrollbarThumb = styled.div<ScrollbarThumbProps>`
 interface ScrollTrackProps {
   horizontal?: boolean;
   hoveredThumbSize: string | number;
+  size: string | number;
 }
 
 export const ScrollTrack = styled.div<ScrollTrackProps>`
@@ -64,6 +66,7 @@ export const ScrollTrack = styled.div<ScrollTrackProps>`
   ${(props) => css`
     ${getSize(props, `100%`, 'length')}
     ${getSize(props, `calc(${getMeasurement(props.hoveredThumbSize)} + 6px)`)}
+    ${getSize(props, props.size, 'thickness', true)};
   `}
 `;
 
@@ -100,9 +103,11 @@ export const StyledScrollbar = styled.div<ScrollbarProps>`
     &:hover {
       ${ScrollbarThumb} {
         ${getSize(props, props.hoveredThumbSize)};
+        ${getSize(props, 'none', 'thickness', true)};
       }
       ${ScrollTrack} {
         background-color: rgba(255, 255, 255, 0.08);
+        ${getSize(props, 'none', 'thickness', true)};
       }
     }
   `};

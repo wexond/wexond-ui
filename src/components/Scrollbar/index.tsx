@@ -175,6 +175,7 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, Props>(
         {...props}
       >
         <ScrollTrack
+          size={size ?? 16}
           horizontal={horizontal}
           hoveredThumbSize={hoveredThumbSizeReal}
         >

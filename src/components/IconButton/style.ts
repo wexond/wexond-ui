@@ -42,7 +42,7 @@ export const StyledIconButton = styled.div<StyledIconButtonProps>`
     dense &&
     css`
       width: 30px;
-      height: 26px;
+      height: 24px;
     `}
 
   ${({ isActive }) =>
