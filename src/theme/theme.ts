@@ -1,62 +1,62 @@
 export const defaultWexondUITheme = {
-  '--accent': '#6ec6ff',
-  '--accent-hover': '#448aff',
+  accent: '#6ec6ff',
+  accentHover: '#448aff',
 
-  '--error': '#ff616f',
+  error: '#ff616f',
 
   // BUTTON CONTAINED
-  '--buttonContained-background': 'rgba(255, 255, 255, 0.08)',
-  '--buttonContained-foreground': '#fff',
-  '--buttonContained-border': 'rgba(255, 255, 255, 0.1)',
-  '--buttonContained-background-hover': 'rgba(255, 255, 255, 0.14)',
-  '--buttonContained-foreground-hover': '#fff',
-  '--buttonContained-border-hover': 'rgba(255, 255, 255, 0.48)',
+  'buttonContained.background': 'rgba(255, 255, 255, 0.08)',
+  'buttonContained.foreground': '#fff',
+  'buttonContained.border': 'rgba(255, 255, 255, 0.1)',
+  'buttonContained.background.hover': 'rgba(255, 255, 255, 0.14)',
+  'buttonContained.foreground.hover': '#fff',
+  'buttonContained.border.hover': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON OUTLINED
-  '--buttonOutlined-foreground': '#fff',
-  '--buttonOutlined-border': 'rgba(255, 255, 255, 0.24)',
-  '--buttonOutlined-foreground-hover': '#fff',
-  '--buttonOutlined-border-hover': 'rgba(255, 255, 255, 0.48)',
+  'buttonOutlined.foreground': '#fff',
+  'buttonOutlined.border': 'rgba(255, 255, 255, 0.24)',
+  'buttonOutlined.foreground.hover': '#fff',
+  'buttonOutlined.border.hover': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON PRIMARY
-  '--buttonPrimary-background': 'var(--accent)',
-  '--buttonPrimary-foreground': '#000',
-  '--buttonPrimary-border': '',
-  '--buttonPrimary-background-hover': 'var(--accent-hover)',
-  '--buttonPrimary-foreground-hover': '#000',
-  '--buttonPrimary-border-hover': '',
+  'buttonPrimary.background': 'accent',
+  'buttonPrimary.foreground': '#000',
+  'buttonPrimary.border': '',
+  'buttonPrimary.background.hover': 'accentHover',
+  'buttonPrimary.foreground.hover': '#000',
+  'buttonPrimary.border.hover': '',
 
   // INPUT
-  '--inputFilled-background': 'var(--buttonContained-background)',
-  '--inputFilled-foreground': 'var(--buttonContained-foreground)',
-  '--inputFilled-border': 'var(--buttonContained-border)',
-  '--inputFilled-background-hover': 'var(--buttonContained-background-hover)',
-  '--inputFilled-foreground-hover': 'var(--buttonContained-foreground-hover)',
-  '--inputFilled-border-hover': 'var(--buttonContained-border-hover)',
+  'inputFilled.background': 'buttonContained.background',
+  'inputFilled.foreground': 'buttonContained.foreground',
+  'inputFilled.border': 'buttonContained.border',
+  'inputFilled.background.hover': 'buttonContained.background.hover',
+  'inputFilled.foreground.hover': 'buttonContained.foreground.hover',
+  'inputFilled.border.hover': 'buttonContained.border.hover',
 
   // SLIDER
-  '--sliderTrack-background-active': 'var(--accent)',
-  '--sliderTrack-background': 'rgba(255, 255, 255, 0.08)',
-  '--sliderTrack-background-hover': 'rgba(255, 255, 255, 0.2)',
-  '--sliderHandle-background': 'rgba(255, 255, 255, 0.12)',
+  'sliderTrack.background.active': 'accent',
+  'sliderTrack.background': 'rgba(255, 255, 255, 0.08)',
+  'sliderTrack.background.hover': 'rgba(255, 255, 255, 0.2)',
+  'sliderHandle.background': 'rgba(255, 255, 255, 0.12)',
 
   // CONTEXT MENU
-  '--menu-background': 'rgba(25, 25, 25, 0.56)',
-  '--menu-border': 'rgba(255, 255, 255, 0.1)',
-  '--menuItem-foreground': '#fff',
-  '--menuItem-active': 'rgba(255, 255, 255, 0.12)',
-  '--menuItem-foreground-active': '#fff',
+  'menu.background': 'rgba(25, 25, 25, 0.56)',
+  'menu.border': 'rgba(255, 255, 255, 0.1)',
+  'menuItem.foreground': '#fff',
+  'menuItem.active': 'rgba(255, 255, 255, 0.12)',
+  'menuItem.foreground.active': '#fff',
 
   // ICON BUTTON
-  '--iconButton-background-hover': 'rgba(255, 255, 255, 0.08)',
-  '--iconButton-background-active': 'rgba(255, 255, 255, 0.12)',
+  'iconButton.background.hover': 'rgba(255, 255, 255, 0.08)',
+  'iconButton.background.active': 'rgba(255, 255, 255, 0.12)',
 
   // SCROLLABLE
-  '--scrollableTrack-background': 'unset',
-  '--scrollableTrack-background-hover': 'rgba(255, 255, 255, 0.08)',
-  '--scrollableThumb-background': 'rgba(255, 255, 255, 0.5)',
-  '--scrollableThumb-background-hover': 'rgba(255, 255, 255, 0.8)',
-  '--scrollableThumb-background-active': 'rgba(255, 255, 255, 1)',
+  'scrollableTrack.background': 'unset',
+  'scrollableTrack.background.hover': 'rgba(255, 255, 255, 0.08)',
+  'scrollableThumb.background': 'rgba(255, 255, 255, 0.5)',
+  'scrollableThumb.background.hover': 'rgba(255, 255, 255, 0.8)',
+  'scrollableThumb.background.active': 'rgba(255, 255, 255, 1)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
