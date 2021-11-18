@@ -43,7 +43,7 @@ export const StyledTextareaFilled = styled(StyledTextarea)`
   ${({ isError }: StyledTextareaProps) =>
     isError &&
     css`
-      ${borderShadow('var(--ui-error-color) !important')};
+      ${borderShadow('var(--error) !important')};
     `}
 `;
 

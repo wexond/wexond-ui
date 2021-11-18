@@ -12,13 +12,13 @@ export const StyledMenuItem = styled.li`
   position: relative;
   border-radius: 4px;
   margin: 0 ${MENU_ITEM_MARGIN}px;
-  color: var(--ui-menu-item-color);
+  color: var(--menuItem-foreground);
 
   &:focus,
   &:focus-within {
     outline: none;
-    background-color: var(--ui-menu-item-selected);
-    color: var(--ui-menu-item-color-selected);
+    background-color: var(--menuItem-active);
+    color: var(--menuItem-foreground-active);
   }
 
   ${({ isDisabled }: { isDisabled?: boolean }) =>

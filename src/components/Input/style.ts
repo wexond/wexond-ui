@@ -39,23 +39,23 @@ export const StyledInput = styled.input<StyledInputProps>`
 `;
 
 export const StyledInputFilled = styled(StyledInput)`
-  background-color: var(--ui-input-filled-background);
-  color: var(--ui-input-filled-color);
-  ${borderShadow('var(--ui-input-filled-border)')};
+  background-color: var(--inputFilled-background);
+  color: var(--inputFilled-foreground);
+  ${borderShadow('var(--inputFilled-border)')};
 
   &:hover {
-    background-color: var(--ui-input-filled-background-hovered);
-    color: var(--ui-input-filled-color-hovered);
+    background-color: var(--inputFilled-background-hover);
+    color: var(--inputFilled-foreground-hover);
   }
 
   &:hover:not(:focus) {
-    ${borderShadow('var(--ui-input-filled-border-hovered)')};
+    ${borderShadow('var(--inputFilled-border-hover)')};
   }
 
   ${({ isError }: StyledInputProps) =>
     isError &&
     css`
-      ${borderShadow('var(--ui-error-color) !important')};
+      ${borderShadow('var(--error) !important')};
     `}
 `;
 
@@ -87,7 +87,7 @@ export const HelperText = styled.div`
     isError &&
     css`
       opacity: 1;
-      color: var(--ui-error-color);
+      color: var(--error);
     `}
 `;
 

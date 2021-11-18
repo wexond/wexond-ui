@@ -1,12 +1,11 @@
 import styled, { css } from 'styled-components';
 
-import { Icon } from '../Icon';
+import { StyledIcon } from '../Icon/style';
 
 interface StyledIconButtonProps {
   isDisabled?: boolean;
   isActive?: boolean;
   dense?: boolean;
-  autoInvert?: boolean;
 }
 
 export const StyledIconButton = styled.div<StyledIconButtonProps>`
@@ -21,11 +20,11 @@ export const StyledIconButton = styled.div<StyledIconButtonProps>`
   transition: 0.2s background-color, 0.05s max-width, 0.15s opacity;
 
   &:hover {
-    background-color: var(--ui-icon-button-background-hovered);
+    background-color: var(--iconButton-background-hover);
   }
 
   &:active {
-    background-color: var(--ui-icon-button-background-selected);
+    background-color: var(--iconButton-background-active);
   }
 
   ${({ isDisabled }) =>
@@ -48,11 +47,11 @@ export const StyledIconButton = styled.div<StyledIconButtonProps>`
   ${({ isActive }) =>
     isActive &&
     css`
-      background-color: var(--ui-icon-button-background-selected);
+      background-color: var(--iconButton-background-active);
     `}
-`;
 
-export const StyledIcon = styled(Icon)`
-  will-change: background-image, mask-image;
-  transition: 0.15s background-image, 0.15s mask-image;
+  & > ${StyledIcon} {
+    will-change: background-image, mask-image;
+    transition: 0.15s background-image, 0.15s mask-image;
+  }
 `;

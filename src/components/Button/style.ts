@@ -39,44 +39,44 @@ export const StyledButton = styled.button`
 
 export const StyledButtonContained = styled(StyledButton)`
   padding: 0px 12px;
-  background-color: var(--ui-button-contained-background);
-  color: var(--ui-button-contained-color);
-  ${borderShadow('var(--ui-button-contained-border)')};
+  background-color: var(--buttonContained-background);
+  color: var(--buttonContained-foreground);
+  ${borderShadow('var(--buttonContained-border)')};
 
   &:hover {
-    color: var(--ui-button-contained-color-hovered);
-    background-color: var(--ui-button-contained-background-hovered);
+    color: var(--buttonContained-foreground-hover);
+    background-color: var(--buttonContained-background-hover);
   }
 
   &:hover:not(:focus) {
-    ${borderShadow('var(--ui-button-contained-border-hovered)')};
+    ${borderShadow('var(--buttonContained-border-hover)')};
   }
 `;
 
 export const StyledButtonOutlined = styled(StyledButton)`
-  color: var(--ui-button-outlined-color);
+  color: var(--buttonOutlined-foreground);
   padding: 0px 12px;
   background-color: unset;
-  ${borderShadow(`var(--ui-button-outlined-border)`)};
+  ${borderShadow(`var(--buttonOutlined-border)`)};
 
   &:hover {
     background-color: unset;
-    color: var(--ui-button-outlined-color-hovered);
+    color: var(--buttonOutlined-foreground-hover);
   }
 
   &:hover:not(:focus) {
-    ${borderShadow(`var(--ui-button-outlined-border-hovered)`)};
+    ${borderShadow(`var(--buttonOutlined-border-hover)`)};
   }
 `;
 
 export const StyledButtonPrimary = styled(StyledButton)`
   padding: 0px 16px;
-  color: var(--ui-button-primary-color);
-  background-color: var(--ui-button-primary-background);
+  color: var(--buttonPrimary-foreground);
+  background-color: var(--buttonPrimary-background);
 
   &:hover {
-    background-color: var(--ui-button-primary-background-hovered);
-    color: var(--ui-button-primary-color-hovered);
+    background-color: var(--buttonPrimary-background-hover);
+    color: var(--buttonPrimary-foreground-hover);
   }
 `;
 

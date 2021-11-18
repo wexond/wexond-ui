@@ -25,7 +25,7 @@ export const Container = styled.div`
 
 export const ScrollThumb = styled.div`
   width: 1px;
-  background-color: var(--ui-scrollable-thumb-background);
+  background-color: var(--scrollableThumb-background);
   border-radius: 16px;
   overflow: hidden;
   position: relative;
@@ -34,11 +34,11 @@ export const ScrollThumb = styled.div`
   transition: 0.1s background-color, 0.1s width, 0.1s height;
 
   &:hover {
-    background-color: var(--ui-scrollable-thumb-background-hovered);
+    background-color: var(--scrollableThumb-background-hover);
   }
 
   &:active {
-    background-color: var(--ui-scrollable-thumb-background-selected);
+    background-color: var(--scrollableThumb-background-active);
   }
 
   ${({ isHorizontal }: { isHorizontal?: boolean }) =>
@@ -58,11 +58,11 @@ export const ScrollTrack = styled.div`
   border-radius: 8px;
   overflow: hidden;
   display: flex;
-  background-color: var(--ui-scrollable-track-background);
+  background-color: var(--scrollableTrack-background);
   transition: 0.1s background-color;
 
   &:hover {
-    background-color: var(--ui-scrollable-track-background-hovered);
+    background-color: var(--scrollableTrack-background-hover);
   }
 
   ${({ isHorizontal }: { isHorizontal?: boolean }) =>

@@ -1,73 +1,71 @@
 export const defaultWexondUITheme = {
-  '--ui-accent-color': '#6ec6ff',
-  '--ui-accent-color-hovered': '#448aff',
+  '--accent': '#6ec6ff',
+  '--accent-hover': '#448aff',
 
-  '--ui-error-color': '#ff616f',
+  '--error': '#ff616f',
 
   // BUTTON CONTAINED
-  '--ui-button-contained-background': 'rgba(255, 255, 255, 0.08)',
-  '--ui-button-contained-color': '#fff',
-  '--ui-button-contained-border': 'rgba(255, 255, 255, 0.1)',
-  '--ui-button-contained-background-hovered': 'rgba(255, 255, 255, 0.14)',
-  '--ui-button-contained-color-hovered': '#fff',
-  '--ui-button-contained-border-hovered': 'rgba(255, 255, 255, 0.48)',
+  '--buttonContained-background': 'rgba(255, 255, 255, 0.08)',
+  '--buttonContained-foreground': '#fff',
+  '--buttonContained-border': 'rgba(255, 255, 255, 0.1)',
+  '--buttonContained-background-hover': 'rgba(255, 255, 255, 0.14)',
+  '--buttonContained-foreground-hover': '#fff',
+  '--buttonContained-border-hover': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON OUTLINED
-  '--ui-button-outlined-color': '#fff',
-  '--ui-button-outlined-border': 'rgba(255, 255, 255, 0.24)',
-  '--ui-button-outlined-color-hovered': '#fff',
-  '--ui-button-outlined-border-hovered': 'rgba(255, 255, 255, 0.48)',
+  '--buttonOutlined-foreground': '#fff',
+  '--buttonOutlined-border': 'rgba(255, 255, 255, 0.24)',
+  '--buttonOutlined-foreground-hover': '#fff',
+  '--buttonOutlined-border-hover': 'rgba(255, 255, 255, 0.48)',
 
   // BUTTON PRIMARY
-  '--ui-button-primary-background': 'var(--ui-accent-color)',
-  '--ui-button-primary-color': '#000',
-  '--ui-button-primary-border': '',
-  '--ui-button-primary-background-hovered': 'var(--ui-accent-color-hovered)',
-  '--ui-button-primary-color-hovered': '#000',
-  '--ui-button-primary-border-hovered': '',
+  '--buttonPrimary-background': 'var(--accent)',
+  '--buttonPrimary-foreground': '#000',
+  '--buttonPrimary-border': '',
+  '--buttonPrimary-background-hover': 'var(--accent-hover)',
+  '--buttonPrimary-foreground-hover': '#000',
+  '--buttonPrimary-border-hover': '',
 
   // INPUT
-  '--ui-input-filled-background': 'var(--ui-button-contained-background)',
-  '--ui-input-filled-color': 'var(--ui-button-contained-color)',
-  '--ui-input-filled-border': 'var(--ui-button-contained-border)',
-  '--ui-input-filled-background-hovered':
-    'var(--ui-button-contained-background-hovered)',
-  '--ui-input-filled-color-hovered': 'var(--ui-button-contained-color-hovered)',
-  '--ui-input-filled-border-hovered':
-    'var(--ui-button-contained-border-hovered)',
+  '--inputFilled-background': 'var(--buttonContained-background)',
+  '--inputFilled-foreground': 'var(--buttonContained-foreground)',
+  '--inputFilled-border': 'var(--buttonContained-border)',
+  '--inputFilled-background-hover': 'var(--buttonContained-background-hover)',
+  '--inputFilled-foreground-hover': 'var(--buttonContained-foreground-hover)',
+  '--inputFilled-border-hover': 'var(--buttonContained-border-hover)',
 
   // SLIDER
-  '--ui-slider-track-background-selected': 'var(--ui-accent-color)',
-  '--ui-slider-track-background': 'rgba(255, 255, 255, 0.08)',
-  '--ui-slider-track-background-hovered': 'rgba(255, 255, 255, 0.2)',
-  '--ui-slider-handle-background': 'rgba(255, 255, 255, 0.12)',
+  '--sliderTrack-background-active': 'var(--accent)',
+  '--sliderTrack-background': 'rgba(255, 255, 255, 0.08)',
+  '--sliderTrack-background-hover': 'rgba(255, 255, 255, 0.2)',
+  '--sliderHandle-background': 'rgba(255, 255, 255, 0.12)',
 
   // CONTEXT MENU
-  '--ui-menu-background': 'rgba(25, 25, 25, 0.56)',
-  '--ui-menu-border': 'rgba(255, 255, 255, 0.1)',
-  '--ui-menu-item-color': '#fff',
-  '--ui-menu-item-selected': 'rgba(255, 255, 255, 0.12)',
-  '--ui-menu-item-color-selected': '#fff',
+  '--menu-background': 'rgba(25, 25, 25, 0.56)',
+  '--menu-border': 'rgba(255, 255, 255, 0.1)',
+  '--menuItem-foreground': '#fff',
+  '--menuItem-active': 'rgba(255, 255, 255, 0.12)',
+  '--menuItem-foreground-active': '#fff',
 
   // ICON BUTTON
-  '--ui-icon-button-background-hovered': 'rgba(255, 255, 255, 0.08)',
-  '--ui-icon-button-background-selected': 'rgba(255, 255, 255, 0.12)',
+  '--iconButton-background-hover': 'rgba(255, 255, 255, 0.08)',
+  '--iconButton-background-active': 'rgba(255, 255, 255, 0.12)',
 
   // SCROLLABLE
-  '--ui-scrollable-track-background': 'unset',
-  '--ui-scrollable-track-background-hovered': 'rgba(255, 255, 255, 0.08)',
-  '--ui-scrollable-thumb-background': 'rgba(255, 255, 255, 0.5)',
-  '--ui-scrollable-thumb-background-hovered': 'rgba(255, 255, 255, 0.8)',
-  '--ui-scrollable-thumb-background-selected': 'rgba(255, 255, 255, 1)',
+  '--scrollableTrack-background': 'unset',
+  '--scrollableTrack-background-hover': 'rgba(255, 255, 255, 0.08)',
+  '--scrollableThumb-background': 'rgba(255, 255, 255, 0.5)',
+  '--scrollableThumb-background-hover': 'rgba(255, 255, 255, 0.8)',
+  '--scrollableThumb-background-active': 'rgba(255, 255, 255, 1)',
 };
 
 export type WexondUITheme = typeof defaultWexondUITheme;
 
 export type ThemePropertySelectors =
-  | 'selected'
   | 'focused'
-  | 'hovered'
-  | 'disabled';
+  | 'hover'
+  | 'disabled'
+  | 'active';
 
 export type ThemePropertySelectorMap = Partial<
   Record<ThemePropertySelectors, boolean>
@@ -77,19 +75,27 @@ const formatVar = (property: string) => {
   return `var(${property})`;
 };
 
+const getSelectors = (
+  prop: ThemePropertySelectorMap,
+): ThemePropertySelectors[] => {
+  const selectors: ThemePropertySelectors[] = [];
+
+  // The order is essential
+  if (prop.active) selectors.push('active');
+  if (prop.focused) selectors.push('focused');
+  if (prop.hover) selectors.push('hover');
+  if (prop.disabled) selectors.push('disabled');
+
+  return selectors;
+};
+
 export const buildSelectors = (
   property: string,
   map?: ThemePropertySelectorMap,
 ) => {
   if (!map) return property;
 
-  const selectors: ThemePropertySelectors[] = [];
-
-  // We need that hardcoded, because the order is essential
-  if (map.selected) selectors.push('selected');
-  if (map.focused) selectors.push('focused');
-  if (map.hovered) selectors.push('hovered');
-  if (map.disabled) selectors.push('disabled');
+  const selectors = getSelectors(map);
 
   if (selectors.length !== 0) {
     return property + '-' + selectors.join('-');
@@ -100,20 +106,13 @@ export const buildSelectors = (
 
 export const useSelectors =
   (map: ThemePropertySelectorMap) =>
-  (property: string, overrides?: ThemePropertySelectorMap, autoVar = true) => {
-    const selectors = buildSelectors(property, { ...map, ...overrides });
-    return autoVar ? formatVar(selectors) : selectors;
+  (property: string, overrides?: ThemePropertySelectorMap) => {
+    return formatVar(buildSelectors(property, { ...map, ...overrides }));
   };
 
 export const useProperty =
-  (property: string) =>
-  (
-    map?: ThemePropertySelectorMap,
-    overrides?: ThemePropertySelectorMap,
-    autoVar = true,
-  ) => {
-    const selectors = buildSelectors(property, { ...map, ...overrides });
-    return autoVar ? formatVar(selectors) : selectors;
+  (property: string) => (map?: ThemePropertySelectorMap) => {
+    return formatVar(buildSelectors(property, map));
   };
 
 export const applyTheme = (
